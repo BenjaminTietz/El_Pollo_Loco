@@ -12,8 +12,12 @@ class Cloud extends MovableObject {
     }
 
     animate() {
+        this.moveLeft();
+    }
+
+    moveLeft() {
         setInterval(() => {
-        this.x -= 0.2;
-        },1000 / 60);    // 60FPS verändert sich die x Koordinate um -0,2
+            this.x -= 0.2;
+            },1000 / 60);    // 60FPS verändert sich die x Koordinate um -0,2
     }
 }

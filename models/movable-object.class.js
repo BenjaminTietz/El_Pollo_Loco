@@ -4,7 +4,9 @@ class MovableObject {
     img;
     height = 150;
     width = 100;
-    imageCache = {};
+    imageCache = {};       // JOSN 
+    currentImage = 0;
+    speed = 0.15;
 
     // loadImage ('img/test.png')
     loadImage(path) {
@@ -17,9 +19,9 @@ class MovableObject {
  */
     loadImages(arr){
         arr.forEach((path) =>{
-            let img = new Image();
+            let img = new Image();    // let img = document.getElementById('image') <id="image" src>
             img.src = path;
-            this.imageCache[path] = path;
+            this.imageCache[path] = img;    //durch das this.Variable greifen wir auf die Variable innerhalb des Objektes zu nicht auf die innerhalb der Funktion
         });
     }
 
@@ -27,7 +29,9 @@ class MovableObject {
         console.log('moving right');
     }
 
-    moveLeft () {
-        
+    moveLeft() {
+        setInterval(() => {
+            this.x -= this.speed;
+            },1000 / 60);    // 60FPS verändert sich die x Koordinate um -0,2
     }
 }
