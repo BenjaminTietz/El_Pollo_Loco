@@ -16,13 +16,20 @@ class World {
     ];
     canvas;
     ctx;                        // Variable Context wird definiert
+    keyboard;
 
-    constructor(canvas){
+
+    constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;               // Mit this.canvas greifen wir auf das oben definierte Variable Canvas zu und geben Ihm den Wert des "canvas" welches der Funktion als parameter übergeben wird.
+        this.keyboard = keyboard;
+        this.setWorld();
         this.draw();
     }
 
+    setWorld() {
+        this.character.world = this;
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
