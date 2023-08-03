@@ -9,10 +9,30 @@ class World {
         new Cloud()
     ];
     backgroundObjects = [
+        new BackgroundObject('img/5_background/layers/air.png', -719),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', -719),
+
         new BackgroundObject('img/5_background/layers/air.png', 0),
         new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
         new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
         new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
+
+        new BackgroundObject('img/5_background/layers/air.png', 719),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719),
+
+        new BackgroundObject('img/5_background/layers/air.png', 719*2),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 719*2),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 719*2),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 719*2),
+
+        new BackgroundObject('img/5_background/layers/air.png', 719*3),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719*3),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719*3),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719*3),
     ];
     canvas;
     ctx;                        // Variable Context wird definiert
@@ -47,7 +67,7 @@ class World {
         //Draw wird immer wieder (so schnell es die GrKa hergibt) aufgerufen.
         let self = this;                    //
         requestAnimationFrame(function() {  //Wir müssen in requestAni eine Funktion hineingeben, diese wird ausgeführt sobald alles darüber einmal gezeichnet wurde.
-            self.draw();                    //Die Funktion wird also A-synchron ausgeführt. Innerhalb der Funktin ist "this" unbekannt. Demnach wird ein self = this definiert und benutzt.
+            self.draw();                    //Die Funktion wird also A-synchron ausgeführt. Innerhalb der Funktion ist "this" unbekannt. Demnach wird ein self = this definiert und benutzt.
         });
     }
 

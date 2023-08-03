@@ -31,7 +31,7 @@ class Character extends MovableObject {
                 this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
                 this.otherDirection = true;                 // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
                 }
-            this.world.camera_x = -this.x;
+            this.world.camera_x = -this.x;                  // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden.
         }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
         setInterval(() => {
