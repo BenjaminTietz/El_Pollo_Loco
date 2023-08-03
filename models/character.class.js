@@ -15,23 +15,23 @@ class Character extends MovableObject {
 
     constructor () {    // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');  // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
-        this.loadImages(this.IMAGES_WALKING); 
+        this.loadImages(this.IMAGES_WALKING);                       // Hier werden die übergeordnete Funktion loadImages aufgerufen. Dieser wird das Arrays "IMAGES_WALKING" übergeben woraus die Bilder unseres Characters geladen werden.
 
-        this.animate();
+        this.animate();                                             // Hier wird die Funktion "animate" aufgerufen.
     }
 
     animate () {
 
-        setInterval(() =>{
-            if (this.world.keyboard.right) {
-                this.x += this.speed;
-                this.otherDirection = false;
+        setInterval(() =>{                                  // Diese "setInterval" Funktion beinhaltet 2 if Schleifen welche erfassen ob wir die linke oder rechte Pfeiltaste gedrückt haben.
+            if (this.world.keyboard.right) {                // WENN unsere rechte Pfeiltaste den Wert den Wert true hat
+                this.x += this.speed;                       // Auf die X Koordinate werden 10px addiert
+                this.otherDirection = false;                // Variabel "otherDirection" bekommt den Wert = "false"
             }
-            if (this.world.keyboard.left) {
-                this.x -= this.speed;
-                this.otherDirection = true;
+            if (this.world.keyboard.left) {                 // WENN unsere linke Pfeiltaste den Wert den Wert true hat
+                this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
+                this.otherDirection = true;                 // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
                 }
-        }, 1000 / 60);
+        }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
         setInterval(() => {
             if (this.world.keyboard.right || this.world.keyboard.left) {
