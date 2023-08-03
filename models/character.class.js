@@ -31,6 +31,7 @@ class Character extends MovableObject {
                 this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
                 this.otherDirection = true;                 // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
                 }
+            this.world.camera_x = -this.x;
         }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
         setInterval(() => {
