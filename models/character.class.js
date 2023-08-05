@@ -23,15 +23,15 @@ class Character extends MovableObject {
     animate () {
 
         setInterval(() =>{                                  // Diese "setInterval" Funktion beinhaltet 2 if Schleifen welche erfassen ob wir die linke oder rechte Pfeiltaste gedrückt haben.
-            if (this.world.keyboard.right) {                // WENN unsere rechte Pfeiltaste den Wert den Wert true hat
+            if (this.world.keyboard.right && this.x <this.world.level.level_end_x) {// WENN unsere rechte Pfeiltaste den Wert den Wert true hat. Duch dass && this < this.world.level.level_end_x begrenzen wir unsere Welt nach rechts und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
                 this.x += this.speed;                       // Auf die X Koordinate werden 10px addiert
                 this.otherDirection = false;                // Variabel "otherDirection" bekommt den Wert = "false"
             }
-            if (this.world.keyboard.left) {                 // WENN unsere linke Pfeiltaste den Wert den Wert true hat
+            if (this.world.keyboard.left && this.x >0) {    // WENN unsere linke Pfeiltaste den Wert den Wert true hat. Duch dass && this > 0 begrenzen wir unsere Welt nach links und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
                 this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
                 this.otherDirection = true;                 // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
                 }
-            this.world.camera_x = -this.x;                  // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden.
+            this.world.camera_x = -this.x + 100;            // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden. Mit den +100px verschieben wir die Kameraperspektive ein wenig nach rechts.
         }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
         setInterval(() => {

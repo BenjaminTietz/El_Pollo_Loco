@@ -1,8 +1,6 @@
 class World {
     character = new Character();  // Variablen definiert man innerhalb von Klassen OHNE let / var
-    enemies = level1.enemies;
-    clouds = level1.clouds;
-    backgroundObjects = level1.backgroundObjects;
+    level = level1;
     canvas;
     ctx;                        // Variable Context wird definiert
     keyboard;
@@ -26,10 +24,10 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);                   // Durch ctx.tanslate verschiebt sich unsere gesamter Kontext auf der X-Achse um den Wert der Variabel "camera_x" der Wert für die Verschiebung der Y- Achse muss mitangegebn werden. Dieser beträgt 0.
 
-        this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
-        this.addObjectsToMap(this.enemies);
-        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.clouds);
         
         this.ctx.translate(-this.camera_x, 0);                  //Hier drehen wir die Funktion welche unseren Kontext verschieb wieder um. Durch ctx.tanslate verschiebt sich unsere gesamter Kontext auf der X-Achse um den Wert der Variabel "camera_x" der Wert für die Verschiebung der Y- Achse muss mitangegebn werden. Dieser beträgt 0.
 
