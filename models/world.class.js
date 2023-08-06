@@ -6,6 +6,7 @@ class World {
     keyboard;
     camera_x = 0;               // Variable "camera_x" definiert wie weit wir unseren KOntext aka Welt sobald unser Character läuft verschieben.
     statusBar = new StatusBar();
+    throwableObjects = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -13,22 +14,35 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollisions();
+        this.run();
     }
 
     setWorld() {
         this.character.world = this;
     }
 
-    checkCollisions() {                                             // Die Funktion "checkCollisions" prüft in einem definierten Intervall ob bewegende Objekte miteinander kollidieren. 
+    run() {                                             // Die Funktion "run" prüft in einem definierten Intervall ob bewegende Objekte miteinander kollidieren. 
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
-                if(this.character.isColliding(enemy) ) {
-                    this.character.hit(); 
-                    this.statusBar.setPercentage(this.character.energy);
-                }
-            });
+
+            this.checkCollisions();
+            this.checkThrowObjects();
         }, 200);
+    }
+
+    checkThrowObjects(){
+        if(this.keyboard.d) {
+            let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
+            if(this.character.isColliding(enemy) ) {
+                this.character.hit(); 
+                this.statusBar.setPercentage(this.character.energy);
+            }
+        });
     }
 
     draw() {
@@ -46,6 +60,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.throwableObjects);
         
         this.ctx.translate(-this.camera_x, 0);                  //Hier drehen wir die Funktion welche unseren Kontext verschieb wieder um. Durch ctx.tanslate verschiebt sich unsere gesamter Kontext auf der X-Achse um den Wert der Variabel "camera_x" der Wert für die Verschiebung der Y- Achse muss mitangegebn werden. Dieser beträgt 0.
 

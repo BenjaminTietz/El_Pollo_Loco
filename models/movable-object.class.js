@@ -16,8 +16,12 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);                                      // Der Intervall wird 40 mal pro Sekunde ausgeführt. (1000ms / 25)
     }
 
-    isAboveGround(){                // Die Funktion "isAboveGround" prüft ob die aktuelle y-Koordinate < als 180 ist und gibt den Wert wieder.
+    isAboveGround(){                                    // Die Funktion "isAboveGround" prüft ob die aktuelle y-Koordinate < als 180 ist und gibt den Wert wieder.
+        if (this instanceof ThrowableObject) {          // ThrowableObjects sollen immer fallen
+            return true;
+        } else {
         return this.y < 180;
+        }
     }
 
     playAnimation(images) {

@@ -5,8 +5,6 @@ let keyboard = new Keyboard();
 function init () {
     canvas = document.getElementById('canvas');     // An die Variabel "canvas" wird das HTML Elemet 'canvas' gebunden.
     world = new World(canvas, keyboard);                      // An die Variabel "world" wird das neue Objekt namens 'World' gebunden, dieser geben wir 'canvas' & 'keyboard' als Variabel mit.
-
-    console.log('My Character is',world.character);
 }
 
 window.addEventListener("keydown", (e) => {         // Der EventListner "keydown" gibt den Variabeln der Tasten den Wert "true" sobald eine Taste gedrückt wird
@@ -25,6 +23,9 @@ window.addEventListener("keydown", (e) => {         // Der EventListner "keydown
     if(e.keyCode == 32) {
         keyboard.space = true;
     }
+    if(e.keyCode == 68) {
+        keyboard.d = true;
+    }
 });
 
 window.addEventListener("keyup", (e) => {           // Der EventListner "keyup" gibt den Variabeln der Tasten den Wert "flase" sobald eine Taste losgelassen wird
@@ -42,5 +43,8 @@ window.addEventListener("keyup", (e) => {           // Der EventListner "keyup" 
     }
     if(e.keyCode == 32) {
         keyboard.space = false;
+    }
+    if(e.keyCode == 68) {
+        keyboard.d = false;
     }
 });
