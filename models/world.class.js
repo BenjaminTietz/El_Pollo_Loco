@@ -25,6 +25,7 @@ class World {
             this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
                 if(this.character.isColliding(enemy) ) {
                     this.character.hit(); 
+                    this.statusBar.setPercentage(this.character.energy);
                 }
             });
         }, 200);
@@ -36,7 +37,12 @@ class World {
         this.ctx.translate(this.camera_x, 0);                   // Durch ctx.tanslate verschiebt sich unsere gesamter Kontext auf der X-Achse um den Wert der Variabel "camera_x" der Wert für die Verschiebung der Y- Achse muss mitangegebn werden. Dieser beträgt 0.
 
         this.addObjectsToMap(this.level.backgroundObjects);
+
+        this.ctx.translate(-this.camera_x, 0); 
+        //------------------------------------------------- //Hier können fixierte Objekte eingebunden werden.
         this.addToMap(this.statusBar);
+        this.ctx.translate(this.camera_x, 0);                   
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
