@@ -9,7 +9,7 @@ function init () {
     console.log('My Character is',world.character);
 }
 
-window.addEventListener("keydown", (e) => {
+window.addEventListener("keydown", (e) => {         // Der EventListner "keydown" gibt den Variabeln der Tasten den Wert "true" sobald eine Taste gedrückt wird
     if(e.keyCode == 39) {
         keyboard.right = true;
     }
@@ -27,7 +27,7 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
-window.addEventListener("keyup", (e) => {
+window.addEventListener("keyup", (e) => {           // Der EventListner "keyup" gibt den Variabeln der Tasten den Wert "flase" sobald eine Taste losgelassen wird
     if(e.keyCode == 39) {
         keyboard.right = false;
     }

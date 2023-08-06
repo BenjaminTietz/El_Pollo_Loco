@@ -11,16 +11,16 @@ class MovableObject {
     speedY = 0;
     acceleration = 2.5;
 
-    applyGravity(){
+    applyGravity(){                                         // Die Funktion "applyGravity" prüft in einem definierten Intervall...
         setInterval(() => {
-            if(this.isAboveGround() || this.speedY > 0){
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
+            if(this.isAboveGround() || this.speedY > 0){    //..ob sich unser Character gerade am Boden befindet ODER die vertikale Beschleunigung > 0 ist
+                this.y -= this.speedY;                      // Der y-Koordinate wird der negative Wert von "speedY" zugewiesen da wir fallen und der 0 Punkt unseres Koordinatensystems oben links ist
+                this.speedY -= this.acceleration;           // Von der Variable "speedY" wird der Wert von "acceleration" bagezogen um das Fallen zu beschleunigen
             }
-        }, 1000 / 25);
+        }, 1000 / 25);                                      // Der Intervall wird 40 mal pro Sekunde ausgeführt. (1000ms / 25)
     }
 
-    isAboveGround(){
+    isAboveGround(){                // Die Funktion "isAboveGround" prüft ob die aktuelle y-Koordinate < als 180 ist und gibt den Wert wieder.
         return this.y < 180;
     }
     // loadImage ('img/test.png')
@@ -32,12 +32,14 @@ class MovableObject {
     draw (ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  // Hier wird das Bild eingefügt.
     }
-    drawFrame(ctx){
-        ctx.beginPath();
-        ctx.lineWidth = '5';
-        ctx.strokeStyle = 'blue';
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
+    drawFrame(ctx){                                                                             // Die Funktion  drawFrame zeichnet rechteckige Rahmen um unsere bewegende Objekte       
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+            ctx.beginPath();            
+            ctx.lineWidth = '1';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
     }
 /**
  * 
@@ -70,5 +72,12 @@ class MovableObject {
 
     jump() {             //Innerhalb von Klassen muss man bei Funktionen KEIN function .... mehr benutzen!
         this.speedY = 30;
+    }
+
+    isColliding (mo) {                                                          // Die Funktion "isColliding" prüft ob sich die Grenzrahm,en der Objekte berühren 
+        return  (this.X + this.width) >= mo.X && this.X <= (mo.X + mo.width) && 
+            (this.Y + this.offsetY + this.height) >= mo.Y &&
+            (this.Y + this.offsetY) <= (mo.Y + mo.height) && 
+            mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 }

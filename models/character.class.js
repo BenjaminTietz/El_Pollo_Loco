@@ -25,7 +25,7 @@ class Character extends MovableObject {
     world;
     walking_sound = new Audio('audio/walk.mp3');
 
-    constructor () {    // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
+    constructor () {                                                // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');  // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
         this.loadImages(this.IMAGES_WALKING);                       // Hier werden die übergeordnete Funktion loadImages aufgerufen. Dieser wird das Arrays "IMAGES_WALKING" übergeben woraus die Bilder unseres Characters geladen werden.
         this.loadImages(this.IMAGES_JUMPING);
@@ -53,19 +53,19 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;            // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden. Mit den +100px verschieben wir die Kameraperspektive ein wenig nach rechts.
         }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
-        setInterval(() => {
+        setInterval(() => {                                 // Diese "setInterval" Funktion beinhaltet eine if -else Abfrage um zu prüfen.....
 
-            if(this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else {
+            if(this.isAboveGround()) {                      //..ob sich unser Character oberhalb des Bodens befindet.....
+                this.playAnimation(this.IMAGES_JUMPING);    // um dann die Animation mit den Bildern abzuspielen wo er springt
+            } else {                                        // ANDERNFALLS (character ist am Boden)
 
-                if (this.world.keyboard.right || this.world.keyboard.left) {
-                    this.playAnimation(this.IMAGES_WALKING);
+                if (this.world.keyboard.right || this.world.keyboard.left) {    // abfrage ob die Pfeiltaste nach links oder rechts aktiv ist....
+                    this.playAnimation(this.IMAGES_WALKING);                    //... um dann die Animation mit den Bildern abzuspielen wo er geht
                 }
             }
         },50);
     }
-    jump() {
-        this.speedY = 30;
+    jump() {                                                // Die "jump" Funktion wird benötigt um unseren Character springen zu lassen...
+        this.speedY = 30;                                   // Der Variabel "speedY" aka Geschwindigkeit auf der Y-Achse wird der Wert 30 (Pixel) zugewiesen
     }
 }
