@@ -25,7 +25,6 @@ class World {
             this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
                 if(this.character.isColliding(enemy) ) {
                     this.character.hit();
-                    console.log('Collision with Character energy', this.character.energy);
                 }
             });
         }, 200);
