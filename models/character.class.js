@@ -22,6 +22,15 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png',
     ];
+    IMAGES_DEAD = [
+        'img/2_character_pepe/5_dead/D-51.png',
+        'img/2_character_pepe/5_dead/D-52.png',
+        'img/2_character_pepe/5_dead/D-53.png',
+        'img/2_character_pepe/5_dead/D-54.png',
+        'img/2_character_pepe/5_dead/D-55.png',
+        'img/2_character_pepe/5_dead/D-56.png',
+        'img/2_character_pepe/5_dead/D-57.png'
+    ];
     world;
     walking_sound = new Audio('audio/walk.mp3');
 
@@ -29,6 +38,7 @@ class Character extends MovableObject {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');  // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
         this.loadImages(this.IMAGES_WALKING);                       // Hier werden die übergeordnete Funktion loadImages aufgerufen. Dieser wird das Arrays "IMAGES_WALKING" übergeben woraus die Bilder unseres Characters geladen werden.
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();                                        // Funktion applyGravity wird aufgerufen.
         this.animate();                                             // Hier wird die Funktion "animate" aufgerufen.
     }
@@ -54,8 +64,9 @@ class Character extends MovableObject {
         }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
         setInterval(() => {                                 // Diese "setInterval" Funktion beinhaltet eine if -else Abfrage um zu prüfen.....
-
-            if(this.isAboveGround()) {                      //..ob sich unser Character oberhalb des Bodens befindet.....
+            if(this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+            } else if(this.isAboveGround()) {                      //..ob sich unser Character oberhalb des Bodens befindet.....
                 this.playAnimation(this.IMAGES_JUMPING);    // um dann die Animation mit den Bildern abzuspielen wo er springt
             } else {                                        // ANDERNFALLS (character ist am Boden)
 
@@ -65,6 +76,7 @@ class Character extends MovableObject {
             }
         },50);
     }
+
     jump() {                                                // Die "jump" Funktion wird benötigt um unseren Character springen zu lassen...
         this.speedY = 30;                                   // Der Variabel "speedY" aka Geschwindigkeit auf der Y-Achse wird der Wert 30 (Pixel) zugewiesen
     }

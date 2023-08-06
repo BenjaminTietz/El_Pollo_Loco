@@ -10,6 +10,7 @@ class MovableObject {
     otherDirection = false; // Variabel otherDirection ist Standartmäßig = flase. Sobald Sie = true entspricht läuft unser Character in die andere Richtung.
     speedY = 0;
     acceleration = 2.5;
+    energy = 100;
 
     applyGravity(){                                         // Die Funktion "applyGravity" prüft in einem definierten Intervall...
         setInterval(() => {
@@ -70,14 +71,33 @@ class MovableObject {
         this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
     }
 
-    jump() {             //Innerhalb von Klassen muss man bei Funktionen KEIN function .... mehr benutzen!
+    jump() {                                        //Innerhalb von Klassen muss man bei Funktionen KEIN function .... mehr benutzen!
         this.speedY = 30;
     }
 
+    hit() {
+        this.energy -= 5;
+        if (this.energy <= 0) {
+            this.energy = 0;
+        }
+    }
+
+    isDead() {
+        return this.energy == 0;
+    }
+
+    isColliding(mo) {
+        return  this.x + this.width > mo.x &&
+                this.y + this.height > mo.y &&
+                this.x < mo.x &&
+                this.y < mo.y + mo.height;
+    }
+        /*
     isColliding (mo) {                                                          // Die Funktion "isColliding" prüft ob sich die Grenzrahm,en der Objekte berühren 
         return  (this.X + this.width) >= mo.X && this.X <= (mo.X + mo.width) && 
-            (this.Y + this.offsetY + this.height) >= mo.Y &&
-            (this.Y + this.offsetY) <= (mo.Y + mo.height) && 
-            mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+                (this.Y + this.offsetY + this.height) >= mo.Y &&
+                (this.Y + this.offsetY) <= (mo.Y + mo.height) && 
+                mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
+}*/
 }

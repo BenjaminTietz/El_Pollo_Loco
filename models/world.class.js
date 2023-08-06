@@ -20,11 +20,12 @@ class World {
         this.character.world = this;
     }
 
-    checkCollisions() {                         // Die Funktion "checkCollisions" prüft in einem definierten Intervall ob bewegende Objekte miteinander kollidieren. 
+    checkCollisions() {                                             // Die Funktion "checkCollisions" prüft in einem definierten Intervall ob bewegende Objekte miteinander kollidieren. 
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
+            this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
                 if(this.character.isColliding(enemy) ) {
-                    console.log('Collision with Character', enemy);
+                    this.character.hit();
+                    console.log('Collision with Character energy', this.character.energy);
                 }
             });
         }, 200);
