@@ -6,7 +6,9 @@ class World {
     keyboard;
     camera_x = 0;               // Variable "camera_x" definiert wie weit wir unseren KOntext aka Welt sobald unser Character läuft verschieben.
     statusBar = new StatusBar();
+    statusBarBottle = new StatusBarBottle();
     throwableObjects = [];
+    ammountOfBottles = 5;
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -31,8 +33,13 @@ class World {
 
     checkThrowObjects(){
         if(this.keyboard.d) {
-            let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+            if (this.ammountOfBottles > 0){
+                let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);
+                this.throwableObjects.push(bottle);
+                this.ammountOfBottles--;
+                this.statusBarBottle.setBottles(this.ammountOfBottles);
+                console.log('Bottles left',this.ammountOfBottles);
+            }
         }
     }
 
@@ -55,6 +62,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0); 
         //------------------------------------------------- //Hier können fixierte Objekte eingebunden werden.
         this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarBottle);
         this.ctx.translate(this.camera_x, 0);                   
 
         this.addToMap(this.character);
