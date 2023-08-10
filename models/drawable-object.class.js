@@ -17,7 +17,7 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  // Hier wird das Bild eingefügt.
     }
     drawFrame(ctx){                                                                             // Die Funktion  drawFrame zeichnet rechteckige Rahmen um unsere bewegende Objekte       
-        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coins || this instanceof Bottles){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
             ctx.beginPath();            
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'blue';

@@ -7,8 +7,8 @@ class World {
     camera_x = 0;               // Variable "camera_x" definiert wie weit wir unseren KOntext aka Welt sobald unser Character läuft verschieben.
     statusBar = new StatusBar();
     statusBarBottle = new StatusBarBottle();
+    statusBarCoins = new StatusBarCoins();
     throwableObjects = [];
-    ammountOfBottles = 5;
     bottleOnGround = new Bottles();
     coinInAir = new Coins();
 
@@ -30,17 +30,19 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollectionCoins();
+            this.checkCollectionBottle();
         }, 200);
     }
 
     checkThrowObjects(){
         if(this.keyboard.d) {
-            if (this.ammountOfBottles > 0){
+            if (this.character.ammountOfBottles > 0){
                 let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);
                 this.throwableObjects.push(bottle);
-                this.ammountOfBottles--;
-                this.statusBarBottle.setBottles(this.ammountOfBottles);
-                console.log('Bottles left',this.ammountOfBottles);
+                this.character.ammountOfBottles--;
+                this.statusBarBottle.setBottles(this.character.ammountOfBottles);
+
             }
         }
     }
@@ -50,6 +52,26 @@ class World {
             if(this.character.isColliding(enemy) ) {
                 this.character.hit(); 
                 this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+    }
+
+    checkCollectionCoins() {
+        this.level.coins.forEach((coins) => {                 // Mit "this.level.coins" bekommen wir all unsere Coins die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstände mit unserem Character kollidiert.
+            if(this.character.isColliding(coins) ) {
+                this.character.isCollectingCoins(); 
+                this.statusBarCoins.setCoins(this.character.coins);
+                console.log('Is colliding with:',this.level.coins);
+            }
+        });
+    }
+
+    checkCollectionBottle() {
+        this.level.bottles.forEach((bottles) => {                 // Mit "this.level.collectables" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstand mit unserem Character kollidiert.
+            if(this.character.isColliding(bottles) ) {
+                this.character.isCollectingBottles(); 
+                this.statusBarBottle.setBottles(this.character.ammountOfBottles);
+                console.log('Is colliding with:',this.level.bottles);
             }
         });
     }
@@ -65,11 +87,13 @@ class World {
         //------------------------------------------------- //Hier können fixierte Objekte eingebunden werden.
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottle);
+        this.addToMap(this.statusBarCoins);
         this.ctx.translate(this.camera_x, 0);                   
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.collectables);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
         

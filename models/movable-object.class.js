@@ -6,6 +6,8 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    ammountOfBottles = 5;
+    coins = 0;
 
     applyGravity(){                                         // Die Funktion "applyGravity" prüft in einem definierten Intervall...
         setInterval(() => {
@@ -57,6 +59,25 @@ class MovableObject extends DrawableObject {
     isDead() {
         return this.energy == 0;
     }
+
+    isCollectingCoins() {
+        if (this.coins < 10 ) {
+
+            this.coins +=  1;
+            
+            console.log('Character collects Coins',this.coins);
+
+        }
+    }
+
+    isCollectingBottles() {
+        if (this.ammountOfBottles < 5 ) {
+
+            this.ammountOfBottles += 1;
+            
+            console.log('Character collects:',this.ammountOfBottles);
+        }
+    } 
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;       // Differenz in ms
