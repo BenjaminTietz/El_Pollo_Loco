@@ -5,9 +5,12 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
+    energyEndboss = 100;
     lastHit = 0;
     ammountOfBottles = 5;
     coins = 0;
+    collect_coin_sound = new Audio('audio/collect_coin.mp3');
+    collect_bottle_sound = new Audio('audio/collect_bottle.mp3');
 
     applyGravity(){                                         // Die Funktion "applyGravity" prüft in einem definierten Intervall...
         setInterval(() => {
@@ -56,6 +59,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
     isDead() {
         return this.energy == 0;
     }
@@ -64,8 +68,8 @@ class MovableObject extends DrawableObject {
         if (this.coins < 10 ) {
 
             this.coins +=  1;
-            
-            console.log('Character collects Coins',this.coins);
+            this.collect_coin_sound.play();
+            //console.log('Character collects Coins',this.coins);
 
         }
     }
@@ -74,8 +78,8 @@ class MovableObject extends DrawableObject {
         if (this.ammountOfBottles < 5 ) {
 
             this.ammountOfBottles += 1;
-            
-            console.log('Character collects:',this.ammountOfBottles);
+            this.collect_bottle_sound.play();
+            //console.log('Character collects:',this.ammountOfBottles);
         }
     } 
 
@@ -99,4 +103,7 @@ class MovableObject extends DrawableObject {
                 mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 }*/
+
+
+
 }

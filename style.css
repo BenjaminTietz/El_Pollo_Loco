@@ -22,6 +22,25 @@ canvas {
     background-color: black;
     display: block;
 }
+.fullschreenBtnContainer{
+    top: 580px;
+    left: 450px;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+}
+#fullscreenBtn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+}
+
+.canvasContainer{
+    display: flex;
+}
 
 @font-face {
     font-family: 'bungeeSpice';

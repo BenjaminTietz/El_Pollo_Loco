@@ -10,9 +10,10 @@
     <script src="./models/character.class.js"></script>
     <script src="./models/chicken.class.js"></script>
     <script src="./models/cloud.class.js"></script>
-    <script src="./models/status-bar.class.js"></script>
-    <script src="./models/status-bar-bottle.class.js"></script>
-    <script src="./models/status-bar-coins.class.js"></script>
+    <script src="./statusbars/status-bar.class.js"></script>
+    <script src="./statusbars/status-bar-bottle.class.js"></script>
+    <script src="./statusbars/status-bar-coins.class.js"></script>
+    <script src="./statusbars/status-bar-endboss.class.js"></script>
     <script src="./models/coins.class.js"></script>
     <script src="./models/bottles.class.js"></script>
     <script src="./models/world.class.js"></script>
@@ -28,9 +29,12 @@
 </head>
 <body onload="init()">
     <h1>El Pollo Loco</h1>
-        <div id="fullScreen">
-            <canvas id="canvas" width="720" height="480px">
+        <div id="fullscreen">
+            <canvas id="canvas" width="720" height="480px"></canvas>
+            <div class="fullschreenBtnContainer">
+                <!--<img onclick="fullscreen()" id="fullscreenBtn" src="/img/icons/fullscreen.png" alt="Fullscreen Button"-->
+                <!--<button id="mute" onclick="muteSound()">Mute</button>--> 
+            </div>
         </div>
-    </canvas>
 </body>
 </html>

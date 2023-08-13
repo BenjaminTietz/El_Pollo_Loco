@@ -1,16 +1,19 @@
 class World {
-    character = new Character();  // Variablen definiert man innerhalb von Klassen OHNE let / var
+    character = new Character();            // Variablen definiert man innerhalb von Klassen OHNE let / var
+    endBoss = new Endboss();
     level = level1;
     canvas;
-    ctx;                        // Variable Context wird definiert
+    ctx;                                    // Variable Context wird definiert
     keyboard;
-    camera_x = 0;               // Variable "camera_x" definiert wie weit wir unseren KOntext aka Welt sobald unser Character läuft verschieben.
+    camera_x = 0;                           // Variable "camera_x" definiert wie weit wir unseren KOntext aka Welt sobald unser Character läuft verschieben.
     statusBar = new StatusBar();
     statusBarBottle = new StatusBarBottle();
     statusBarCoins = new StatusBarCoins();
+    statusBarEndboss = new StatusBarEndboss();
     throwableObjects = [];
     bottleOnGround = new Bottles();
     coinInAir = new Coins();
+    throw_bottle_sound = new Audio('audio/throw.mp3');
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -42,7 +45,7 @@ class World {
                 this.throwableObjects.push(bottle);
                 this.character.ammountOfBottles--;
                 this.statusBarBottle.setBottles(this.character.ammountOfBottles);
-
+                this.throw_bottle_sound.play();
             }
         }
     }
@@ -61,17 +64,17 @@ class World {
             if(this.character.isColliding(coins) ) {
                 this.character.isCollectingCoins(); 
                 this.statusBarCoins.setCoins(this.character.coins);
-                console.log('Is colliding with:',this.level.coins);
+                //console.log('Is colliding with:',this.level.coins);
             }
         });
     }
 
     checkCollectionBottle() {
-        this.level.bottles.forEach((bottles) => {                 // Mit "this.level.collectables" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstand mit unserem Character kollidiert.
+        this.level.bottles.forEach((bottles) => {                 // Mit "this.level.bottles" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstand mit unserem Character kollidiert.
             if(this.character.isColliding(bottles) ) {
                 this.character.isCollectingBottles(); 
                 this.statusBarBottle.setBottles(this.character.ammountOfBottles);
-                console.log('Is colliding with:',this.level.bottles);
+                //console.log('Is colliding with:',this.level.bottles);
             }
         });
     }
@@ -83,18 +86,20 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects);
 
-        this.ctx.translate(-this.camera_x, 0); 
-        //------------------------------------------------- //Hier können fixierte Objekte eingebunden werden.
-        this.addToMap(this.statusBar);
-        this.addToMap(this.statusBarBottle);
-        this.addToMap(this.statusBarCoins);
-        this.ctx.translate(this.camera_x, 0);                   
-
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.clouds);
+
+        this.ctx.translate(-this.camera_x, 0); 
+        //------------------------------------------------- //Hier können fixierte Objekte eingebunden werden.
+        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarBottle);
+        this.addToMap(this.statusBarCoins);
+        this.addToMap(this.statusBarEndboss);
+        this.ctx.translate(this.camera_x, 0);  
+
         this.addObjectsToMap(this.throwableObjects);
         
         this.ctx.translate(-this.camera_x, 0);                  //Hier drehen wir die Funktion welche unseren Kontext verschieb wieder um. Durch ctx.tanslate verschiebt sich unsere gesamter Kontext auf der X-Achse um den Wert der Variabel "camera_x" der Wert für die Verschiebung der Y- Achse muss mitangegebn werden. Dieser beträgt 0.
@@ -133,5 +138,4 @@ class World {
         this.ctx.restore();                     // machen wir  hier unsere Einstellungen rückgängig
         mo.x = mo.x * -1;                       // Sobald das Bild gespiegelt wird ist der 0 Punkt der X-Achse auf der rechten Seite. Dadurch dass wir mit -1 multiplizieren drehen wir die Stelle einfach um.
     }
-
 }
