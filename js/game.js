@@ -48,40 +48,7 @@ window.addEventListener("keyup", (e) => {                       // Der EventList
     if(e.keyCode == 68) {
         keyboard.d = false;
     }
-    if(e.keyCode == 27) {
-        keyboard.esc = false;
-    }
 });
 
-// nonfunctional !!!!
-function fullscreen() {
-    fullscreen = document.getElementById('fullscreen');
-    if (!checkFullscreen || !keyboard.esc) {
-        enterFullscreen(fullscreen);
-    } else {
-        exitFullscreen();
-    }
-}
-
-function enterFullscreen(element) {
-    if(element.requestFullscreen) {
-        element.requestFullscreen();
-    } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
-        element.msRequestFullscreen();
-    } else if(element.webkitRequestFullscreen) {  // iOS Safari
-        element.webkitRequestFullscreen();
-    }
-    checkFullscreen = true;
-}
-
-function exitFullscreen() {
-    if(document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if(document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-    }
-    checkFullscreen = false;
-}
-        
 
 

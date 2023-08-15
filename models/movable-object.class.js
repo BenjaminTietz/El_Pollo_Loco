@@ -5,7 +5,8 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    energyEndboss = 100;
+    energyEndboss = 15;
+    energyChicken = 5;
     lastHit = 0;
     ammountOfBottles = 5;
     coins = 0;
@@ -50,33 +51,52 @@ class MovableObject extends DrawableObject {
         this.speedY = 30;
     }
 
-    hit() {
-        this.energy -= 5;
-        if (this.energy <= 0) {
-            this.energy = 0;
+    hit() {                                             
+        this.energy -= 5;                           // Bei der Funktion hit wird Energie abgezogen
+        if (this.energy <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
+            this.energy = 0;                        // hier wird this.energie gleich 0 gesetzt
         } else {
-            this.lastHit = new Date().getTime();
+            this.lastHit = new Date().getTime();    // Wenn die Energie noch > 100 ist wird hier der letzte Zeitpunkt gespeichert andem wir vom Gegner getroffen wurden
         }
+    }
+
+    hitEndBoss() {                                             
+        this.energyEndboss -= 5;                           // Bei der Funktion hit wird Energie abgezogen
+        if (this.energyEndboss <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
+            this.energyEndboss = 0;                        // hier wird this.energie gleich 0 gesetzt
+        } 
+    }
+
+    hitChicken() {                                             
+        this.energyChicken -= 5;                           // Bei der Funktion hit wird Energie abgezogen
+        if (this.energyChicken <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
+            this.energyChicken = 0;                        // hier wird this.energie gleich 0 gesetzt
+        } 
     }
 
 
     isDead() {
-        return this.energy == 0;
+        return this.energy == 0;                            // Die Funktion returned ="true" wenn die energie == 0 ist.
+    }
+
+    isDeadEndboss() {
+        return this.energyEndboss == 0;                     // Die Funktion returned ="true" wenn die energie == 0 ist.
+    }
+
+    isDeadChicken() {
+        return this.energyChicken == 0;                     // Die Funktion returned ="true" wenn die energie == 0 ist.
     }
 
     isCollectingCoins() {
         if (this.coins < 10 ) {
-
             this.coins +=  1;
             this.collect_coin_sound.play();
             //console.log('Character collects Coins',this.coins);
-
         }
     }
 
     isCollectingBottles() {
         if (this.ammountOfBottles < 5 ) {
-
             this.ammountOfBottles += 1;
             this.collect_bottle_sound.play();
             //console.log('Character collects:',this.ammountOfBottles);
@@ -84,7 +104,7 @@ class MovableObject extends DrawableObject {
     } 
 
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit;       // Differenz in ms
+        let timePassed = new Date().getTime() - this.lastHit;       // Differenz in ms  timePassed entspicht = aktuelle Zeit in ms seitdem 01.01.1970 - "lastHit" Zeit in ms wo wir zueltzt vom Gegner getroffen wurden
         timePassed = timePassed / 1000;                             // Differenz in s
         return timePassed < 1;                                      // Wenn wir in den letzten 1 Sekunde getroffen wurden returned die Funktion = true
     }
@@ -97,9 +117,9 @@ class MovableObject extends DrawableObject {
     }
         /* Funktioniert so NICHT
     isColliding (mo) {                                                          // Die Funktion "isColliding" prüft ob sich die Grenzrahm,en der Objekte berühren 
-        return  (this.X + this.width) >= mo.X && this.X <= (mo.X + mo.width) && 
-                (this.Y + this.offsetY + this.height) >= mo.Y &&
-                (this.Y + this.offsetY) <= (mo.Y + mo.height) && 
+        return  (this.x + this.width) >= mo.x && this.x <= (mo.x + mo.width) && 
+                (this.y + this.offsetY + this.height) >= mo.y &&
+                (this.y + this.offsetY) <= (mo.y + mo.height) && 
                 mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 }*/

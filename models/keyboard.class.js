@@ -7,5 +7,4 @@ up = false;
 down = false;
 space = false;
 d = false;
-//esc = false;
 }

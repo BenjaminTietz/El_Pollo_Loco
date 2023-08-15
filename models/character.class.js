@@ -75,11 +75,11 @@ class Character extends MovableObject {
         }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
 
         setInterval(() => {                                 // Diese "setInterval" Funktion beinhaltet eine if -else Abfrage um zu prüfen.....
-            if(this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+            if(this.isDead()) {                             // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
+                this.playAnimation(this.IMAGES_DEAD);       // ... wird die Animation mit den Bildern Images_Dead abgespielt
                 //this.dead_sound.play(); 
-            } else if(this.isHurt()){
-                this.playAnimation(this.IMAGES_HURT);
+            } else if(this.isHurt()){                       // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
+                this.playAnimation(this.IMAGES_HURT);       // ... wird die Animation mit den Bildern Images_Hurt abgespielt
                 //this.hurt_sound.play(); 
             } else if(this.isAboveGround()) {                                   //..ob sich unser Character oberhalb des Bodens befindet.....
                 this.playAnimation(this.IMAGES_JUMPING);                        // um dann die Animation mit den Bildern abzuspielen wo er springt

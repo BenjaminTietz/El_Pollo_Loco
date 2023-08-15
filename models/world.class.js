@@ -1,6 +1,7 @@
 class World {
     character = new Character();            // Variablen definiert man innerhalb von Klassen OHNE let / var
     endBoss = new Endboss();
+    chicken = new Chicken();
     level = level1;
     canvas;
     ctx;                                    // Variable Context wird definiert
@@ -35,6 +36,7 @@ class World {
             this.checkThrowObjects();
             this.checkCollectionCoins();
             this.checkCollectionBottle();
+            this.checkBottleHitsEnemy();
         }, 200);
     }
 
@@ -53,8 +55,9 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
             if(this.character.isColliding(enemy) ) {
-                this.character.hit(); 
+                this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
+                //console.log('Is colliding with:',this.level.enemies);
             }
         });
     }
@@ -78,6 +81,32 @@ class World {
             }
         });
     }
+
+    checkBottleHitsEnemy() {
+        this.throwableObjects.forEach((bottles) => { 
+                if(this.endBoss.isColliding(bottles) ) { 
+                    this.endBoss.hitEndBoss();
+                    this.statusBarEndboss.setEndBoss(this.endBoss.energyEndboss);
+                    //console.log('Bottle colliding with:',this.level.enemies);
+                    console.log('EndBoss Energy is:',this.endBoss.energyEndboss);
+                } else if(this.chicken.isColliding(bottles) ) { 
+                    this.chicken.hitChicken();
+                    //console.log('Bottle colliding with:',this.level.enemies);
+                    console.log('Chicken Energy is:',this.chicken.energyChicken);
+                }
+            });
+        }
+
+    //    checkBottleHitsEnemy() {
+    //        this.throwableObjects.forEach((bottle) => {                 // Mit "this.throwableObjects" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenständ mit unserem Character kollidiert.
+    //            this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enemies" bekommen wir all unsere Gegner durch "forEach" prüfen wir ob jeder der Gegner mit unserer Flasche kollidiert.
+    //                this.endBoss.hitEndBoss();
+    //                this.statusBarEndboss.setEndBoss(this.endBoss.energyEndboss);
+    //                //console.log('Bottle colliding with:',this.level.enemies);
+    //                console.log('EndBoss Energy is:',this.endBoss.energyEndboss);
+    //                });
+    //            });
+    //        }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -105,15 +134,15 @@ class World {
         this.ctx.translate(-this.camera_x, 0);                  //Hier drehen wir die Funktion welche unseren Kontext verschieb wieder um. Durch ctx.tanslate verschiebt sich unsere gesamter Kontext auf der X-Achse um den Wert der Variabel "camera_x" der Wert für die Verschiebung der Y- Achse muss mitangegebn werden. Dieser beträgt 0.
 
         //Draw wird immer wieder (so schnell es die GrKa hergibt) aufgerufen.
-        let self = this;                    //
-        requestAnimationFrame(function() {  //Wir müssen in requestAni eine Funktion hineingeben, diese wird ausgeführt sobald alles darüber einmal gezeichnet wurde.
-            self.draw();                    //Die Funktion wird also A-synchron ausgeführt. Innerhalb der Funktion ist "this" unbekannt. Demnach wird ein self = this definiert und benutzt.
+        let self = this;                                //
+        requestAnimationFrame(function() {              //Wir müssen in requestAni eine Funktion hineingeben, diese wird ausgeführt sobald alles darüber einmal gezeichnet wurde.
+            self.draw();                                //Die Funktion wird also A-synchron ausgeführt. Innerhalb der Funktion ist "this" unbekannt. Demnach wird eine Hilfsvariabel self = this definiert und benutzt.
         });
     }
 
     addObjectsToMap(objects){
         objects.forEach(o => {
-            this.addToMap(o);     // Durch die forEach Schleife wird die Zeile zwischen den {} für jedes Element des enemies Arrays ausgeführt.
+            this.addToMap(o);                       // Durch die forEach Schleife wird die Zeile zwischen den {} für jedes Element des enemies Arrays ausgeführt.
         });
     }
     addToMap(mo) {

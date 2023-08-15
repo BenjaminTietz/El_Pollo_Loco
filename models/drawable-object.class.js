@@ -17,17 +17,42 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  // Hier wird das Bild eingefügt.
     }
     drawFrame(ctx){                                                                             // Die Funktion  drawFrame zeichnet rechteckige Rahmen um unsere bewegende Objekte       
-        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coins || this instanceof Bottles || this instanceof ThrowableObject){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+        if(this instanceof Chicken || this instanceof ThrowableObject){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+            ctx.beginPath();            
+            ctx.lineWidth = '1';
+            ctx.strokeStyle = 'red';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        } else if(this instanceof Character){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
             ctx.beginPath();            
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.rect(this.x, this.y+80, this.width-20, this.height-80);
             ctx.stroke();
-        }
+        } else if(this instanceof Bottles){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+        ctx.beginPath();            
+        ctx.lineWidth = '1';
+        ctx.strokeStyle = 'green';
+        ctx.rect(this.x+30, this.y+10, this.width-45, this.height-10);
+        ctx.stroke();
+    }else if(this instanceof Coins){   // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+        ctx.beginPath();            
+        ctx.lineWidth = '1';
+        ctx.strokeStyle = 'green';
+        ctx.rect(this.x+55, this.y+35, this.width-105, this.height-70);
+        ctx.stroke();
+    }else if(this instanceof Endboss){   // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+        ctx.beginPath();            
+        ctx.lineWidth = '1';
+        ctx.strokeStyle = 'red';
+        ctx.rect(this.x+25, this.y+65, this.width-45, this.height-70);
+        ctx.stroke();
+    }
+
     }
     /**
  * 
- * @param {Array} arr - ['img/image1.png','img/image2.png','img/image3.png',...]
+ * @param {Array} arr - ['img/image1.png','img/image2.png','img/image3.png',...] 
  */
     loadImages(arr){
         arr.forEach((path) =>{              // Für jedes Element des Arrays "arr" wird diese Schleiße mit eingegliederter Funktion aufgerufen. Der Funktion wird der Wert "path" übergeben. Dieser beinhaltet die Pfade der anzuzeigenden Bilder.
