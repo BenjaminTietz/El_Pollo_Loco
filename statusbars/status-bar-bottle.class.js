@@ -9,7 +9,7 @@ class StatusBarBottle extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
 
-    bottles = 5;
+    bottles = 0;
 
     constructor(){
         super();
@@ -18,7 +18,7 @@ class StatusBarBottle extends DrawableObject {
         this.y = 100;
         this.width = 200;
         this.height = 60;
-        this.setBottles(5);
+        this.setBottles(0);
     }
 
     setBottles(bottles) {

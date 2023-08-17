@@ -5,10 +5,8 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    energyEndboss = 15;
-    energyChicken = 5;
     lastHit = 0;
-    ammountOfBottles = 5;
+    ammountOfBottles = 0;
     coins = 0;
     collect_coin_sound = new Audio('audio/collect_coin.mp3');
     collect_bottle_sound = new Audio('audio/collect_bottle.mp3');
@@ -61,30 +59,24 @@ class MovableObject extends DrawableObject {
     }
 
     hitEndBoss() {                                             
-        this.energyEndboss -= 5;                           // Bei der Funktion hit wird Energie abgezogen
-        if (this.energyEndboss <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
-            this.energyEndboss = 0;                        // hier wird this.energie gleich 0 gesetzt
-        } 
+        this.energy -= 50;                          // Bei der Funktion hit wird Energie abgezogen
+        if (this.energy <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
+            this.energy = 0;                        // hier wird this.energie gleich 0 gesetzt
+        } else {
+            this.lastHit = new Date().getTime();    // Wenn die Energie noch > 100 ist wird hier der letzte Zeitpunkt gespeichert andem wir vom Gegner getroffen wurden
+        }
     }
 
     hitChicken() {                                             
-        this.energyChicken -= 5;                           // Bei der Funktion hit wird Energie abgezogen
-        if (this.energyChicken <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
-            this.energyChicken = 0;                        // hier wird this.energie gleich 0 gesetzt
+        this.energy -= 50;                           // Bei der Funktion hit wird Energie abgezogen
+        if (this.energy <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
+            this.energy = 0;                        // hier wird this.energie gleich 0 gesetzt
         } 
     }
 
 
     isDead() {
-        return this.energy == 0;                            // Die Funktion returned ="true" wenn die energie == 0 ist.
-    }
-
-    isDeadEndboss() {
-        return this.energyEndboss == 0;                     // Die Funktion returned ="true" wenn die energie == 0 ist.
-    }
-
-    isDeadChicken() {
-        return this.energyChicken == 0;                     // Die Funktion returned ="true" wenn die energie == 0 ist.
+        return this.energy == 0;                            // Die Funktion returned ="true" wenn die energy == 0 ist.
     }
 
     isCollectingCoins() {

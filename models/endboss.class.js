@@ -39,34 +39,38 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-    constructor () {                                            // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
-        super().loadImage(this.IMAGES_ALERT[0]);              // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
-        this.loadImages(this.IMAGES_ALERT);                   // Hier werden die Bilder des Arrays "images_alert" geladen
-        this.loadImages(this.IMAGES_WALK);                   // Hier werden die Bilder des Arrays "images_walk" geladen
-        this.loadImages(this.IMAGES_ATTACK);                   // Hier werden die Bilder des Arrays "images_attack" geladen
-        this.loadImages(this.IMAGES_HURT);                   // Hier werden die Bilder des Arrays "images_hurt" geladen
-        this.loadImages(this.IMAGES_DEAD);                   // Hier werden die Bilder des Arrays "images_dead" geladen
-        this.x = 2400;                                           // this.x defineirt den Punkt auf der X-Ache wo unser Endboss eingefügt wird
+    world;
+    constructor () {                                                                // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
+        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');               // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
+        this.loadImages(this.IMAGES_ALERT);                                         // Hier werden die Bilder des Arrays "images_alert" geladen
+        this.loadImages(this.IMAGES_WALK);                                          // Hier werden die Bilder des Arrays "images_walk" geladen
+        this.loadImages(this.IMAGES_ATTACK);                                        // Hier werden die Bilder des Arrays "images_attack" geladen
+        this.loadImages(this.IMAGES_HURT);                                          // Hier werden die Bilder des Arrays "images_hurt" geladen
+        this.loadImages(this.IMAGES_DEAD);                                          // Hier werden die Bilder des Arrays "images_dead" geladen
+        this.x = 2400;                                                              // this.x definiert den Punkt auf der X-Ache wo unser Endboss eingefügt wird
         this.speed = 0.15 + Math.random() * 0.5;
-        this.animate();                                         // Hier wird die Funktion "animate" aufgerufen
+        this.animate();                                                             // Hier wird die Funktion "animate" aufgerufen
     }
 
     animate () {
         setInterval(() => {
 
-                this.moveLeft();
+                
         }, 100 / 60);
-        this.moveLeft();
+        
 
         setInterval(() => {
-            if(this.isDeadEndboss()) {                              // Wenn die übergeordnete Funktion "isDeadEndboss" = "true returned" DANN
-                this.playAnimation(this.IMAGES_DEAD);               // ... wird die Animation mit den Bildern Images_Dead abgespielt
-                //this.dead_sound.play(); 
-            } else if (this.energyEndboss > 0){
-                this.playAnimation(this.IMAGES_WALK);
-            }
-            
-        },200);
+            if(this.isDead()) {                                     // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
+                this.playAnimation(this.IMAGES_DEAD);               // ... wird die Animation mit den Bildern Images_Dead abgespielt 
+            } else if(!this.isDead() && this.isHurt()){             // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
+                this.playAnimation(this.IMAGES_HURT);               // ... wird die Animation mit den Bildern Images_Hurt abgespielt
+                } else {
+                if (this.energy > 0){
+                    
+                    this.playAnimation(this.IMAGES_WALK);
+                }
+            } 
+        },60);
     }
 
 }

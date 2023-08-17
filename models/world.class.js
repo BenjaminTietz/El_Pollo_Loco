@@ -12,6 +12,7 @@ class World {
     statusBarCoins = new StatusBarCoins();
     statusBarEndboss = new StatusBarEndboss();
     throwableObjects = [];
+    collectedBottle = [];
     bottleOnGround = new Bottles();
     coinInAir = new Coins();
     throw_bottle_sound = new Audio('audio/throw.mp3');
@@ -37,16 +38,19 @@ class World {
             this.checkCollectionCoins();
             this.checkCollectionBottle();
             this.checkBottleHitsEnemy();
+            this.checkcoinIsCollected();
         }, 200);
     }
 
-    checkThrowObjects(){
+    checkThrowObjects(){                                                                            // checkThrowobjects prüft ob die Taste d gedrückt wird und die Anzahl der Flaschen größer 0 ist
         if(this.keyboard.d) {
             if (this.character.ammountOfBottles > 0){
-                let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);
-                this.throwableObjects.push(bottle);
-                this.character.ammountOfBottles--;
-                this.statusBarBottle.setBottles(this.character.ammountOfBottles);
+                let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);  // der Funktionsvariabel "bottle" wird ein neues zu werfendes Objekt zugewiesen, dieses wird an definierten Koordinaten eingefügt
+                this.character.ammountOfBottles--;                                                  // hier wird die Anzahl der verfügbaren Flaschen reduziert            
+                this.statusBarBottle.setBottles(this.character.ammountOfBottles);                   // hier wird die Statusbar der Flaschen geupdated
+                this.throwableObjects = this.throwableObjects.splice(0, 1);                         // hier wird aus dem Array "throwableObjects" ein Objekt entfernt
+                this.throwableObjects.push(bottle);                                                 // hier wird dem Array "throwableObjects" ein Objekt hinzugefügt
+                this.collectedBottle.splice(0, 1);                                                  // hier wird aus dem Array "collectedBottle" ein Objekt entfernt   
                 this.throw_bottle_sound.play();
             }
         }
@@ -72,23 +76,48 @@ class World {
         });
     }
 
+    checkcoinIsCollected() {
+            for (let i = 0; i < this.level.coins.length; i++) {
+            const coins = this.level.coins[i];
+            if (this.character.isColliding(coins)) {
+                this.level.coins.splice(i, 1);
+            }
+        }
+    }
+
+
     checkCollectionBottle() {
         this.level.bottles.forEach((bottles) => {                 // Mit "this.level.bottles" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstand mit unserem Character kollidiert.
             if(this.character.isColliding(bottles) ) {
+                this.bottleIsCollected();
                 this.character.isCollectingBottles(); 
+                this.collectedBottle = this.collectedBottle.splice(0, 4);
+                this.collectedBottle.push(bottles);
                 this.statusBarBottle.setBottles(this.character.ammountOfBottles);
                 //console.log('Is colliding with:',this.level.bottles);
             }
         });
     }
 
+    bottleIsCollected() {
+        if (this.collectedBottle.length < 5) {
+            for (let i = 0; i < this.level.bottles.length; i++) {
+            const bottles = this.level.bottles[i];
+            if (this.character.isColliding(bottles)) {
+                this.level.bottles.splice(i, 1);
+            }
+        }
+    }
+}
+
+
     checkBottleHitsEnemy() {
         this.throwableObjects.forEach((bottles) => { 
                 if(this.endBoss.isColliding(bottles) ) { 
                     this.endBoss.hitEndBoss();
-                    this.statusBarEndboss.setEndBoss(this.endBoss.energyEndboss);
+                    this.statusBarEndboss.setEndBoss(this.endBoss.energy);
                     //console.log('Bottle colliding with:',this.level.enemies);
-                    console.log('EndBoss Energy is:',this.endBoss.energyEndboss);
+                    console.log('EndBoss Energy is:',this.endBoss.energy);
                 } else if(this.chicken.isColliding(bottles) ) { 
                     this.chicken.hitChicken();
                     //console.log('Bottle colliding with:',this.level.enemies);
@@ -96,17 +125,6 @@ class World {
                 }
             });
         }
-
-    //    checkBottleHitsEnemy() {
-    //        this.throwableObjects.forEach((bottle) => {                 // Mit "this.throwableObjects" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenständ mit unserem Character kollidiert.
-    //            this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enemies" bekommen wir all unsere Gegner durch "forEach" prüfen wir ob jeder der Gegner mit unserer Flasche kollidiert.
-    //                this.endBoss.hitEndBoss();
-    //                this.statusBarEndboss.setEndBoss(this.endBoss.energyEndboss);
-    //                //console.log('Bottle colliding with:',this.level.enemies);
-    //                console.log('EndBoss Energy is:',this.endBoss.energyEndboss);
-    //                });
-    //            });
-    //        }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
