@@ -54,23 +54,20 @@ class Endboss extends MovableObject {
 
     animate () {
         setInterval(() => {
-
-                
-        }, 100 / 60);
-        
-
-        setInterval(() => {
             if(this.isDead()) {                                     // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
                 this.playAnimation(this.IMAGES_DEAD);               // ... wird die Animation mit den Bildern Images_Dead abgespielt 
             } else if(!this.isDead() && this.isHurt()){             // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
                 this.playAnimation(this.IMAGES_HURT);               // ... wird die Animation mit den Bildern Images_Hurt abgespielt
                 } else {
-                if (this.energy > 0){
-                    
+                if (!this.isDead()){
                     this.playAnimation(this.IMAGES_WALK);
                 }
             } 
-        },60);
+        },100);
+        setInterval(() => {
+            if(!this.isDead() && !this.isHurt()){ 
+                this.moveLeft();
+            }
+        }, 1000 / 60);
     }
-
 }

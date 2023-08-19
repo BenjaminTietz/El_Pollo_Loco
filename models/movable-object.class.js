@@ -1,6 +1,7 @@
 class MovableObject extends DrawableObject {
 
     speed = 0.15;           // Variabel speed als Geschwindigkeit der zu bewegenden Objekte
+    speedEndboss = 0.9;
     otherDirection = false; // Variabel otherDirection ist Standartmäßig = flase. Sobald Sie = true entspricht läuft unser Character in die andere Richtung.
     speedY = 0;
     acceleration = 2.5;
@@ -42,7 +43,11 @@ class MovableObject extends DrawableObject {
     }
 
     moveLeft() {
-        this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
+        if(this instanceof Endboss) {
+            this.x -= this.speedEndboss;                       // Von der X Koordinate werden 10px subtrahiert
+        } else {
+            this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
+        }
     }
 
     jump() {                                        //Innerhalb von Klassen muss man bei Funktionen KEIN function .... mehr benutzen!
@@ -68,7 +73,7 @@ class MovableObject extends DrawableObject {
     }
 
     hitChicken() {                                             
-        this.energy -= 50;                           // Bei der Funktion hit wird Energie abgezogen
+        this.energy -= 100;                           // Bei der Funktion hit wird Energie abgezogen
         if (this.energy <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
             this.energy = 0;                        // hier wird this.energie gleich 0 gesetzt
         } 

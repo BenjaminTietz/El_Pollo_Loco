@@ -14,7 +14,12 @@ class DrawableObject {
         this.img.src = path;        // Der Globalen Variabel "this.img" wird als zu ladener Quelle = "path" zugewiesen
     }
     draw (ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  // Hier wird das Bild eingefügt.
+        try {
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);  // Hier wird das Bild eingefügt.
+        } catch (e) {
+            console.warn('Error loading image', e);
+            console.log('Could not load image', this.img.src);
+        }
     }
     drawFrame(ctx){                                                                             // Die Funktion  drawFrame zeichnet rechteckige Rahmen um unsere bewegende Objekte       
         if(this instanceof Chicken || this instanceof ThrowableObject){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)

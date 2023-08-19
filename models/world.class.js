@@ -1,7 +1,5 @@
 class World {
     character = new Character();            // Variablen definiert man innerhalb von Klassen OHNE let / var
-    endBoss = new Endboss();
-    chicken = new Chicken();
     level = level1;
     canvas;
     ctx;                                    // Variable Context wird definiert
@@ -37,8 +35,9 @@ class World {
             this.checkThrowObjects();
             this.checkCollectionCoins();
             this.checkCollectionBottle();
-            this.checkBottleHitsEnemy();
+            this.checkBottleHitsEndBoss();
             this.checkcoinIsCollected();
+            this.checkBottleHitsChicken();
         }, 200);
     }
 
@@ -111,20 +110,29 @@ class World {
 }
 
 
-    checkBottleHitsEnemy() {
-        this.throwableObjects.forEach((bottles) => { 
-                if(this.endBoss.isColliding(bottles) ) { 
-                    this.endBoss.hitEndBoss();
-                    this.statusBarEndboss.setEndBoss(this.endBoss.energy);
-                    //console.log('Bottle colliding with:',this.level.enemies);
-                    console.log('EndBoss Energy is:',this.endBoss.energy);
-                } else if(this.chicken.isColliding(bottles) ) { 
-                    this.chicken.hitChicken();
-                    //console.log('Bottle colliding with:',this.level.enemies);
-                    console.log('Chicken Energy is:',this.chicken.energyChicken);
+    checkBottleHitsEndBoss() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.endboss.forEach((endboss) => {
+                if (bottle.isColliding(endboss)) {
+                    endboss.hitEndBoss();
+                    this.statusBarEndboss.setEndBoss(endboss.energy);
                 }
             });
-        }
+        });
+    }
+
+    checkBottleHitsChicken() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemies) => {
+                if (bottle.isColliding(enemies)) {
+                    enemies.hitChicken();
+                    console.log('Bottle hits',this.level.enemies);
+                }
+            });
+        });
+    }
+
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -135,6 +143,7 @@ class World {
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.clouds);
