@@ -19,6 +19,7 @@ h1 {
 }
 
 canvas {
+    border-radius: 45px;
     background-color: black;
     display: block;
 }

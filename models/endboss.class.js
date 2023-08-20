@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
     height = 400;
     y = 45;
     world;
+    firstContact = false;
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -59,6 +60,11 @@ class Endboss extends MovableObject {
         
     }
 
+    firstContactToEndboss() {
+        if (this.x - this.world.character.x < 400) {
+            this.firstContact = true;
+        }
+    }
 
     animate () {
         setInterval(() => {
@@ -66,19 +72,20 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);               // ... wird die Animation mit den Bildern Images_Dead abgespielt 
             } else if(!this.isDead() && this.isHurt()){             // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
                 this.playAnimation(this.IMAGES_HURT);               // ... wird die Animation mit den Bildern Images_Hurt abgespielt
-            } else if (!this.isDead()&& !this.isHurt() && this.distanceToEndboss(400)){
+            } else if (!this.isDead()&& !this.isHurt()  && this.firstContact == true){
                 this.playAnimation(this.IMAGES_WALK);
-            } else if (!this.isDead()&& !this.isHurt() && this.distanceToEndboss(450)){
+            } else if (!this.isDead()&& !this.isHurt() && this.firstContact == false){
                 this.playAnimation(this.IMAGES_ALERT);
+                this.firstContactToEndboss();
             } 
         },100);
         setInterval(() => {
-            if (this.distanceToEndboss(-200)) {
+            if (this.distanceToEndboss(0)) {
                 this.moveRight();
                 this.otherDirection = true; 
-            } else if(this.distanceToEndboss(400)){ 
-                console.log('Position of Endboss is:',this.x);
-                console.log('Position of Character is:',this.world.character.x);
+            } else if(this.distanceToEndboss(400) || this.firstContact == true){ 
+                //console.log('Position of Endboss is:',this.x);
+                //console.log('Position of Character is:',this.world.character.x);
                 this.moveLeft();
                 this.otherDirection = false;
             } 

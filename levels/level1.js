@@ -15,6 +15,10 @@ function loadChicken(){
     return [
         new Chicken(),
         new Chicken(),
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
         new Chicken()
     ]
 }

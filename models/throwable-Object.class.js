@@ -29,7 +29,7 @@ class ThrowableObject extends MovableObject{
     animate(){
         this.throw();
         this.rotateBottles();
-        this.splashBottles();
+        //this.splashBottles();
     }
 
     throw() {
@@ -55,10 +55,10 @@ class ThrowableObject extends MovableObject{
     
     splashBottles() {
         setInterval(() =>{
-            if (this.world.endboss.isHurt()) {
+            if (this.world.endBoss.isHurt()) {
                 this.playAnimation(this.IMAGES_BottleSplash);
             }
-        },25);
+        },1000 / 50);
     }
 
 }
