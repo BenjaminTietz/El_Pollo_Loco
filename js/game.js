@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 
 function init () {
+    initLevel();
     canvas = document.getElementById('canvas');                 // An die Variabel "canvas" wird das HTML Elemet 'canvas' gebunden.
     world = new World(canvas, keyboard);                        // An die Variabel "world" wird das neue Objekt namens 'World' gebunden, dieser geben wir 'canvas' & 'keyboard' als Variabel mit.
 }

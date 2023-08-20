@@ -1,6 +1,7 @@
 class World {
     character = new Character();            // Variablen definiert man innerhalb von Klassen OHNE let / var
     level = level1;
+    endboss = this.level.endboss[0];
     canvas;
     ctx;                                    // Variable Context wird definiert
     keyboard;
@@ -26,12 +27,14 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.endboss.world  = this;
     }
 
     run() {                                             // Die Funktion "run" prüft in einem definierten Intervall ob bewegende Objekte miteinander kollidieren. 
         setInterval(() => {
 
             this.checkCollisions();
+            this.checkCollisionEndboss();
             this.checkThrowObjects();
             this.checkCollectionCoins();
             this.checkCollectionBottle();
@@ -58,6 +61,16 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
             if(this.character.isColliding(enemy) ) {
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+                //console.log('Is colliding with:',this.level.enemies);
+            }
+        });
+    }
+
+    checkCollisionEndboss() {
+        this.level.endboss.forEach((endboss) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
+            if(this.character.isColliding(endboss) ) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
                 //console.log('Is colliding with:',this.level.enemies);

@@ -9,7 +9,7 @@ class Bottles extends MovableObject {
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
-    constructor () {    // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
+    constructor () {                                                            // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
         super().loadImage('img/6_salsa_bottle/1_salsa_bottle_on_ground.png');
         this.loadImages(this.IMAGES_BottleOnGround); 
         
@@ -20,8 +20,5 @@ class Bottles extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.IMAGES_BottleOnGround);
         }, 1000 / 60);
-        
-
-
     }
 }

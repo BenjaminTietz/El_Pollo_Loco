@@ -112,6 +112,8 @@ class MovableObject extends DrawableObject {
                 this.x < mo.x &&
                 this.y < mo.y + mo.height;
     }
+
+    
         /* Funktioniert so NICHT
     isColliding (mo) {                                                          // Die Funktion "isColliding" prüft ob sich die Grenzrahm,en der Objekte berühren 
         return  (this.x + this.width) >= mo.x && this.x <= (mo.x + mo.width) && 

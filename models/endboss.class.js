@@ -3,6 +3,7 @@ class Endboss extends MovableObject {
     width = 250;
     height = 400;
     y = 45;
+    world;
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -40,6 +41,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
     world;
+
     constructor () {                                                                // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');               // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
         this.loadImages(this.IMAGES_ALERT);                                         // Hier werden die Bilder des Arrays "images_alert" geladen
@@ -52,22 +54,34 @@ class Endboss extends MovableObject {
         this.animate();                                                             // Hier wird die Funktion "animate" aufgerufen
     }
 
+    distanceToEndboss(distance) {
+        return this.x - this.world.character.x < distance;
+        
+    }
+
+
     animate () {
         setInterval(() => {
             if(this.isDead()) {                                     // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
                 this.playAnimation(this.IMAGES_DEAD);               // ... wird die Animation mit den Bildern Images_Dead abgespielt 
             } else if(!this.isDead() && this.isHurt()){             // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
                 this.playAnimation(this.IMAGES_HURT);               // ... wird die Animation mit den Bildern Images_Hurt abgespielt
-                } else {
-                if (!this.isDead()){
-                    this.playAnimation(this.IMAGES_WALK);
-                }
+            } else if (!this.isDead()&& !this.isHurt() && this.distanceToEndboss(400)){
+                this.playAnimation(this.IMAGES_WALK);
+            } else if (!this.isDead()&& !this.isHurt() && this.distanceToEndboss(450)){
+                this.playAnimation(this.IMAGES_ALERT);
             } 
         },100);
         setInterval(() => {
-            if(!this.isDead() && !this.isHurt()){ 
+            if (this.distanceToEndboss(-200)) {
+                this.moveRight();
+                this.otherDirection = true; 
+            } else if(this.distanceToEndboss(400)){ 
+                console.log('Position of Endboss is:',this.x);
+                console.log('Position of Character is:',this.world.character.x);
                 this.moveLeft();
-            }
+                this.otherDirection = false;
+            } 
         }, 1000 / 60);
     }
 }
