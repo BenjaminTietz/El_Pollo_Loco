@@ -22,7 +22,7 @@ class DrawableObject {
         }
     }
     drawFrame(ctx){                                                                             // Die Funktion  drawFrame zeichnet rechteckige Rahmen um unsere bewegende Objekte       
-        if(this instanceof Chicken || this instanceof ThrowableObject){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
+        if(this instanceof Chicken || this instanceof BabayChicken || this instanceof ThrowableObject){    // Durch "this instanceof" als Bedingung unserer if Schleife werden die Rahme nur um die benannten Objekte gezeichnet und nicht um alle(hintergrund / Wolken)
             ctx.beginPath();            
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'red';

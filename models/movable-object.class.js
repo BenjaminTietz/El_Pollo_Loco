@@ -1,7 +1,7 @@
 class MovableObject extends DrawableObject {
 
     speed = 0.15;           // Variabel speed als Geschwindigkeit der zu bewegenden Objekte
-    speedEndboss = 2;
+    speedEndboss = 4;
     otherDirection = false; // Variabel otherDirection ist Standartmäßig = flase. Sobald Sie = true entspricht läuft unser Character in die andere Richtung.
     speedY = 0;
     acceleration = 2.5;
@@ -107,8 +107,9 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;       // Differenz in ms  timePassed entspicht = aktuelle Zeit in ms seitdem 01.01.1970 - "lastHit" Zeit in ms wo wir zueltzt vom Gegner getroffen wurden
         timePassed = timePassed / 1000;                             // Differenz in s
-        return timePassed < 5;                                      // Wenn wir in den letzten 1 Sekunde getroffen wurden returned die Funktion = true
+        return timePassed < 1;                                      // Wenn wir in den letzten 1 Sekunde getroffen wurden returned die Funktion = true
     }
+
 
     isColliding(mo) {
         return  this.x + this.width > mo.x &&
