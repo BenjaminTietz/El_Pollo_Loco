@@ -28,8 +28,7 @@ class ThrowableObject extends MovableObject{
 
     animate(){
         this.throw();
-        this.rotateBottles();
-        //this.splashBottles();
+        this.animateBottles();
     }
 
     throw() {
@@ -45,20 +44,16 @@ class ThrowableObject extends MovableObject{
         }, 25);
     }
 
-    rotateBottles() {
+    animateBottles() {
         setInterval(() =>{
             if (this.y <= 360) {
                 this.playAnimation(this.IMAGES_BottleRotation);
+            } else if (world.level.endboss[0].isHurt) {
+                this.playAnimation(this.IMAGES_BottleSplash);
             }
         },25);
     }
     
-    splashBottles() {
-        setInterval(() =>{
-            if (this.world.endBoss.isHurt()) {
-                this.playAnimation(this.IMAGES_BottleSplash);
-            }
-        },1000 / 50);
-    }
+
 
 }

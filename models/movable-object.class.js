@@ -8,9 +8,7 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     ammountOfBottles = 0;
-    coins = 0;
-    collect_coin_sound = new Audio('audio/collect_coin.mp3');
-    collect_bottle_sound = new Audio('audio/collect_bottle.mp3');
+    coins = 10;
 
     applyGravity(){                                         // Die Funktion "applyGravity" prüft in einem definierten Intervall...
         setInterval(() => {
@@ -91,7 +89,7 @@ class MovableObject extends DrawableObject {
     isCollectingCoins() {
         if (this.coins < 10 ) {
             this.coins +=  1;
-            this.collect_coin_sound.play();
+            collect_coin_sound.play();
             //console.log('Character collects Coins',this.coins);
         }
     }
@@ -99,7 +97,7 @@ class MovableObject extends DrawableObject {
     isCollectingBottles() {
         if (this.ammountOfBottles < 5 ) {
             this.ammountOfBottles += 1;
-            this.collect_bottle_sound.play();
+            collect_bottle_sound.play();
             //console.log('Character collects:',this.ammountOfBottles);
         }
     } 
@@ -110,6 +108,13 @@ class MovableObject extends DrawableObject {
         return timePassed < 1;                                      // Wenn wir in den letzten 1 Sekunde getroffen wurden returned die Funktion = true
     }
 
+    buyExtraHealth() {
+        if (this.coins >=10){
+            this.energy = 100;
+            this.coins -=10; 
+            this.statusBar.setPercentage(this.energy);
+        }
+    }
 
     isColliding(mo) {
         return  this.x + this.width > mo.x &&
@@ -127,7 +132,4 @@ class MovableObject extends DrawableObject {
                 mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 }*/
-
-
-
 }

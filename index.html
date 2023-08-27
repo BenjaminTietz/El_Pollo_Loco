@@ -27,15 +27,126 @@
     <script src="js/game.js"></script>
     <title>Pollo Loco</title>
     <link rel="icon" type="image/x-icon" href="./img/icons/sombrero.png">
+    <link href="https://fonts.cdnfonts.com/css/rio-grande" rel="stylesheet">
+                
+                
 </head>
-<body onload="init()">
-    <h1>El Pollo Loco</h1>
-        <div id="fullscreen">
-            <canvas id="canvas" width="720" height="480px"></canvas>
-            <div class="fullschreenBtnContainer">
-                <!--<img onclick="fullscreen()" id="fullscreenBtn" src="/img/icons/fullscreen.png" alt="Fullscreen Button"-->
-                <!--<button id="mute" onclick="muteSound()">Mute</button>--> 
+<body onload="checkAspectRatio()">
+    <h1>( El Pollo Loco )</h1>
+        
+        <div class="gameWrapper">
+            <div id="muteBtn" class="btnTopGame d-none">
+                <div onclick="toggleVisibility('gameSounds')" class="iconSounds">
+                    <img src="./img/icons/sound.png">
+                    <p>Settings</p>
+                </div>
             </div>
+            <div id="gameControl" class="btnTop">
+                <div  onclick="toggleVisibility('gameExplanations')" class="icon">
+                    <img src="./img/icons/information.png">
+                    <p>Story</p>
+                </div>
+                <div onclick="toggleVisibility('gameControls')" class="icon">
+                    <img src="./img/icons/gamepad.png">
+                    <p>Controls</p>
+                </div>
+                <div onclick="startGame()" class="icon">
+                    <img src="./img/icons/play-button.png">
+                    <p>Start</p>
+                </div>
+            </div>
+
+            <div id="startScreen"></div>
+            <canvas id="canvas" width="720px" height="480px"></canvas>
+            <div class="startScreen"></div>
+            
+                <div onclick="toggleVisibility('gameExplanations')" class="d-none gameExplanations " id="gameExplanations">
+                    <h2>Adventure of Pepe</h2>
+                    <h3 class="description">The adventure of Pepe starts here, are you willing to help him out on his journey?</h3>
+                    <p class="description"> El Pollo Loco is a classic 2D video game. Our hero "Pepe" has to fight against his enemys hand kill them.
+                        On his way to defeat the Endoss, Pepe has to collect salsa-bottles beeing able to throw & kill the endboss.
+                        His way is full of angry chickens & collectables. Once Pepe collected 10 coins he can exchange them for abit x-tra health.
+                        Once Pepe won the fight against the endboss, he will meet his Senorita and enjoy the evening with her.
+                    </p>
+                </div>
+
+                <div onclick="toggleVisibility('gameControls')" class="d-none gameExplanations" id="gameControls">
+                    <h2>Controls</h2>
+                    <div class="controlInfo center">
+                        <div class="controlContent">
+                            <img src="img/icons/left.png">
+                            <p>Left</p>
+                        </div>
+                    </div>
+                    <div class="controlInfo center">
+                        <div class="controlContent">
+                            <img src="img/icons/right.png">
+                            <p>Right</p>
+                        </div>
+                    </div>
+                    <div class="controlInfo center">
+                        <div class="controlContent">
+                            <img src="img/icons/up.png">
+                            <p>Jump (Spacebar)</p>
+                        </div>
+                    </div>
+                    <div class="controlInfo center">
+                        <div class="controlContent">
+                            <img src="img/icons/letter-d.png">
+                            <p>Throw bottle</p>
+                        </div>
+                    </div>
+                    <div class="controlInfo center">
+                        <div class="controlContent">
+                            <img src="img/icons/letter-b.png">
+                            <p>Buy X-tra health</p>
+                        </div>
+                    </div>
+                </div>
+
+            <div onclick="toggleVisibility('gameSounds')" class="d-none gameSettings " id="gameSounds">
+                <p>FX</p>
+                    <div class="audioSlider">
+                        <img src="./img/icons/sound.png">
+                        <input class="slidecontainer" type="range" min="0" max="100" value="100" id="myFxVol">
+                        <input type="checkbox" id="fxSound">
+                        <p>mute</p>
+                    </div>
+                    <p>Music</p>
+                    <div class="audioSlider">
+                        <img src="./img/icons/sound.png">
+                        <input class="slidecontainer" type="range" min="0" max="100" value="100" id="mySoundVol">
+                        <input type="checkbox" id="Sound">
+                        <p>mute</p>
+                    </div>
+            </div>
+
+            <div id="rotateDevice">
+                <p>Please rotate your device!</p>
+            </div>
+
+            <div id="gameOverLoose" class="endScreen center d-none">
+                <h2>( You loose! )</h2>
+                <div id="gameControlBottom" class="btnBottom">
+                    <div  onclick="startGame()" class="icon">
+                        <img src="./img/icons/die-info.png">
+                        <p>Try again</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameOverWon" class="endScreen center d-none">
+                <h2>( You won! )</h2>
+                <div id="gameControlBottom" class="btnBottom">
+                    <div  onclick="startGame()" class="icon">
+                        <img src="./img/icons/die-info.png">
+                        <p>Try again</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
+            
+        
 </body>
 </html>

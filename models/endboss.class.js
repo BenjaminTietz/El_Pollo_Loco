@@ -52,7 +52,8 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);                                          // Hier werden die Bilder des Arrays "images_dead" geladen
         this.x = 2400;                                                              // this.x definiert den Punkt auf der X-Ache wo unser Endboss eingefügt wird
         this.speed = 0.15 + Math.random() * 0.5;
-        this.animate();                                                             // Hier wird die Funktion "animate" aufgerufen
+        this.animateInterval = this.startAnimateInterval();
+        this.animationDecisionInterval = this.startAnimationDecisionInterval();                                                           // Hier wird die Funktion "animate" aufgerufen
     }
 
     distanceToEndboss(distance) {
@@ -66,12 +67,14 @@ class Endboss extends MovableObject {
         }
     }
 
-    animate () {
-        setInterval(() => {
-            if(this.isDead()) {                                     // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
-                this.playAnimation(this.IMAGES_DEAD);               // ... wird die Animation mit den Bildern Images_Dead abgespielt 
-            } else if(!this.isDead() && this.isHurt()){             // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
-                this.playAnimation(this.IMAGES_HURT);               // ... wird die Animation mit den Bildern Images_Hurt abgespielt
+    startAnimateInterval() {
+        return setInterval(() => { 
+            if(this.isDead()) {                                                         // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
+                this.playAnimation(this.IMAGES_DEAD);                                   // ... wird die Animation mit den Bildern Images_Dead abgespielt 
+                showEndScreenWon();
+                this.clearAllIntervals();
+            } else if(!this.isDead() && this.isHurt()){                                 // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
+                this.playAnimation(this.IMAGES_HURT);                                   // ... wird die Animation mit den Bildern Images_Hurt abgespielt
             } else if (!this.isDead()&& !this.isHurt()  && this.firstContact == true){
                 this.playAnimation(this.IMAGES_WALK);
             } else if (!this.isDead()&& !this.isHurt() && this.firstContact == false){
@@ -79,7 +82,9 @@ class Endboss extends MovableObject {
                 this.firstContactToEndboss();
             } 
         },100);
-        setInterval(() => {
+    }
+    startAnimationDecisionInterval() {
+        return setInterval(() => {  
             if (this.distanceToEndboss(0)) {
                 this.moveRight();
                 this.otherDirection = true; 
@@ -91,4 +96,9 @@ class Endboss extends MovableObject {
             } 
         }, 1000 / 60);
     }
+    clearAllIntervals() {
+        clearInterval(this.animateInterval);
+        clearInterval(this.animationDecisionInterval);
+    }
 }
+

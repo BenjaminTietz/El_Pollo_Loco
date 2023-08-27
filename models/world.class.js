@@ -14,7 +14,6 @@ class World {
     collectedBottle = [];
     bottleOnGround = new Bottles();
     coinInAir = new Coins();
-    throw_bottle_sound = new Audio('audio/throw.mp3');
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -83,7 +82,7 @@ class World {
             if(this.character.isColliding(coins) ) {
                 this.character.isCollectingCoins(); 
                 this.statusBarCoins.setCoins(this.character.coins);
-                //console.log('Is colliding with:',this.level.coins);
+                console.log('Collected coins:',this.character.coins);
             }
         });
     }
