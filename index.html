@@ -34,10 +34,10 @@
 <body onload="checkAspectRatio()">
     <h1>( El Pollo Loco )</h1>
         
-        <div class="gameWrapper">
-            <div id="muteBtn" class="btnTopGame d-none">
-                <div onclick="toggleVisibility('gameSounds')" class="iconSounds">
-                    <img src="./img/icons/sound.png">
+        <div class="gameWrapper" id="fullScreen">
+            <div id="settingsBtn" class="btnTopGame d-none">
+                <div onclick="showGameSettings ()" class="iconSounds">
+                    <img src="./img/icons/settings.png">
                     <p>Settings</p>
                 </div>
             </div>
@@ -102,23 +102,64 @@
                             <p>Buy X-tra health</p>
                         </div>
                     </div>
+                    <div class="controlInfo center">
+                        <div class="controlContent">
+                            <img src="img/icons/f11.png">
+                            <p>FullScreen</p>
+                            <p>or click</p>
+                            <img src="img/icons/fullscreen.png">
+                        </div>
+                    </div>
                 </div>
 
-            <div onclick="toggleVisibility('gameSounds')" class="d-none gameSettings " id="gameSounds">
+            <div class="d-none gameSettings " id="gameSettings">
+                <div onclick="hideGameSettings()" id="closeBtn" class="btnClose">
+                    <div class="iconSounds">
+                        <img src="./img/icons/close.png">
+                        <p>Close</p>
+                    </div>
+                </div>
+                <h2>( Sound )</h2>
                 <p>FX</p>
                     <div class="audioSlider">
-                        <img src="./img/icons/sound.png">
+                        <img src="./img/icons/volume.png">
                         <input class="slidecontainer" type="range" min="0" max="100" value="100" id="myFxVol">
+                        <img src="./img/icons/mute.png">
                         <input type="checkbox" id="fxSound">
                         <p>mute</p>
                     </div>
                     <p>Music</p>
                     <div class="audioSlider">
-                        <img src="./img/icons/sound.png">
+                        <img src="./img/icons/volume.png">
                         <input class="slidecontainer" type="range" min="0" max="100" value="100" id="mySoundVol">
+                        <img src="./img/icons/mute.png">
                         <input type="checkbox" id="Sound">
                         <p>mute</p>
                     </div>
+                    <div class="center">
+                        <h2>( Game )</h2>
+                        <div id="gameControl" class="btnBottomInGame">
+                            <div  onclick="toggleVisibility('gameExplanations')" class="icon">
+                                <img src="./img/icons/information.png">
+                                <p>Story</p>
+                            </div>
+                            <div onclick="toggleVisibility('gameControls')" class="icon">
+                                <img src="./img/icons/gamepad.png">
+                                <p>Controls</p>
+                            </div>
+                            <div onclick="startGame()" class="icon">
+                                <img src="./img/icons/play-button.png">
+                                <p>Restart</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div id="fullScreenBtn" class="btnFullScreen">
+                <div class="iconSounds">
+                    <img src="./img/icons/fullscreen.png">
+                    <p>Fullscreen</p>
+                </div>
             </div>
 
             <div id="rotateDevice">
@@ -126,10 +167,10 @@
             </div>
 
             <div id="gameOverLoose" class="endScreen center d-none">
-                <h2>( You loose! )</h2>
+                <h2>( You lost! )</h2>
                 <div id="gameControlBottom" class="btnBottom">
                     <div  onclick="startGame()" class="icon">
-                        <img src="./img/icons/die-info.png">
+                        <img src="./img/icons/again.png">
                         <p>Try again</p>
                     </div>
                 </div>
@@ -139,7 +180,7 @@
                 <h2>( You won! )</h2>
                 <div id="gameControlBottom" class="btnBottom">
                     <div  onclick="startGame()" class="icon">
-                        <img src="./img/icons/die-info.png">
+                        <img src="./img/icons/again.png">
                         <p>Try again</p>
                     </div>
                 </div>

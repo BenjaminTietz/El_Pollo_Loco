@@ -37,7 +37,7 @@ function startGame () {
 }
 
 function initGame() {
-    document.getElementById("muteBtn").classList.remove("d-none");
+    document.getElementById("settingsBtn").classList.remove("d-none");
 }
 function hideStartScreen() {
     document.getElementById("startScreen").style.display= "none";
@@ -55,7 +55,7 @@ function showEndScreenLoose() {
     pauseAllSounds();
     you_lost.play(); 
     document.getElementById("gameOverLoose").classList.remove("d-none");
-    document.getElementById("muteBtn").classList.add("d-none");
+    document.getElementById("settingsBtn").classList.add("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
 }
@@ -63,7 +63,7 @@ function hideEndScreenLoose() {
     pauseAllSounds();
     you_lost.pause(); 
     document.getElementById("gameOverLoose").classList.add("d-none");
-    document.getElementById("muteBtn").classList.remove("d-none");
+    document.getElementById("settingsBtn").classList.remove("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
 }
@@ -71,7 +71,7 @@ function showEndScreenWon() {
     pauseAllSounds();
     you_won.play(); 
     document.getElementById("gameOverWon").classList.remove("d-none");
-    document.getElementById("muteBtn").classList.add("d-none");
+    document.getElementById("settingsBtn").classList.add("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
 }
@@ -79,9 +79,16 @@ function hideEndScreenWon() {
     pauseAllSounds();
     you_won.pause(); 
     document.getElementById("gameOverWon").classList.add("d-none");
-    document.getElementById("muteBtn").classList.remove("d-none");
+    document.getElementById("settingsBtn").classList.remove("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
+}
+
+function showGameSettings () {
+    document.getElementById("gameSettings").classList.remove("d-none");
+}
+function hideGameSettings () {
+    document.getElementById("gameSettings").classList.add("d-none");
 }
 function toggleVisibility(id) {
     let element = document.getElementById(id);
@@ -176,6 +183,57 @@ function pauseAllSounds() {
     throw_bottle_sound.pause();
     // Füge hier weitere Sound-Variablen hinzu, falls du mehr FX-Sounds hast
 }
+// Fullscreen Function
+document.addEventListener("DOMContentLoaded", () => {
+    const canvasFullScreen = document.getElementById("canvas");
+    const wrapper = document.getElementById("fullScreen");
+    const fullScreenBtn = document.getElementById("fullScreenBtn");
+    const originalCanvasWidth = canvasFullScreen.width;
+    const originalCanvasHeight = canvasFullScreen.height;
+    let isFullscreen = false;
+  
+    function toggleFullscreen() {
+      if (!isFullscreen) {
+        wrapper.requestFullscreen().catch(err => {
+          console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+      isFullscreen = !isFullscreen;
+      resizeCanvas();
+    }
+  
+    function resizeCanvas() {
+      const scaleFactorX = wrapper.clientWidth / originalCanvasWidth;
+      const scaleFactorY = wrapper.clientHeight / originalCanvasHeight;
+      const scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+  
+      canvasFullScreen.style.transform = isFullscreen ? `scale(${scaleFactor})` : "scale(1)";
+    }
+  
+    document.addEventListener("keydown", event => {
+      if (event.key === "F11") {
+        event.preventDefault();
+        toggleFullscreen();
+      }
+    });
+  
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+    });
+  
+    fullScreenBtn.addEventListener("click", () => {
+      toggleFullscreen();
+    });
+  
+    resizeCanvas();
+  });
+  
+  
+
 
 window.addEventListener("keydown", (e) => {                      // Der EventListner "keydown" gibt den Variabeln der Tasten den Wert "true" sobald eine Taste gedrückt wird
     if(e.keyCode == 39) {

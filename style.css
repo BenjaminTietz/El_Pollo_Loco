@@ -30,11 +30,45 @@ canvas {
     flex-direction: row;
     justify-content: flex-end;
     align-items: end;
-    z-index: 1;
+    z-index: 2;
     gap: 8px;
 }
 .btnTopGame {
     top: 5px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: end;
+    z-index: 1;
+    gap: 8px;
+}
+.btnBottomInGame {
+    bottom: 15px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: end;
+    z-index: 1;
+    gap: 4px;
+}
+
+.btnClose {
+    top: 5px;
+    right: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: end;
+    z-index: 1;
+    gap: 4px;
+}
+
+.btnFullScreen {
+    bottom: 15px;
+    right: 30px;
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -48,16 +82,19 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     gap:10px;
-    background-color: rgb(255,205,23);
+    background: rgb(255,201,28);
+    background: linear-gradient(180deg, rgba(255,201,28,1) 0%, rgba(255,165,0,1) 100%);
     border-radius: 50px;
     padding: 10px;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.498);
+    overflow: hidden;
 }
 
 .icon img {
+    filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
     width: 32px;
     height: 32px;
     transition: all 0.3s ease-in-out;
@@ -70,7 +107,7 @@ canvas {
 
 .icon:hover {
     cursor: pointer;
-    width: 150px;
+    width: 125px;
     transition: all 0.3s ease-in-out;
 }
 .icon p {
@@ -86,11 +123,13 @@ canvas {
 }
 
 .iconSounds {
+    background: rgb(255,201,28);
+    background: linear-gradient(180deg, rgba(255,201,28,1) 0%, rgba(255,165,0,1) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     gap:10px;
     background-color: rgb(255,205,23);
     border-radius: 50px;
@@ -99,6 +138,7 @@ canvas {
 }
 
 .iconSounds img {
+    filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
     width: 32px;
     height: 32px;
     transition: all 0.3s ease-in-out;
@@ -122,13 +162,14 @@ canvas {
 
 .iconSounds:hover {
     cursor: pointer;
-    width: 150px;
+    width: 125px;
     transition: all 0.3s ease-in-out;
 }
 .audioSlider{
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 8px;
 }
 .slidecontainer {
     top:25px;
@@ -170,6 +211,7 @@ canvas {
     color: white;
     border-radius: 45px;
     margin: 0px 20px 0px 20px;
+    z-index: 2;
 }
 .gameExplanations p{
     margin: 8px 24px 8px 24px;
@@ -179,6 +221,19 @@ canvas {
 }
 .gameExplanations h3{
     margin: 8px 24px 8px 24px;
+}
+
+.gameFullScreen {
+    background: rgb(255,201,28);
+    background: linear-gradient(180deg, rgba(255,201,28,1) 0%, rgba(255,165,0,1) 100%);
+    bottom: 25px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: end;
+    z-index: 1;
+    gap: 8px;
 }
 .description {
     font-family: Arial, Helvetica, sans-serif;
@@ -206,6 +261,8 @@ canvas {
     border-radius: 45px;
     color: red;
 }
+
+
 .btnBottom {
     bottom: 25px;
     position: absolute;
@@ -229,6 +286,7 @@ canvas {
     border-radius: 45px;
     backdrop-filter: blur(5px) brightness(0.5);
     text-shadow: 2px 2px 3px rgba(255, 243, 22, 0.123);
+    z-index: 2;
 }
 .gameWrapper {
     position: relative;
@@ -246,6 +304,7 @@ canvas {
     background-image: url("img/9_intro_outro_screens/start/startscreen_2.png");
     background-size: cover;
     background-position: center;
+    z-index: 1;
 }
 
 .canvasContainer{
