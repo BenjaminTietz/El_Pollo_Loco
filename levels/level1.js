@@ -20,11 +20,11 @@ function loadChicken(){
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new BabayChicken(),
-        new BabayChicken(),
-        new BabayChicken(),
-        new BabayChicken(),
-        new BabayChicken()
+        new BabyChicken(),
+        new BabyChicken(),
+        new BabyChicken(),
+        new BabyChicken(),
+        new BabyChicken()
     ]
 }
 

@@ -15,6 +15,7 @@ class ThrowableObject extends MovableObject{
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
     world;
+    soundPlayed = false;
     constructor(x,y){
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_BottleRotation); 
@@ -45,13 +46,15 @@ class ThrowableObject extends MovableObject{
     }
 
     animateBottles() {
-        setInterval(() =>{
+        setInterval(() => {
             if (this.y <= 360) {
                 this.playAnimation(this.IMAGES_BottleRotation);
-            } else if (world.level.endboss[0].isHurt) {
+            } else if (world.level.endboss[0].isHurt && !this.soundPlayed) {
                 this.playAnimation(this.IMAGES_BottleSplash);
+                bottle_breaks_sound.play();
+                this.soundPlayed = true; // Markiere den Sound als abgespielt
             }
-        },25);
+        }, 25);
     }
     
 

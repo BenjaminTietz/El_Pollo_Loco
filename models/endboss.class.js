@@ -73,6 +73,7 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);                                   // ... wird die Animation mit den Bildern Images_Dead abgespielt 
                 showEndScreenWon();
                 this.clearAllIntervals();
+                this.world.character.clearAllIntervals();
             } else if(!this.isDead() && this.isHurt()){                                 // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
                 this.playAnimation(this.IMAGES_HURT);                                   // ... wird die Animation mit den Bildern Images_Hurt abgespielt
             } else if (!this.isDead()&& !this.isHurt()  && this.firstContact == true){

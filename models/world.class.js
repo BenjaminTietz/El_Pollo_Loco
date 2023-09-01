@@ -52,7 +52,7 @@ class World {
                 this.throwableObjects = this.throwableObjects.splice(0, 1);                         // hier wird aus dem Array "throwableObjects" ein Objekt entfernt
                 this.throwableObjects.push(bottle);                                                 // hier wird dem Array "throwableObjects" ein Objekt hinzugefügt
                 this.collectedBottle.splice(0, 1);                                                  // hier wird aus dem Array "collectedBottle" ein Objekt entfernt   
-                this.throw_bottle_sound.play();
+                throw_bottle_sound.play();
             }
         }
     }

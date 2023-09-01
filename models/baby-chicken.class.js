@@ -1,4 +1,4 @@
-class BabayChicken extends MovableObject {
+class BabyChicken extends MovableObject {
     width = 60;
     height = 40;
     y = 390;
@@ -14,11 +14,11 @@ class BabayChicken extends MovableObject {
         this.x = 400 + Math.random() * 2000;  //200px Werten als linker max Wert mit (Math.random * 500px) addiert. Hier wird ein zufälligen Wert zwischen 0 & 1  generiert.
         this.speed = 0.15 + Math.random() * 0.5;
 
-        this.animate();
+        this.animateInterval = this.startAnimateInterval();
     }
 
-    animate () {
-        setInterval(() => {
+    startAnimateInterval() {
+        return setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
         this.moveLeft();
@@ -26,6 +26,10 @@ class BabayChicken extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         },200);
+    }
+
+    clearAllIntervals() {
+        clearInterval(this.animateInterval);
     }
 
 }

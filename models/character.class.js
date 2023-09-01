@@ -115,6 +115,7 @@ class Character extends MovableObject {
                 dead_sound.play(); 
                 showEndScreenLoose();
                 this.clearAllIntervals();
+                this.world.endboss.clearAllIntervals();
             } else if(this.isHurt()){                       // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
                 this.playAnimation(this.IMAGES_HURT);       // ... wird die Animation mit den Bildern Images_Hurt abgespielt
                 hurt_sound.play(); 

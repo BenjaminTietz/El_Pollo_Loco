@@ -14,8 +14,10 @@ jumping_sound = new Audio('audio/jump.mp3');
 hurt_sound = new Audio('audio/hurt.mp3');
 dead_sound = new Audio('audio/dead.mp3');
 throw_bottle_sound = new Audio('audio/throw.mp3');
+bottle_breaks_sound = new Audio('audio/broken_bottle.mp3');
 collect_coin_sound = new Audio('audio/collect_coin.mp3');
 collect_bottle_sound = new Audio('audio/collect_bottle.mp3');
+
 
 // GameOverSounds
 you_lost = new Audio('audio/game_over.mp3');
@@ -126,6 +128,7 @@ function setFxVolume(volumeLevel) {
     jumping_sound.volume = volumeLevel;
     hurt_sound.volume = volumeLevel;
     dead_sound.volume = volumeLevel;
+    throw_bottle_sound.volume = volumeLevel;
     throw_bottle_sound.volume = volumeLevel;
     collect_coin_sound.volume = volumeLevel;
     collect_bottle_sound.volume = volumeLevel;
