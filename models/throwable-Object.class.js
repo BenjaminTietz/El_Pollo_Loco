@@ -16,6 +16,12 @@ class ThrowableObject extends MovableObject{
     ];
     world;
     soundPlayed = false;
+    offset = {
+        top: 10,
+        bottom: 0,
+        left: 10,
+        right: 10,
+    };
     constructor(x,y){
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_BottleRotation); 
@@ -26,25 +32,36 @@ class ThrowableObject extends MovableObject{
         this.width = 50;
         this.animate();
     }
-
+    /**
+     * The function " animate()" calls the throw & animateBottles methode.
+     */
     animate(){
         this.throw();
         this.animateBottles();
     }
-
+    /**
+     * The function "throw()" defines in which direction our bottle gets thrown with a defined X&Y Speed
+     */
     throw() {
-        this.speedY = 30;
-        this.speedX = 20;
-        this.applyGravity();
-        setInterval(() => {
+        this.speedY = 30;                                       // Geschwindigkeit der Wurfhöhe
+        this.speedX = 20;                                       // Geschwindigkeit der Wurfweite
+        this.applyGravity();                                    // Anwendung der Gravitation, damit das Objet wieder sinkt
+        
         if(world.character.otherDirection == false) {
-            this.x += 10;
+            this.x = world.character.x + 50;                    // Abstand zur Abwurfstelle
+            setInterval(() => {
+                this.x += 7;                                    //Wurfweite Vorwärts
+            }, 20);
         } else {
-            this.x -= 10;
+            this.x = world.character.x - 30;                     // Abstand zur Abwurfstelle
+            setInterval(() => {
+              this.x -= 7;                                       //Wurfweite Rückwärts
+            },  20);
         }
-        }, 25);
     }
-
+/**
+ * The function "animateBottles()" defines the animation of our thrown bottel depending on its state.
+ */
     animateBottles() {
         setInterval(() => {
             if (this.y <= 360) {

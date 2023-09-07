@@ -5,6 +5,14 @@ class Endboss extends MovableObject {
     y = 45;
     world;
     firstContact = false;
+    animationDuration = 5000; // 2 Sekunden
+    animationStarted = false;
+    offset = {
+        top: 0,
+        bottom: 0,
+        left: 20,
+        right: 0,
+    };
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -68,28 +76,34 @@ class Endboss extends MovableObject {
     }
 
     startAnimateInterval() {
-        return setInterval(() => { 
-            if(this.isDead()) {                                                         // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
-                this.playAnimation(this.IMAGES_DEAD);                                   // ... wird die Animation mit den Bildern Images_Dead abgespielt 
-                showEndScreenWon();
-                this.clearAllIntervals();
-                this.world.character.clearAllIntervals();
-            } else if(!this.isDead() && this.isHurt()){                                 // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
-                this.playAnimation(this.IMAGES_HURT);                                   // ... wird die Animation mit den Bildern Images_Hurt abgespielt
-            } else if (!this.isDead()&& !this.isHurt()  && this.firstContact == true){
+        return setInterval(() => {
+            if (this.isDead() && !this.animationStarted) {                       // Wenn der Endboss tot ist und die Animation nicht gestartet wurde
+                this.animationStarted = true;                                    // Setzen Sie die Flagge, um die Animation zu starten
+                this.playAnimation(this.IMAGES_DEAD);                       // Starten Sie die Todesanimation
+                setTimeout(() => {
+                    this.clearAllIntervals();
+                    this.world.character.clearAllIntervals();
+                    //world.chicken.clearAllIntervals();
+                }, this.animationDuration);
+                setTimeout(() =>{
+                    showEndScreenWon();                                     // Nach 2 Sekunden den Game Over Screen aufrufen
+                }, this.animationDuration);
+            } else if (!this.isDead() && this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (!this.isDead() && !this.isHurt() && this.firstContact == true) {
                 this.playAnimation(this.IMAGES_WALK);
-            } else if (!this.isDead()&& !this.isHurt() && this.firstContact == false){
+            } else if (!this.isDead() && !this.isHurt() && this.firstContact == false) {
                 this.playAnimation(this.IMAGES_ALERT);
                 this.firstContactToEndboss();
-            } 
-        },100);
+            }
+        }, 150);
     }
     startAnimationDecisionInterval() {
         return setInterval(() => {  
-            if (this.distanceToEndboss(0)) {
+            if (this.distanceToEndboss(0) && !this.isDead()) {
                 this.moveRight();
                 this.otherDirection = true; 
-            } else if(this.distanceToEndboss(400) || this.firstContact == true){ 
+            } else if(this.distanceToEndboss(400) || this.firstContact == true && !this.isDead()){ 
                 //console.log('Position of Endboss is:',this.x);
                 //console.log('Position of Character is:',this.world.character.x);
                 this.moveLeft();

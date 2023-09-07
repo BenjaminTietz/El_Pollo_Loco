@@ -5,6 +5,15 @@ class Character extends MovableObject {
     speed = 10;
     timeOut = false;
     lastMove = 0;
+    world;
+    animationDuration = 5000; // 2 Sekunden
+    animationStarted = false;
+    offset = {
+        top: 80,
+        bottom: 10,
+        left: 20,
+        right: 30,
+    };
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -63,8 +72,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
-    world;
-    
+
     constructor () {                                                // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');  // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
         this.loadImages(this.IMAGES_WALKING);                       // Hier werden die übergeordnete Funktion loadImages aufgerufen. Dieser wird das Arrays "IMAGES_WALKING" übergeben woraus die Bilder unseres Characters geladen werden.
@@ -82,21 +90,20 @@ class Character extends MovableObject {
 
     startAnimateInterval() {
         return setInterval(() => {                                  // Diese "setInterval" Funktion beinhaltet 2 if Schleifen welche erfassen ob wir die linke oder rechte Pfeiltaste gedrückt haben.
-            walking_sound.pause();
-            //this.walking_sound.pause();                     // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
-            if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {// WENN unsere rechte Pfeiltaste den Wert den Wert true hat. Duch dass && this < this.world.level.level_end_x begrenzen wir unsere Welt nach rechts und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
+            walking_sound.pause();                                  // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
+            if (this.world.keyboard.right && this.x < this.world.level.level_end_x && !this.isDead()) {// WENN unsere rechte Pfeiltaste den Wert den Wert true hat. Duch dass && this < this.world.level.level_end_x begrenzen wir unsere Welt nach rechts und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
                 this.moveRight();
                 this.lastMove = new Date().getTime();
-                this.otherDirection = false;                // Variabel "otherDirection" bekommt den Wert = "false"
-                walking_sound.play();                  // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
+                this.otherDirection = false;                        // Variabel "otherDirection" bekommt den Wert = "false"
+                walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
             }
-            if (this.world.keyboard.left && this.x > 0) {    // WENN unsere linke Pfeiltaste den Wert den Wert true hat. Duch dass && this > 0 begrenzen wir unsere Welt nach links und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
+            if (this.world.keyboard.left && this.x > 0 && !this.isDead()) {           // WENN unsere linke Pfeiltaste den Wert den Wert true hat. Duch dass && this > 0 begrenzen wir unsere Welt nach links und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
                 this.moveLeft();
                 this.lastMove = new Date().getTime();
-                this.otherDirection = true;                 // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
-                walking_sound.play();                  // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
+                this.otherDirection = true;                         // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
+                walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
                 }
-            if (this.world.keyboard.space && !this.isAboveGround()) {
+            if (this.world.keyboard.space && !this.isAboveGround() && !this.isDead()) {
                 this.lastMove = new Date().getTime();
                 this.jump();
                 jumping_sound.play();  
@@ -105,39 +112,46 @@ class Character extends MovableObject {
                 this.buyExtraHealth();
                 console.log('You bought X-Tra Health');
             }
-            this.world.camera_x = -this.x + 100;            // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden. Mit den +100px verschieben wir die Kameraperspektive ein wenig nach rechts.
-        }, 1000 / 60);                                      // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
+            this.world.camera_x = -this.x + 100;                    // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden. Mit den +100px verschieben wir die Kameraperspektive ein wenig nach rechts.
+        }, 1000 / 60);                                              // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
     }
     startAnimationDecisionInterval() {
-        return setInterval(() => {                                // Diese "setInterval" Funktion beinhaltet eine if -else Abfrage um zu prüfen.....
-            if(this.isDead()) {                             // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
-                this.playAnimation(this.IMAGES_DEAD);       // ... wird die Animation mit den Bildern Images_Dead abgespielt
-                dead_sound.play(); 
-                showEndScreenLoose();
-                this.clearAllIntervals();
-                this.world.endboss.clearAllIntervals();
-            } else if(this.isHurt()){                       // Wenn die übergeordnete Funktion "isHurt" = "true returned" DANN
-                this.playAnimation(this.IMAGES_HURT);       // ... wird die Animation mit den Bildern Images_Hurt abgespielt
-                hurt_sound.play(); 
-            } else if(this.isAboveGround()) {                                   //..ob sich unser Character oberhalb des Bodens befindet.....
-                this.playAnimation(this.IMAGES_JUMPING);                        // um dann die Animation mit den Bildern abzuspielen wo er springt
-            } else if (this.world.keyboard.right || this.world.keyboard.left) { // abfrage ob die Pfeiltaste nach links oder rechts aktiv ist....
-                this.playAnimation(this.IMAGES_WALKING);                        //... um dann die Animation mit den Bildern abzuspielen wo er geht
-            } else if (this.timeOut == true) {    
-                this.playAnimation(this.IMAGES_IDLE_LONG);                   
-            } else  {    
-                this.playAnimation(this.IMAGES_IDLE);                   
-            }
-        },125);
-    }
 
+        return setInterval(() => {
+            if (this.isDead() && !this.animationStarted) {       // Wenn der Charakter tot ist und die Animation nicht gestartet wurde
+                this.playAnimation(this.IMAGES_DEAD);       // Starten Sie die Todesanimation
+                this.animationStarted = true;                    // Setzen Sie die Flagge, um die Animation zu starten
+                dead_sound.play();
+                setTimeout(() => {
+                    this.clearAllIntervals();
+                    this.world.endboss.clearAllIntervals();
+                    //this.world.chicken.clearAllIntervals();
+                }, this.animationDuration);
+                setTimeout(() =>{
+                    showEndScreenLoose();                   // Nach 2 Sekunden die Game Over Screen-Funktion aufrufen
+                }, this.animationDuration);
+            } else if (this.isHurt() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_HURT);
+                hurt_sound.play();
+            } else if (this.isAboveGround() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.world.keyboard.right || this.world.keyboard.left) {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.timeOut == true && !this.isHurt() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_IDLE_LONG);
+            } else {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
+        }, 150);
+    }
+    
     jump() {                                                // Die "jump" Funktion wird benötigt um unseren Character springen zu lassen...
         this.speedY = 30;                                   // Der Variabel "speedY" aka Geschwindigkeit auf der Y-Achse wird der Wert 30 (Pixel) zugewiesen
     }
 
-startTimeoutInterval() {
-    return setInterval(() => {
-        let timePassed = new Date().getTime() - this.lastMove;              // Differenz in ms  timePassed entspicht = aktuelle Zeit in ms seitdem 01.01.1970 - "lastMove" Zeit in ms wo wir uns zuletzt bewegt haben
+    startTimeoutInterval() {
+        return setInterval(() => {
+            let timePassed = new Date().getTime() - this.lastMove;              // Differenz in ms  timePassed entspicht = aktuelle Zeit in ms seitdem 01.01.1970 - "lastMove" Zeit in ms wo wir uns zuletzt bewegt haben
             if (this.lastMove == 0) {
                 timePassed = 0;
             }else timePassed = timePassed / 1000;                                 // Differenz in s

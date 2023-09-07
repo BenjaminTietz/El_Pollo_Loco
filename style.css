@@ -4,7 +4,7 @@ body {
     align-items: center;  
     min-height: 100vh;  
     margin: 0;
-    background-image: url('/img/10_game_background/desert.png');
+    background-image: url('img/10_game_background/desert.png');
     background-position: center;
     background-repeat: no-repeat;   
     background-size: cover;
@@ -165,6 +165,7 @@ canvas {
     width: 125px;
     transition: all 0.3s ease-in-out;
 }
+
 .audioSlider{
     display: flex;
     justify-content: center;
@@ -178,6 +179,10 @@ canvas {
 }
 
 .gameSettings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -189,13 +194,14 @@ canvas {
     margin: 0px 20px 0px 20px;
 }
 .gameSettings p{
-    margin: 8px 24px 8px 24px;
+    font-size: 20px;
+    margin: 8px 20px 8px 20px;
 }
 .gameSettings h2{
-    font-size: 48px;
+    font-size: 30px;
 }
 .gameSettings h3{
-    margin: 8px 24px 8px 24px;
+    margin: 8px 20px 8px 20px;
 }
 
 .d-none {
@@ -214,13 +220,14 @@ canvas {
     z-index: 2;
 }
 .gameExplanations p{
-    margin: 8px 24px 8px 24px;
+    font-size: 20px;
+    margin: 8px 20px 8px 20px;
 }
 .gameExplanations h2{
-    font-size: 48px;
+    font-size: 40px;
 }
 .gameExplanations h3{
-    margin: 8px 24px 8px 24px;
+    margin: 8px 20px 8px 20px;
 }
 
 .gameFullScreen {
@@ -273,7 +280,6 @@ canvas {
     border-radius: 45px;
 }
 
-
 .btnBottom {
     bottom: 25px;
     position: absolute;
@@ -284,13 +290,14 @@ canvas {
     z-index: 1;
     gap: 8px;
 }
+
 #rotateDevice {
     position: absolute;
     width: 100%;
     height: 100%;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 48px;
+    font-family: 'Rio Grande', sans-serif;
+    font-size: 35px;
     font-weight: bold;
     color: red;
     display: none;
@@ -299,6 +306,12 @@ canvas {
     text-shadow: 2px 2px 3px rgba(255, 243, 22, 0.123);
     z-index: 2;
 }
+
+#rotateDevice img {
+    width: 200px;
+    height: 200px;
+}
+
 .gameWrapper {
     position: relative;
     max-width: 720px;
@@ -307,6 +320,7 @@ canvas {
     justify-content: center;
     align-items: center;
 }
+
 #startScreen {
     position: absolute;
     width: 100%;
@@ -322,15 +336,141 @@ canvas {
     display: flex;
 }
 
-@font-face {
-    font-family: 'bungeeSpice';
-    src: url('/fonts/BungeeSpice-Regular.ttf')  format('truetype'); 
+#hud {
+    display: flex;
+    align-items:center;
+    justify-content:space-between;
+    position: absolute;
+    bottom: 0px;
+    gap: 64px;
+}
+
+.hud {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    gap:10px;
+    background: rgb(255,201,28);
+    background: linear-gradient(180deg, rgba(255,201,28,1) 0%, rgba(255,165,0,1) 100%);
+    border-radius: 50px;
+    padding: 10px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.498);
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 4;
+}
+
+/* Smartphones _________________ */
+@media only screen and (max-width: 860px) {
+    .btnFullScreen {
+        display: none;
+    }
+    canvas {
+        width: 100%;
+    }
+    .gameHeadline {
+        display: none;
+    }
+    .hud {
+        display: flex;
+    }
+    .gameSettings {
+        margin: 0px 10px 0px 10px;
+    }
+    .gameSettings p{
+        margin: 4px 14px 4px 14px;
+    }
+    .gameSettings h2{
+        font-size: 28px;
+    }
+    .gameSettings h3{
+        margin: 4px 14px 4px 14px;
+    }
+    .gameExplanations {
+        margin: 0px 10px 0px 10px;
+    }
+    .gameExplanations p{
+        margin: 4px 14px 4px 14px;
+        font-size: 20px;
+    }
+    .gameExplanations h2{
+        font-size: 28px;
+    }
+    .gameExplanations h3{
+        margin: 4px 14px 4px 14px;
+    }
 }
 
 /* Smartphones _________________ */
 @media only screen and (max-width: 720px) {
+    .btnFullScreen {
+        display: none;
+    }
     canvas {
         width: 100%;
+    }
+    .gameHeadline {
+        display: none;
+    }
+    .hud {
+        display: flex;
+    }
+    .gameSettings {
+        margin: 0px 10px 0px 10px;
+    }
+    .gameSettings p{
+        margin: 4px 14px 4px 14px;
+    }
+    .gameSettings h2{
+        font-size: 28px;
+    }
+    .gameSettings h3{
+        margin: 4px 14px 4px 14px;
+    }
+    .gameExplanations {
+        margin: 0px 10px 0px 10px;
+    }
+    .gameExplanations p{
+        margin: 4px 14px 4px 14px;
+        font-size: 20px;
+    }
+    .gameExplanations h2{
+        font-size: 28px;
+    }
+    .gameExplanations h3{
+        margin: 4px 14px 4px 14px;
+    }
+}
+
+/* Smartphones _________________ */
+@media only screen and (max-width: 520px) {
+    #rotateDevice {
+        font-family: 'Rio Grande', sans-serif;
+        font-size: 30px;
+    }
+    #rotateDevice img {
+        width: 125px;
+        height: 125px;
+    }
+    .hud {
+        display: flex;
+    }
+}
+
+/* Smartphones _________________ */
+@media only screen and (max-width: 390px) {
+    #rotateDevice {
+        font-family: 'Rio Grande', sans-serif;
+        font-size: 20px;
+    }
+    #rotateDevice img {
+        width: 100px;
+        height: 100px;
+    }
+    .hud {
+        display: flex;
     }
 }
 
@@ -338,5 +478,11 @@ canvas {
 @media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;
+    }
+    .gameHeadline {
+        display: none;
+    }
+    .hud {
+        display: flex;
     }
 }

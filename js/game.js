@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let gameStart = false;
+let gameRunTime = 0;
 
 // GameMusic
 gameMusic = new Audio('audio/retro_background_music.mp3');
@@ -17,6 +18,7 @@ throw_bottle_sound = new Audio('audio/throw.mp3');
 bottle_breaks_sound = new Audio('audio/broken_bottle.mp3');
 collect_coin_sound = new Audio('audio/collect_coin.mp3');
 collect_bottle_sound = new Audio('audio/collect_bottle.mp3');
+chicken_kill_sound = new Audio('audio/chicken_kill.mp3');
 
 
 // GameOverSounds
@@ -25,34 +27,49 @@ you_lost.loop = false;
 you_won = new Audio('audio/win_game.mp3');
 you_won.loop = false;
 
-
-function startGame () {
+/**
+ * The function "startGame ()" calls all necessary functions to start our game.
+ */
+function startGame() {
+    this.gameRunTime = new Date().getTime();
     hideStartScreen();
     hideEndScreenWon();
     hideEndScreenLoose();
     initGame();
+    bindBtsPressEvents ();
     this.gameMusic.play(); 
     initLevel();
     canvas = document.getElementById('canvas');                 // An die Variabel "canvas" wird das HTML Elemet 'canvas' gebunden.
     world = new World(canvas, keyboard);                        // An die Variabel "world" wird das neue Objekt namens 'World' gebunden, dieser geben wir 'canvas' & 'keyboard' als Variabel mit.
     gameStart = true;
 }
-
+/**
+ * The function "initGame()" removes the "display none" attribute from our ingame settings menu.
+ */
 function initGame() {
     document.getElementById("settingsBtn").classList.remove("d-none");
 }
+/**
+ * The function "hideStartScreen()" sets elements to "display none" which should not be visible after starting the game.
+ */
 function hideStartScreen() {
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
 }
-
+/**
+ * The function "showStartScreen()" sets elements to "display none" which should not be visible and and sets elements to be visiable before starting the game.
+ */
 function showStartScreen() {
     document.getElementById("startScreen").classList.remove("d-none");
     document.getElementById("gameControl").style.display= "flex";
     document.getElementById("gameOverWon").style.display= "none";
     document.getElementById("gameOverLoose").style.display= "none";
     document.getElementById("gameControlBottom").style.display= "none";
+    document.getElementById("hud").classList.add("d-none");
 }
+/**
+ * The function "showEndScreenLoose()" pauses all inGame sounds and plays the you_lost sound after loosing a game. It also sets elements to "display none" which should not be visible after the game is over.
+ */
 function showEndScreenLoose() {
     pauseAllSounds();
     you_lost.play(); 
@@ -60,7 +77,11 @@ function showEndScreenLoose() {
     document.getElementById("settingsBtn").classList.add("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
+    document.getElementById("hud").classList.add("d-none");
 }
+/**
+ * The function "hideEndScreenLoose()" pauses all inGame sounds aswell pauses the you_lost sound after loosing a game. It also sets elements to "display none" which should not be visible after the game is over and the endscreen is going to get hide.
+ */
 function hideEndScreenLoose() {
     pauseAllSounds();
     you_lost.pause(); 
@@ -68,6 +89,7 @@ function hideEndScreenLoose() {
     document.getElementById("settingsBtn").classList.remove("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
+    document.getElementById("hud").classList.remove("d-none");
 }
 function showEndScreenWon() {
     pauseAllSounds();
@@ -76,6 +98,7 @@ function showEndScreenWon() {
     document.getElementById("settingsBtn").classList.add("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
+    document.getElementById("hud").classList.add("d-none");
 }
 function hideEndScreenWon() {
     pauseAllSounds();
@@ -84,14 +107,21 @@ function hideEndScreenWon() {
     document.getElementById("settingsBtn").classList.remove("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
+    document.getElementById("hud").classList.remove("d-none");
 }
 
 function showGameSettings () {
     document.getElementById("gameSettings").classList.remove("d-none");
+    document.getElementById("hud").classList.add("d-none");
 }
 function hideGameSettings () {
     document.getElementById("gameSettings").classList.add("d-none");
+    document.getElementById("hud").classList.remove("d-none");
 }
+/**
+ * The funcion "toggleVisibility(id)" lets us change the visibility of elements from invisible to visible.
+ * @param {*} id - is the ID of the element which visibility should get switched between visiable and invisible.
+ */
 function toggleVisibility(id) {
     let element = document.getElementById(id);
     if (element.classList.contains("d-none")) {
@@ -100,7 +130,9 @@ function toggleVisibility(id) {
         element.classList.add("d-none");
     }
 }
-
+/**
+ * The function "checkAspectRatio()" checks the aspect ratio of page width to page height. As soon as the page width is less than the page height, the user will be prompted to rotate their mobile device.
+ */
 function checkAspectRatio() {
     const container = document.getElementById('rotateDevice');
     const windowWidth = window.innerWidth;
@@ -109,18 +141,23 @@ function checkAspectRatio() {
 
     if (aspectRatio < 1) {
         container.style.display = 'block';
+        document.getElementById("hud").classList.add("d-none");
         document.getElementById("gameControl").style.display= "none";
     } else {
         container.style.display = 'none';
         if (gameStart == false){
             document.getElementById("gameControl").style.display= "flex";
+            document.getElementById("hud").classList.remove("d-none");
+            
         } else {
             document.getElementById("gameControl").style.display= "none";
+            document.getElementById("hud").classList.remove("d-none");
         }
     }
 }
-
-// Event-Listener für Änderungen der Fenstergröße
+/**
+ * The event listener checks for window size changes and then calls the checkAspectRatio function.
+ */
 window.addEventListener('resize', checkAspectRatio);
 
 function setFxVolume(volumeLevel) {
@@ -132,6 +169,7 @@ function setFxVolume(volumeLevel) {
     throw_bottle_sound.volume = volumeLevel;
     collect_coin_sound.volume = volumeLevel;
     collect_bottle_sound.volume = volumeLevel;
+    chicken_kill_sound.volume = volumeLevel;
 }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -184,8 +222,9 @@ function pauseAllSounds() {
     hurt_sound.pause();
     dead_sound.pause();
     throw_bottle_sound.pause();
-    // Füge hier weitere Sound-Variablen hinzu, falls du mehr FX-Sounds hast
 }
+
+
 // Fullscreen Function
 document.addEventListener("DOMContentLoaded", () => {
     const canvasFullScreen = document.getElementById("canvas");
@@ -194,48 +233,99 @@ document.addEventListener("DOMContentLoaded", () => {
     const originalCanvasWidth = canvasFullScreen.width;
     const originalCanvasHeight = canvasFullScreen.height;
     let isFullscreen = false;
-  
+
     function toggleFullscreen() {
-      if (!isFullscreen) {
-        wrapper.requestFullscreen().catch(err => {
-          console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+        if (!isFullscreen) {
+            wrapper.requestFullscreen().catch(err => {
+            console.log(`Error attempting to enable full-screen mode: ${err.message}`);
         });
-      } else {
+        } else {
         if (document.exitFullscreen) {
-          document.exitFullscreen();
+            document.exitFullscreen();
         }
-      }
-      isFullscreen = !isFullscreen;
-      resizeCanvas();
     }
-  
-    function resizeCanvas() {
-      const scaleFactorX = wrapper.clientWidth / originalCanvasWidth;
-      const scaleFactorY = wrapper.clientHeight / originalCanvasHeight;
-      const scaleFactor = Math.min(scaleFactorX, scaleFactorY);
-  
-      canvasFullScreen.style.transform = isFullscreen ? `scale(${scaleFactor})` : "scale(1)";
-    }
-  
-    document.addEventListener("keydown", event => {
-      if (event.key === "F11") {
-        event.preventDefault();
-        toggleFullscreen();
-      }
-    });
-  
-    window.addEventListener("resize", () => {
-      resizeCanvas();
-    });
-  
-    fullScreenBtn.addEventListener("click", () => {
-      toggleFullscreen();
-    });
-  
+    isFullscreen = !isFullscreen;
     resizeCanvas();
-  });
-  
-  
+    }
+
+    function resizeCanvas() {
+        const scaleFactorX = wrapper.clientWidth / originalCanvasWidth;
+        const scaleFactorY = wrapper.clientHeight / originalCanvasHeight;
+        const scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+        canvasFullScreen.style.transform = isFullscreen ? `scale(${scaleFactor})` : "scale(1)";
+    }
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "F11") {
+            event.preventDefault();
+            toggleFullscreen();
+        } 
+    });
+
+    window.addEventListener("resize", () => {
+        resizeCanvas();
+    });
+
+    fullScreenBtn.addEventListener("click", () => {
+        toggleFullscreen();
+    });
+
+    resizeCanvas();
+    });
+
+    
+function bindBtsPressEvents () {
+    document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.left = true;
+    });
+
+    document.getElementById('btnLeft').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.left = false;
+    });
+
+    document.getElementById('btnRight').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.right = true;
+    });
+
+    document.getElementById('btnRight').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.right = false;
+    });
+
+    document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.space = true;
+    });
+
+    document.getElementById('btnJump').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.space = false;
+    });
+
+    document.getElementById('btnD').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.d = true;
+    });
+
+    document.getElementById('btnD').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.d = false;
+    });
+
+    document.getElementById('btnB').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.b = true;
+    });
+
+    document.getElementById('btnB').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.b = false;
+    });
+    
+}
 
 
 window.addEventListener("keydown", (e) => {                      // Der EventListner "keydown" gibt den Variabeln der Tasten den Wert "true" sobald eine Taste gedrückt wird
@@ -285,6 +375,7 @@ window.addEventListener("keyup", (e) => {                       // Der EventList
         keyboard.d = false;
     }
 });
+
 
 
 

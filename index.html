@@ -26,13 +26,13 @@
     <script src="./levels/level1.js"></script>
     <script src="js/game.js"></script>
     <title>Pollo Loco</title>
-    <link rel="icon" type="image/x-icon" href="./img/icons/sombrero.png">
+    <link rel="icon" type="image/x-icon" href="img/icons/sombrero.png">
     <link href="https://fonts.cdnfonts.com/css/rio-grande" rel="stylesheet">
                 
                 
 </head>
 <body onload="checkAspectRatio()">
-    <h1>( El Pollo Loco )</h1>
+    <h1 class="gameHeadline">( El Pollo Loco )</h1>
         
         <div class="gameWrapper" id="fullScreen">
             <div id="settingsBtn" class="btnTopGame d-none">
@@ -63,10 +63,10 @@
                 <div onclick="toggleVisibility('gameExplanations')" class="d-none gameExplanations " id="gameExplanations">
                     <h2>Adventure of Pepe</h2>
                     <h3 class="description">The adventure of Pepe starts here, are you willing to help him out on his journey?</h3>
-                    <p class="description"> El Pollo Loco is a classic 2D video game. Our hero "Pepe" has to fight against his enemys hand kill them.
-                        On his way to defeat the Endoss, Pepe has to collect salsa-bottles beeing able to throw & kill the endboss.
+                    <p class="description"> El Pollo Loco is a classic 2D video game. Our hero "Pepe" has to fight against his enemys and kill them.
+                        On his way to defeat the Endoss, Pepe has to collect salsa-bottles beeing able to throw at & kill the endboss.
                         His way is full of angry chickens & collectables. Once Pepe collected 10 coins he can exchange them for abit x-tra health.
-                        Once Pepe won the fight against the endboss, he will meet his Senorita and enjoy the evening with her.
+                        When Pepe won the fight against the endboss, he will meet his Senorita and enjoy the evening with her.
                     </p>
                 </div>
 
@@ -136,7 +136,7 @@
                         <input type="checkbox" id="Sound">
                         <p>mute</p>
                     </div>
-                    <div class="center">
+                    
                         <h2>( Game )</h2>
                         <div id="gameControl" class="btnBottomInGame">
                             <div  onclick="toggleVisibility('gameExplanations')" class="icon">
@@ -147,12 +147,12 @@
                                 <img src="./img/icons/gamepad.png">
                                 <p>Controls</p>
                             </div>
-                            <div onclick="startGame()" class="icon">
+                            <div  onclick="javascript:location.href='./index.html'" class="icon">
                                 <img src="./img/icons/play-button.png">
                                 <p>Restart</p>
                             </div>
                         </div>
-                    </div>
+                    
             </div>
 
             <div id="fullScreenBtn" class="btnFullScreen">
@@ -163,14 +163,19 @@
             </div>
 
             <div id="rotateDevice">
-                <p>Please rotate your device!</p>
+                <div class="center">
+                    <div class="rotateDeviceContent ">
+                        <p >Please rotate your device!</p>
+                        <img src="./img/icons/turn_mobile.png">
+                    </div>
+                </div>
             </div>
 
             <div id="gameOverLoose" class="endScreen center d-none">
                 <h2>( You lost! )</h2>
                 <img class="endScreenImg" src="img/9_intro_outro_screens/game_over/oh no you lost!.png">
                 <div id="gameControlBottom" class="btnBottom">
-                    <div  onclick="startGame()" class="icon">
+                    <div  onclick="javascript:location.href='./index.html'" class="icon">
                         <img src="./img/icons/again.png">
                         <p>Try again</p>
                     </div>
@@ -181,11 +186,26 @@
                 <h2>( You won! )</h2>
                 <img class="endScreenImg" src="img/9_intro_outro_screens/game_over/game over.png">
                 <div id="gameControlBottom" class="btnBottom">
-                    <div  onclick="startGame()" class="icon">
+                    <div  onclick="javascript:location.href='./index.html'" class="icon">
                         <img src="./img/icons/again.png">
                         <p>Try again</p>
                     </div>
                 </div>
+            </div>
+
+            <div id="hud">
+                <div class="center">
+                    <img class="hud" id="btnLeft" src="./img/icons/left.png">
+                    <img class="hud" id="btnRight" src="./img/icons/right.png">
+                </div>
+                <div class="center">
+                    <img class="hud" id="btnJump" src="./img/icons/up.png">
+                </div>
+                <div class="center">
+                    <img class="hud" id="btnD" src="./img/icons/letter-d.png">
+                    <img class="hud" id="btnB" src="./img/icons/letter-b.png">
+                </div>
+
             </div>
 
         </div>

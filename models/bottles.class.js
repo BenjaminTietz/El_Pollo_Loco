@@ -4,6 +4,12 @@ class Bottles extends MovableObject {
     height = 60;
     y = 360;
     x = 200;
+    offset = {
+        top: 10,
+        bottom: 0,
+        left: 20,
+        right: 10,
+    };
     IMAGES_BottleOnGround = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
@@ -19,6 +25,6 @@ class Bottles extends MovableObject {
     animate () {
         setInterval(() => {
             this.playAnimation(this.IMAGES_BottleOnGround);
-        }, 1000 / 60);
+        }, 200);
     }
 }
