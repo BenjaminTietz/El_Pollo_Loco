@@ -5,8 +5,9 @@ class Endboss extends MovableObject {
     y = 45;
     world;
     firstContact = false;
-    animationDuration = 5000; // 2 Sekunden
-    animationStarted = false;
+    animationDuration = 2000; // 2 Sekunden
+    gameOverSoundPlayed = false;
+    world;
     offset = {
         top: 0,
         bottom: 0,
@@ -49,7 +50,6 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-    world;
 
     constructor () {                                                                // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');               // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
@@ -63,30 +63,40 @@ class Endboss extends MovableObject {
         this.animateInterval = this.startAnimateInterval();
         this.animationDecisionInterval = this.startAnimationDecisionInterval();                                                           // Hier wird die Funktion "animate" aufgerufen
     }
-
+/**
+ * The function "distanceToEndboss(distance)" checks if defined distances between character & endboss are given-
+ * @param {Number} distance 
+ * @returns a boolean value if statement is true ore false.
+ */
     distanceToEndboss(distance) {
         return this.x - this.world.character.x < distance;
         
     }
-
+/**
+* The function "firstContactToEndboss()" sets a definied distance between character & endboss to have a first contact with eachother.
+*/
     firstContactToEndboss() {
         if (this.x - this.world.character.x < 400) {
             this.firstContact = true;
         }
     }
-
+/**
+* The function "startAnimateInterval()" animates our character by playing different animations based on its state.
+*/
     startAnimateInterval() {
         return setInterval(() => {
-            if (this.isDead() && !this.animationStarted) {                       // Wenn der Endboss tot ist und die Animation nicht gestartet wurde
-                this.animationStarted = true;                                    // Setzen Sie die Flagge, um die Animation zu starten
+            if (this.isDead()) {                       // Wenn der Endboss tot ist und die Animation nicht gestartet wurde
                 this.playAnimation(this.IMAGES_DEAD);                       // Starten Sie die Todesanimation
                 setTimeout(() => {
                     this.clearAllIntervals();
                     this.world.character.clearAllIntervals();
-                    //world.chicken.clearAllIntervals();
                 }, this.animationDuration);
                 setTimeout(() =>{
-                    showEndScreenWon();                                     // Nach 2 Sekunden den Game Over Screen aufrufen
+                    showEndScreenWon();                                     // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
+                    if (!this.gameOverSoundPlayed) {
+                        this.gameOverSoundPlayed = true;
+                        you_won.play(); 
+                    }
                 }, this.animationDuration);
             } else if (!this.isDead() && this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -98,6 +108,9 @@ class Endboss extends MovableObject {
             }
         }, 150);
     }
+/**
+* The function "startAnimationDecisionInterval()" animates our character by playing different animations based on its state.
+*/
     startAnimationDecisionInterval() {
         return setInterval(() => {  
             if (this.distanceToEndboss(0) && !this.isDead()) {
@@ -111,6 +124,9 @@ class Endboss extends MovableObject {
             } 
         }, 1000 / 60);
     }
+/**
+* The function "clearAllIntervals()" stops the desired interval functions.
+*/
     clearAllIntervals() {
         clearInterval(this.animateInterval);
         clearInterval(this.animationDecisionInterval);

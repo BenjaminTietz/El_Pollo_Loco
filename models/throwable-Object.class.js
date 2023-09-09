@@ -69,11 +69,8 @@ class ThrowableObject extends MovableObject{
             } else if (world.level.endboss[0].isHurt && !this.soundPlayed) {
                 this.playAnimation(this.IMAGES_BottleSplash);
                 bottle_breaks_sound.play();
-                this.soundPlayed = true; // Markiere den Sound als abgespielt
+                this.soundPlayed = true; 
             }
         }, 25);
     }
-    
-
-
 }

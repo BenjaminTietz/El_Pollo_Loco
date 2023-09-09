@@ -23,16 +23,16 @@ class World {
         this.draw();
         this.run();
     }
-    /**
-     * The function "setWorld()" defines our world with given global variables.
-     */
+/**
+* The function "setWorld()" defines our world with given global variables.
+*/
     setWorld() {
         this.character.world = this;
         this.endboss.world  = this;
     }
-    /**
-     * The function "run()" executes functions at a defined interval, which are used to check for collisions, for example.
-     */
+/**
+* The function "run()" executes functions at a defined interval, which are used to check for collisions, for example.
+*/
     run() {                                             // Die Funktion "run" prüft in einem definierten Intervall ob bewegende Objekte miteinander kollidieren. 
         setInterval(() => {
             this.checkCollisions();
@@ -46,13 +46,13 @@ class World {
             this.checkCollisionPosition();
         }, 200);
     }
-    /**
-     * The function "checkThrowObjects()" checks whether throwable objects are available and lets us insert them into the game by pressing the D key and then deletes them from the "throwableObjects" array and plays a sound.
-     */
+/**
+* The function "checkThrowObjects()" checks whether throwable objects are available and lets us insert them into the game by pressing the D key and then deletes them from the "throwableObjects" array and plays a sound.
+*/
     checkThrowObjects(){                                                                            // checkThrowobjects prüft ob die Taste d gedrückt wird und die Anzahl der Flaschen größer 0 ist
         if(this.keyboard.d) {
             if (this.character.ammountOfBottles > 0){
-                this.lastMove = new Date().getTime();
+                this.character.lastMove = new Date().getTime();
                 let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);  // der Funktionsvariabel "bottle" wird ein neues zu werfendes Objekt zugewiesen, dieses wird an definierten Koordinaten eingefügt
                 this.character.ammountOfBottles--;                                                  // hier wird die Anzahl der verfügbaren Flaschen reduziert            
                 this.statusBarBottle.setBottles(this.character.ammountOfBottles);                   // hier wird die Statusbar der Flaschen geupdated
@@ -63,9 +63,9 @@ class World {
             }
         }
     }
-    /**
-     * The function "checkCollisions()" checks if objects from our enemies array collide with our character under certain conditions.
-     */
+/**
+* The function "checkCollisions()" checks if objects from our enemies array collide with our character under certain conditions.
+*/
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
             if(this.character.isColliding(enemy) && !this.character.isHurt()) {
@@ -79,9 +79,9 @@ class World {
             }
         });
     }
-    /**
-     * The function "checkCollisionEndboss()" checks if our character is colliding with the endboss.
-     */
+/**
+* The function "checkCollisionEndboss()" checks if our character is colliding with the endboss.
+*/
     checkCollisionEndboss() {
         this.level.endboss.forEach((endboss) => {                 // Mit "this.level.enenies" bekommen wir all unsere Gegener durch "forEach" prüfen wir ob jeder der Gegner mit unserem Character kollidiert.
             if(this.character.isColliding(endboss) ) {
@@ -91,9 +91,9 @@ class World {
             }
         });
     }
-    /**
-     * The function "checkCollectionCoins()" checks if our character is colliding with our collectable coins and calls another function wich adds the coins to our ammount of collected coins.
-     */
+/**
+* The function "checkCollectionCoins()" checks if our character is colliding with our collectable coins and calls another function wich adds the coins to our ammount of collected coins.
+*/
     checkCollectionCoins() {
         this.level.coins.forEach((coins) => {                 // Mit "this.level.coins" bekommen wir all unsere Coins die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstände mit unserem Character kollidiert.
             if(this.character.isColliding(coins) ) {
@@ -103,9 +103,9 @@ class World {
             }
         });
     }
-    /**
-     * The function "checkcoinIsCollected()" iterates through our coin array and deletes the coins from the array that have already been collected.
-     */
+/**
+* The function "checkcoinIsCollected()" iterates through our coin array and deletes the coins from the array that have already been collected.
+*/
     checkcoinIsCollected() {
             for (let i = 0; i < this.level.coins.length; i++) {
             const coins = this.level.coins[i];
@@ -114,9 +114,9 @@ class World {
             }
         }
     }
-    /**
-     * The function "checkCollectionBottle()" checks if our character is colliding with our collectable bottles and calls another function wich adds the bottles to our ammount of collected bottles.
-     */
+/**
+* The function "checkCollectionBottle()" checks if our character is colliding with our collectable bottles and calls another function wich adds the bottles to our ammount of collected bottles.
+*/
     checkCollectionBottle() {
         this.level.bottles.forEach((bottles) => {                 // Mit "this.level.bottles" bekommen wir all unsere Gegenstände die wir einsammeln können durch "forEach" prüfen wir ob jeder der Gegenstand mit unserem Character kollidiert.
             if(this.character.isColliding(bottles) ) {
@@ -129,9 +129,9 @@ class World {
             }
         });
     }
-    /**
-     * The function "bottleIsCollected()" iterates through our collectedBottle array and deletes them from the array if they have already been collected.
-     */
+/**
+* The function "bottleIsCollected()" iterates through our collectedBottle array and deletes them from the array if they have already been collected.
+*/
     bottleIsCollected() {
         if (this.collectedBottle.length < 5) {
             for (let i = 0; i < this.level.bottles.length; i++) {
@@ -142,9 +142,9 @@ class World {
             }
         }
     }
-    /**
-     * The function "checkBottleHitsEndBoss()" iterates through throwableObjects array and checks if the throwableObjects are colliding with our endboss. If so it calls a function "hitEndBoss" to decrease the enrgy of the endboss and refresh the statusbar.
-     */
+/**
+* The function "checkBottleHitsEndBoss()" iterates through throwableObjects array and checks if the throwableObjects are colliding with our endboss. If so it calls a function "hitEndBoss" to decrease the enrgy of the endboss and refresh the statusbar.
+*/
     checkBottleHitsEndBoss() {
         this.throwableObjects.forEach((bottle) => {
             this.level.endboss.forEach((endboss) => {
@@ -155,9 +155,9 @@ class World {
             });
         });
     }
-    /**
-     * The function "checkBottleHitsChicken()" iterates through throwableObjects array and checks if the throwableObjects are colliding with our enemies. If so it calls a function "hitChicken" to decrease the enrgy of the enemy.
-     */
+/**
+* The function "checkBottleHitsChicken()" iterates through throwableObjects array and checks if the throwableObjects are colliding with our enemies. If so it calls a function "hitChicken" to decrease the enrgy of the enemy.
+*/
     checkBottleHitsChicken() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemies) => {
@@ -169,10 +169,10 @@ class World {
             });
         });
     }
-    /**
-     * The function "checkKillChickenFromTop()" iterates through enemies array and checks if our character is colliding under certain circumstances with our enemies. If so it calls a function "hitChicken" to decrease the enrgy of the enemy. 
-     * The function "jumpAfterKill() is also called, which makes our character jump after hitting a chicken from above. After that, the chicken will be deleted from the enemies array.
-     */
+/**
+* The function "checkKillChickenFromTop()" iterates through enemies array and checks if our character is colliding under certain circumstances with our enemies. If so it calls a function "hitChicken" to decrease the enrgy of the enemy. 
+* The function "jumpAfterKill() is also called, which makes our character jump after hitting a chicken from above. After that, the chicken will be deleted from the enemies array.
+*/
     checkKillChickenFromTop() {
         this.level.enemies.forEach((enemies) => {
             if (this.character.isColliding(enemies) && this.character.isAboveGround() && !this.character.isHurt()) {
@@ -187,9 +187,9 @@ class World {
             }
         });
     }
-    /**
-     * The function "checkCollisionPosition()" checks if our character is in the air. If so, the checkKillChickenFromTop() function is called, otherwise the checkCollisions() function is executed.
-     */
+/**
+* The function "checkCollisionPosition()" checks if our character is in the air. If so, the checkKillChickenFromTop() function is called, otherwise the checkCollisions() function is executed.
+*/
     checkCollisionPosition() {
         if (this.character.isAboveGround()) {
             this.checkKillChickenFromTop();
@@ -197,17 +197,17 @@ class World {
             this.checkCollisions();
         }
     }
-    /**
-     * The function "deleteEnemy(enemies)" assigns an index to the opponent within the array. And then delete it at the appropriate position.
-     * @param {Array} enemies - The "enemies" array contains all of our chicken enemies.
-     */
+/**
+* The function "deleteEnemy(enemies)" assigns an index to the opponent within the array. And then delete it at the appropriate position.
+* @param {Array} enemies - The "enemies" array contains all of our chicken enemies.
+*/
     deleteEnemy(enemies) {
         let i = this.level.enemies.indexOf(enemies);
         this.level.enemies.splice(i, 1);
     }
-    /**
-     * The function "draw()" inserts graphics into our canvas.
-     */
+/**
+* The function "draw()" inserts graphics into our canvas.
+*/
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -240,19 +240,19 @@ class World {
             self.draw();                                //Die Funktion wird also A-synchron ausgeführt. Innerhalb der Funktion ist "this" unbekannt. Demnach wird eine Hilfsvariabel self = this definiert und benutzt.
         });
     }
-    /**
-     * The function "addObjectsToMap(objects)" iterates through an array of objects and inserts them into our game by calling the "addToMap(o)"" function .
-     * @param {Array} objects - The objects array contains all objects that will be inserted into our game.
-     */
+/**
+* The function "addObjectsToMap(objects)" iterates through an array of objects and inserts them into our game by calling the "addToMap(o)"" function .
+* @param {Array} objects - The objects array contains all objects that will be inserted into our game.
+*/
     addObjectsToMap(objects){
         objects.forEach(o => {
             this.addToMap(o);                       // Durch die forEach Schleife wird die Zeile zwischen den {} für jedes Element des enemies Arrays ausgeführt.
         });
     }
-    /**
-     * The function "addToMap(mo)" adds a moveable object to our canvas and flips the image if necessary.
-     * @param mo - an object that represents our moveable objects. This has X&Y coordinates as well as height and width and a direction. Insofar as the object is to run in a different direction, this is inserted via our context "this.ctx".
-     */
+/**
+* The function "addToMap(mo)" adds a moveable object to our canvas and flips the image if necessary.
+* @param mo - an object that represents our moveable objects. This has X&Y coordinates as well as height and width and a direction. Insofar as the object is to run in a different direction, this is inserted via our context "this.ctx".
+*/
     addToMap(mo) {
         if(mo.otherDirection) {                     // Hier schauen wir ob unser eingefügtes Objekt eine andere Richtung hat WENN ja DANN
             this.flipImage(mo);                     // Hier wird die Funktion "flipImage" aufgerufen. Sie bekommt denParameter "mo" mitgegeben. Diese dreht das Bild unseres Characters in die andere Richtung.
@@ -264,20 +264,20 @@ class World {
             this.flipImageBack(mo);                 // Hier wird die Funktion "flipImageBack" aufgerufen. Sie bekommt denParameter "mo" mitgegeben. Diese dreht das Bild unseres Characters in die ursprünglich Richtung.
         }
     }
-    /**
-     * The function "flipImage(mo)" flips an image horizontally using canvas context.
-     * @param mo - an object that represents our moveable objects. This has X&Y coordinates as well as height and width and a direction. Insofar as the object is to run in a different direction, this is inserted via our context "this.ctx".
-    */
+/**
+* The function "flipImage(mo)" flips an image horizontally using canvas context.
+* @param mo - an object that represents our moveable objects. This has X&Y coordinates as well as height and width and a direction. Insofar as the object is to run in a different direction, this is inserted via our context "this.ctx".
+*/
     flipImage(mo) {
         this.ctx.save();                        // speichern wir die aktuellen Einstellungen von unserem Kontext, damit die nächsten Bilder welche wir wieder einfügen richtig herum eingefügt werden.
         this.ctx.translate(mo.width, 0);        // Hier ändern wir die Methode wie wir die Bilder einfügen und ab jetzt werden sie gespiegelt.
         this.ctx.scale(-1, 1);                  // Durch das scale verschieben wird das Bild nochmals um seine eigene Breite nach links/rechts
         mo.x = mo.x * -1;                       // Sobald das Bild gespiegelt wird ist der 0 Punkt der X-Achse auf der rechten Seite. Dadurch dass wir mit -1 multiplizieren drehen wir die Stelle einfach um.
     }
-    /**
-     * The function "flipImageBack(mo)" flips an image in its original direction.
-     * @param mo - an object that represents our moveable objects. This has X&Y coordinates as well as height and width and a direction. Insofar as the object is to run in a different direction, this is inserted via our context "this.ctx".
-    */
+/**
+* The function "flipImageBack(mo)" flips an image in its original direction.
+* @param mo - an object that represents our moveable objects. This has X&Y coordinates as well as height and width and a direction. Insofar as the object is to run in a different direction, this is inserted via our context "this.ctx".
+*/
     flipImageBack(mo) {
         this.ctx.restore();                     // machen wir  hier unsere Einstellungen rückgängig
         mo.x = mo.x * -1;                       // Sobald das Bild gespiegelt wird ist der 0 Punkt der X-Achse auf der rechten Seite. Dadurch dass wir mit -1 multiplizieren drehen wir die Stelle einfach um.

@@ -72,7 +72,6 @@ function showStartScreen() {
  */
 function showEndScreenLoose() {
     pauseAllSounds();
-    you_lost.play(); 
     document.getElementById("gameOverLoose").classList.remove("d-none");
     document.getElementById("settingsBtn").classList.add("d-none");
     document.getElementById("startScreen").style.display= "none";
@@ -84,37 +83,45 @@ function showEndScreenLoose() {
  */
 function hideEndScreenLoose() {
     pauseAllSounds();
-    you_lost.pause(); 
     document.getElementById("gameOverLoose").classList.add("d-none");
     document.getElementById("settingsBtn").classList.remove("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
     document.getElementById("hud").classList.remove("d-none");
 }
+/**
+ * The function "showEndScreenWon()" pauses all inGame sounds aswell pauses the you_won sound after winning a game. It also sets elements to "display none" which should not be visible after the game is over.
+ */
 function showEndScreenWon() {
     pauseAllSounds();
-    you_won.play(); 
     document.getElementById("gameOverWon").classList.remove("d-none");
     document.getElementById("settingsBtn").classList.add("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
     document.getElementById("hud").classList.add("d-none");
 }
+/**
+ * The function "hideEndScreenWon()" pauses all inGame sounds aswell pauses the you_won sound after winning a game. It also sets elements to "display none" which should not be visible after the game is over.
+ */
 function hideEndScreenWon() {
     pauseAllSounds();
-    you_won.pause(); 
     document.getElementById("gameOverWon").classList.add("d-none");
     document.getElementById("settingsBtn").classList.remove("d-none");
     document.getElementById("startScreen").style.display= "none";
     document.getElementById("gameControl").style.display= "none";
     document.getElementById("hud").classList.remove("d-none");
 }
-
-function showGameSettings () {
+/**
+ * The function "showGameSettings()". It sets elements to be visable when showing the game settings.
+ */
+function showGameSettings() {
     document.getElementById("gameSettings").classList.remove("d-none");
     document.getElementById("hud").classList.add("d-none");
 }
-function hideGameSettings () {
+/**
+ * The function "hideGameSettings ()". It sets elements to be invisable when closing the game settings.
+ */
+function hideGameSettings() {
     document.getElementById("gameSettings").classList.add("d-none");
     document.getElementById("hud").classList.remove("d-none");
 }
@@ -180,27 +187,27 @@ function setFxVolume(volumeLevel) {
             }
         }
     
-        var slider = document.getElementById("mySoundVol");
+        let slider = document.getElementById("mySoundVol");
         slider.addEventListener("input", function() {
-            var volume = parseFloat(slider.value) / 100;
+            let volume = parseFloat(slider.value) / 100;
             setVolume(volume);
         });
     
-        var soundCheckbox = document.getElementById("Sound");
+        let soundCheckbox = document.getElementById("Sound");
         soundCheckbox.addEventListener("change", function() {
             if (soundCheckbox.checked) {
                 setVolume(0); // Stummschalten der Musik
             } else {
-                var volume = parseFloat(slider.value) / 100;
+                let volume = parseFloat(slider.value) / 100;
                 setVolume(volume); // Lautstärke wiederherstellen
             }
         });
     
-        var fxSlider = document.getElementById("myFxVol");
-        var fxCheckbox = document.getElementById("fxSound");
+        let fxSlider = document.getElementById("myFxVol");
+        let fxCheckbox = document.getElementById("fxSound");
     
         fxSlider.addEventListener("input", function() {
-            var fxVolume = parseFloat(fxSlider.value) / 100;
+            let fxVolume = parseFloat(fxSlider.value) / 100;
             setFxVolume(fxVolume);
         });
     
@@ -208,13 +215,15 @@ function setFxVolume(volumeLevel) {
             if (fxCheckbox.checked) {
                 setFxVolume(0); // Stummschalten der Soundeffekte
             } else {
-                var fxVolume = parseFloat(fxSlider.value) / 100;
+                let fxVolume = parseFloat(fxSlider.value) / 100;
                 setFxVolume(fxVolume); // Lautstärke der Soundeffekte wiederherstellen
             }
         });
     
 });
-
+/**
+ * The function "pauseAllSounds()" pauses all sounds.
+ */
 function pauseAllSounds() {
     gameMusic.pause();
     walking_sound.pause();
@@ -223,8 +232,6 @@ function pauseAllSounds() {
     dead_sound.pause();
     throw_bottle_sound.pause();
 }
-
-
 // Fullscreen Function
 document.addEventListener("DOMContentLoaded", () => {
     const canvasFullScreen = document.getElementById("canvas");
@@ -233,7 +240,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const originalCanvasWidth = canvasFullScreen.width;
     const originalCanvasHeight = canvasFullScreen.height;
     let isFullscreen = false;
-
+/**
+ * The function "toggleFullscreen()" toggles between fullscreen and non fullscreen mode and calls the "resizeCanvas()" function to change size of our canvas.
+ */
     function toggleFullscreen() {
         if (!isFullscreen) {
             wrapper.requestFullscreen().catch(err => {
@@ -247,7 +256,9 @@ document.addEventListener("DOMContentLoaded", () => {
     isFullscreen = !isFullscreen;
     resizeCanvas();
     }
-
+/**
+ * The function "resizeCanvas()" calculate a resize factor based on our browser width & height to keep our aspectratio when resizing our canvas.
+ */
     function resizeCanvas() {
         const scaleFactorX = wrapper.clientWidth / originalCanvasWidth;
         const scaleFactorY = wrapper.clientHeight / originalCanvasHeight;
@@ -269,11 +280,11 @@ document.addEventListener("DOMContentLoaded", () => {
     fullScreenBtn.addEventListener("click", () => {
         toggleFullscreen();
     });
-
     resizeCanvas();
     });
-
-    
+/**
+ * The function "bindBtsPressEvents ()" binds our mobile button to our keyboard input.
+ */
 function bindBtsPressEvents () {
     document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
         e.preventDefault();

@@ -5,11 +5,11 @@ class Character extends MovableObject {
     speed = 10;
     timeOut = false;
     lastMove = 0;
+    gameOverSoundPlayed = false;
     world;
-    animationDuration = 5000; // 2 Sekunden
-    animationStarted = false;
+    animationDuration = 2000; // 2 Sekunden
     offset = {
-        top: 80,
+        top: 110,
         bottom: 10,
         left: 20,
         right: 30,
@@ -87,7 +87,9 @@ class Character extends MovableObject {
         this.timeoutInterval = this.startTimeoutInterval();
         
     }
-
+/**
+* The function "startAnimateInterval()" animates our character by playing different animations based on its state.
+*/
     startAnimateInterval() {
         return setInterval(() => {                                  // Diese "setInterval" Funktion beinhaltet 2 if Schleifen welche erfassen ob wir die linke oder rechte Pfeiltaste gedrückt haben.
             walking_sound.pause();                                  // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
@@ -115,20 +117,24 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;                    // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden. Mit den +100px verschieben wir die Kameraperspektive ein wenig nach rechts.
         }, 1000 / 60);                                              // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
     }
+/**
+* The function "startAnimationDecisionInterval()" animates our character by playing different animations based on its state.
+*/
     startAnimationDecisionInterval() {
-
         return setInterval(() => {
-            if (this.isDead() && !this.animationStarted) {       // Wenn der Charakter tot ist und die Animation nicht gestartet wurde
+            if (this.isDead()) {       // Wenn der Charakter tot ist und die Animation nicht gestartet wurde
                 this.playAnimation(this.IMAGES_DEAD);       // Starten Sie die Todesanimation
-                this.animationStarted = true;                    // Setzen Sie die Flagge, um die Animation zu starten
                 dead_sound.play();
                 setTimeout(() => {
                     this.clearAllIntervals();
                     this.world.endboss.clearAllIntervals();
-                    //this.world.chicken.clearAllIntervals();
                 }, this.animationDuration);
                 setTimeout(() =>{
-                    showEndScreenLoose();                   // Nach 2 Sekunden die Game Over Screen-Funktion aufrufen
+                    showEndScreenLoose();                   // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
+                    if (!this.gameOverSoundPlayed) {
+                        this.gameOverSoundPlayed = true;
+                        you_lost.play(); 
+                    }
                 }, this.animationDuration);
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -144,11 +150,15 @@ class Character extends MovableObject {
             }
         }, 150);
     }
-    
+/**
+* The function "jump()" assigns a vertical speed to our character when he jumps.
+*/   
     jump() {                                                // Die "jump" Funktion wird benötigt um unseren Character springen zu lassen...
         this.speedY = 30;                                   // Der Variabel "speedY" aka Geschwindigkeit auf der Y-Achse wird der Wert 30 (Pixel) zugewiesen
     }
-
+/**
+* The function "startTimeoutInterval()" checks at an interval whether and when our character last moved in order to be able to play the desired animations.
+*/
     startTimeoutInterval() {
         return setInterval(() => {
             let timePassed = new Date().getTime() - this.lastMove;              // Differenz in ms  timePassed entspicht = aktuelle Zeit in ms seitdem 01.01.1970 - "lastMove" Zeit in ms wo wir uns zuletzt bewegt haben
@@ -163,7 +173,9 @@ class Character extends MovableObject {
             } 
         },500);                                     
     }
-
+/**
+* The function "clearAllIntervals()" stops the desired interval functions.
+*/
     clearAllIntervals() {
         clearInterval(this.animateInterval);
         clearInterval(this.animationDecisionInterval);

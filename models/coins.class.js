@@ -22,14 +22,12 @@ class Coins extends MovableObject{
         this.y = 40 + Math.random() * 50;  
         this.animate();   
     }
+/**
+* The function "animate ()" animates our chicken by playing different animations based on its state.
+*/
     animate () {
         setInterval(() => {
             this.playAnimation(this.IMAGES_CoinInAir);
         }, 1000 / 60);
-        
-
-
     }
-
-
 }

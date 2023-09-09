@@ -3,10 +3,10 @@ class BabyChicken extends MovableObject {
     height = 65;
     y = 370;
     offset = {
-        top: -20,
-        bottom: -20,
-        left: -20,
-        right: -20,
+        top: 0,
+        bottom: 10,
+        left: 0,
+        right: 0,
     };
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -22,16 +22,16 @@ class BabyChicken extends MovableObject {
         this.loadImages(this.IMAGES_DEAD); 
         this.x = 400 + Math.random() * 2000;  //200px Werten als linker max Wert mit (Math.random * 500px) addiert. Hier wird ein zufälligen Wert zwischen 0 & 1  generiert.
         this.speed = 0.15 + Math.random() * 0.5;
-
         this.animate();
     }
-
+/**
+* The function "animate ()" animates our chicken by playing different animations based on its state.
+*/
     animate () {
         setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);
         this.moveLeft();
-
         setInterval(() => {
             if(this.isDead()) {                                                         // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
                 this.playAnimation(this.IMAGES_DEAD);  

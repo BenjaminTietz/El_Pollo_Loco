@@ -3,10 +3,10 @@ class Chicken extends MovableObject {
     height = 65;
     y = 360;
     offset = {
-        top: -20,
-        bottom: -20,
-        left: -20,
-        right: -20,
+        top: 0,
+        bottom: 10,
+        left: 0,
+        right: 0,
     };
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -26,13 +26,17 @@ class Chicken extends MovableObject {
         this.animateInterval = this.startAnimateInterval();
         this.animationDecisionInterval = this.startAnimationDecisionInterval();
     }
-
+/**
+* The function "startAnimateInterval()" animates our character by playing different animations based on its state.
+*/
     startAnimateInterval() {
         return setInterval(() => { 
             this.moveLeft();
         }, 1000 / 60);
-
     }
+/**
+* The function "startAnimationDecisionInterval()" animates our character by playing different animations based on its state.
+*/
     startAnimationDecisionInterval() {
         return setInterval(() => {
             if(this.isDead()) {                                                         // Wenn die übergeordnete Funktion "isDead" = "true returned" DANN
@@ -42,6 +46,9 @@ class Chicken extends MovableObject {
             }
         },200);
     }
+/**
+* The function "clearAllIntervals()" stops the desired interval functions.
+*/
     clearAllIntervals() {
         clearInterval(this.animateInterval);
         clearInterval(this.animationDecisionInterval);
