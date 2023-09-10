@@ -32,6 +32,7 @@ class ThrowableObject extends MovableObject{
         this.width = 50;
         this.animate();
     }
+
     /**
      * The function " animate()" calls the throw & animateBottles methode.
      */
@@ -39,6 +40,7 @@ class ThrowableObject extends MovableObject{
         this.throw();
         this.animateBottles();
     }
+
     /**
      * The function "throw()" defines in which direction our bottle gets thrown with a defined X&Y Speed
      */
@@ -59,6 +61,7 @@ class ThrowableObject extends MovableObject{
             },  20);
         }
     }
+    
 /**
  * The function "animateBottles()" defines the animation of our thrown bottel depending on its state.
  */

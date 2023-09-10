@@ -22,6 +22,7 @@ class Bottles extends MovableObject {
         this.x = 200 + Math.random() * 2200;  
         this.animate();      
     }
+    
 /**
 * The function "animate ()" animates our chicken by playing different animations based on its state.
 */

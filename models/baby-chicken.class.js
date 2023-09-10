@@ -24,6 +24,7 @@ class BabyChicken extends MovableObject {
         this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
     }
+
 /**
 * The function "animate ()" animates our chicken by playing different animations based on its state.
 */
@@ -40,7 +41,4 @@ class BabyChicken extends MovableObject {
             }
         },200);
     }
-
-
-
 }

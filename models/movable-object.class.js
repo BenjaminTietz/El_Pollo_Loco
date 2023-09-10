@@ -9,12 +9,14 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     ammountOfBottles = 0;
     coins = 0;
+    world;
     offset = {
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
     };
+
     /**
      * The function "applyGravity()" checks in a defined interval whether our character is on the ground or whether the vertical acceleration is greater than 0 and simulates gravity.
      */
@@ -26,6 +28,7 @@ class MovableObject extends DrawableObject {
             }
         }, 1000 / 25);                                      // Der Intervall wird 40 mal pro Sekunde ausgeführt. (1000ms / 25)
     }
+
     /**
      * The function "isAboveGround()" checks if our charater is in the air and returns this as a boolean value. Throwable objects always get the value "true"
      */
@@ -36,6 +39,7 @@ class MovableObject extends DrawableObject {
         return this.y < 180;
         }
     }
+
     /**
      * The function "playAnimation(images) "uses the modulo operator to iterate over the image arrays of our animations. The images parameter corresponds to our storage location.
      * @param {*} images 
@@ -48,6 +52,7 @@ class MovableObject extends DrawableObject {
         this.img = this.imageCache[path];                                   // [path] greift auf einen Eintrag useres Array zu und wird der globalen Variable img zugewiesen
         this.currentImage++;                                                //currentImage wird um 1 erhöht
     }
+
     /**
      * The function "moveRight()" lets our character & endboss move to the right in a defined speed
      */
@@ -58,6 +63,7 @@ class MovableObject extends DrawableObject {
             this.x += this.speed;                       // Auf die X Koordinate werden 10px addiert
         }
     }
+
     /**
      * The function "moveRight()" lets our character & endboss move to the left in a defined speed.
      */
@@ -68,18 +74,21 @@ class MovableObject extends DrawableObject {
             this.x -= this.speed;                       // Von der X Koordinate werden 10px subtrahiert
         }
     }
+
     /**
      * The function "jump()" defines the vertical speed to make our character jump.
      */
     jump() {                                        //Innerhalb von Klassen muss man bei Funktionen KEIN function .... mehr benutzen!
         this.speedY = 40;
     }
+
     /**
      * The function "jumpAfterKill()" defines the vertical speed to make our character jump after he killed a chicken from the top.
      */
     jumpAfterKill() {
         this.speedY = 25;
     }
+
     /**
      * The function "hit()" drains energy from our character after a collision, making sure the energy can be at least 0 and sets a timestamp when the last collision was.
      */
@@ -91,33 +100,37 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();    // Wenn die Energie noch > 100 ist wird hier der letzte Zeitpunkt gespeichert andem wir vom Gegner getroffen wurden
         }
     }
+
     /**
      * The function "hitEndBoss()" drains energy from the endboss after a collision, making sure the energy can be at least 0 and sets a timestamp when the last collision was.
      */
     hitEndBoss() {   
         if (this.isHurt()) {                                         
-            this.energy -= 20;                          // Bei der Funktion hit wird Energie abgezogen
+            this.energy -= 10;                          // Bei der Funktion hit wird Energie abgezogen
         } if (this.energy <= 0) {                       // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
             this.energy = 0;                            // hier wird this.energie gleich 0 gesetzt
         } else {
             this.lastHit = new Date().getTime();    // Wenn die Energie noch > 100 ist wird hier der letzte Zeitpunkt gespeichert andem wir vom Gegner getroffen wurden
         }
     }
+
     /**
      * The function "hitChicken()" drains energy from the chickens after a collision, making sure the energy can be at least 0 and sets a timestamp when the last collision was.
      */
     hitChicken() {                                             
-        this.energy -= 100;                           // Bei der Funktion hit wird Energie abgezogen
+        this.energy -= 100;                          // Bei der Funktion hit wird Energie abgezogen
         if (this.energy <= 0) {                     // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
             this.energy = 0;                        // hier wird this.energie gleich 0 gesetzt
         } 
     }
+
     /**
      * The function "isDead()" returns a boolean value as soon as the energy level equals 0.
      */
     isDead() {
         return this.energy == 0;                            // Die Funktion returned ="true" wenn die energy == 0 ist.
     }
+
     /**
      * The function "isCollectingCoins()" checks how many coins we have collected and adds coins if the condition is not met and plays a sound.
      */
@@ -125,19 +138,19 @@ class MovableObject extends DrawableObject {
         if (this.coins < 10 ) {
             this.coins +=  1;
             collect_coin_sound.play();
-            //console.log('Character collects Coins',this.coins);
         }
     }
+
     /**
      * The function "isCollectingBottles()" checks how many bottles we have collected and adds bottles if the condition is not met and plays a sound.
      */
     isCollectingBottles() {
-        if (this.ammountOfBottles < 5 ) {
+        if (this.ammountOfBottles < 10 ) {
             this.ammountOfBottles += 1;
             collect_bottle_sound.play();
-            //console.log('Character collects:',this.ammountOfBottles);
         }
     } 
+
     /**
      * The function "isHurt()" returns a boolean value if we haven't collided with the enemy in the last 1 second
      */
@@ -146,16 +159,7 @@ class MovableObject extends DrawableObject {
         timePassed = timePassed / 1000;                             // Differenz in s
         return timePassed < 1;                                      // Wenn wir in den letzten 1 Sekunde getroffen wurden returned die Funktion = true
     }
-    /**
-     * The function "buyExtraHealth()" checks whether our character has already collected 10 coins and optionally lets him exchange them for extra energy.
-     */
-    buyExtraHealth() {
-        if (this.coins >=10){
-            this.energy = 100;
-            this.coins -=10; 
-            this.statusBar.setPercentage(this.energy);
-        }
-    }
+    
 /**
  * The function "isColliding(mo)" checks whether the objects to be moved in our game collide with each other. The objects have an X & Y coordinate and defined heights & widths as well as offset factors.
  * @param {*} mo is a moving object of our game . The objects have an X & Y coordinate and defined heights & widths as well as correction factors. The method isColliding checks if 2 objects colliding into each other.

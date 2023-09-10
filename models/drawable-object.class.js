@@ -7,6 +7,7 @@ class DrawableObject {
     y = 280;                // Variabel Y als Y Koordinate
     height = 150;           // Variabel height als Höhe des zu bewegenden Objektes
     width = 100;            // Variabel width als Breite des zu bewegenden Objektes
+    
 /**
  * The function "loadImage(path)" loads a new image and assigns the path to a global variable.
  * @param {String} path -  path parameter is a string that represents the URL or file path of the image which gets loaded.
@@ -16,6 +17,7 @@ class DrawableObject {
         this.img = new Image();     // Der Globalen Variabel "this.img" = wird in Form fon document.getElementById('image') <id="image" src> zugewiesen.
         this.img.src = path;        // Der Globalen Variabel "this.img" wird als zu ladener Quelle = "path" zugewiesen
     }
+
 /**
 * The function "draw(ctx)" draws an image on our canvas context with specified coordinates and dimensions.
 * @param {*} ctx - is used to draw or manipulate graphics on our canvas. Ctx stand for "context" and refers to the 2D rendering context of a canvas element.
@@ -28,8 +30,9 @@ class DrawableObject {
             console.log('Could not load image', this.img.src);
         }
     }
+
 /**
-* The function "drawFrame(ctx)" is used during the development process to draw rectangular subframes around our moving objects.
+* The function "drawFrame(ctx)" is used during the development process ONLY to draw rectangular subframes around our moving objects.
 * @param {*} ctx - is used to draw or manipulate graphics on our canvas. Ctx stand for "context" and refers to the 2D rendering context of a canvas element.
 */
     drawFrame(ctx){                                                                             // Die Funktion  drawFrame zeichnet rechteckige Rahmen um unsere bewegende Objekte       
@@ -65,6 +68,7 @@ class DrawableObject {
         ctx.stroke();
     }
 }
+
 /**
  * The function "loadImages(arr)" loads images from an array and caches them using their file paths and keys.
  * @param {Array} arr - ['img/image1.png','img/image2.png','img/image3.png',...] an array of file paths which needs to get loaded.

@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-object.class.js"></script>
-    <script src="./models/collectable-object.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/chicken.class.js"></script>
     <script src="./models/baby-chicken.class.js"></script>
@@ -36,7 +35,7 @@
         
         <div class="gameWrapper" id="fullScreen">
             <div id="settingsBtn" class="btnTopGame d-none">
-                <div onclick="showGameSettings ()" class="iconSounds">
+                <div onclick="showGameSettings ()" class="icon">
                     <img src="./img/icons/settings.png">
                     <p>Settings</p>
                 </div>
@@ -65,8 +64,7 @@
                     <h3 class="description">The adventure of Pepe starts here, are you willing to help him out on his journey?</h3>
                     <p class="description"> El Pollo Loco is a classic 2D video game. Our hero "Pepe" has to fight against his enemys and kill them.
                         On his way to defeat the Endoss, Pepe has to collect salsa-bottles beeing able to throw at & kill the endboss.
-                        His way is full of angry chickens & collectables. Once Pepe collected 10 coins he can exchange them for abit x-tra health.
-                        When Pepe won the fight against the endboss, he will meet his Senorita and enjoy the evening with her.
+                        His way is full of angry chickens & collectables. When Pepe won the fight against the endboss, he will meet his Senorita and enjoy the evening with her.
                     </p>
                 </div>
 
@@ -94,12 +92,6 @@
                         <div class="controlContent">
                             <img src="img/icons/letter-d.png">
                             <p>Throw bottle</p>
-                        </div>
-                    </div>
-                    <div class="controlInfo center">
-                        <div class="controlContent">
-                            <img src="img/icons/letter-b.png">
-                            <p>Buy X-tra health</p>
                         </div>
                     </div>
                     <div class="controlInfo center">
@@ -138,15 +130,15 @@
                     
                         <h2>( Game )</h2>
                         <div id="gameControl" class="btnBottomInGame">
-                            <div  onclick="toggleVisibility('gameExplanations')" class="icon">
+                            <div  onclick="toggleVisibility('gameExplanations')" class="iconSounds">
                                 <img src="./img/icons/information.png">
                                 <p>Story</p>
                             </div>
-                            <div onclick="toggleVisibility('gameControls')" class="icon">
+                            <div onclick="toggleVisibility('gameControls')" class="iconSounds">
                                 <img src="./img/icons/gamepad.png">
                                 <p>Controls</p>
                             </div>
-                            <div  onclick="javascript:location.href='./index.html'" class="icon">
+                            <div  onclick="javascript:location.href='./index.html'" class="iconSounds">
                                 <img src="./img/icons/play-button.png">
                                 <p>Restart</p>
                             </div>
@@ -174,7 +166,7 @@
                 <h2>( You lost! )</h2>
                 <img class="endScreenImg" src="img/9_intro_outro_screens/game_over/oh no you lost!.png">
                 <div id="gameControlBottom" class="btnBottom">
-                    <div  onclick="javascript:location.href='./index.html'" class="icon">
+                    <div  onclick="javascript:location.href='./index.html'" class="iconSounds">
                         <img src="./img/icons/again.png">
                         <p>Try again</p>
                     </div>
@@ -185,7 +177,7 @@
                 <h2>( You won! )</h2>
                 <img class="endScreenImg" src="img/9_intro_outro_screens/game_over/game over.png">
                 <div id="gameControlBottom" class="btnBottom">
-                    <div  onclick="javascript:location.href='./index.html'" class="icon">
+                    <div  onclick="javascript:location.href='./index.html'" class="iconSounds">
                         <img src="./img/icons/again.png">
                         <p>Try again</p>
                     </div>
@@ -193,16 +185,17 @@
             </div>
 
             <div id="hud">
-                <div class="center">
-                    <img class="hud" id="btnLeft" src="./img/icons/left.png">
-                    <img class="hud" id="btnRight" src="./img/icons/right.png">
-                </div>
-                <div class="center">
-                    <img class="hud" id="btnJump" src="./img/icons/up.png">
+                <div>
+                    <div class="center">
+                        <img class="hud" id="btnJump" src="./img/icons/up.png">
+                    </div>
+                    <div class="center">
+                        <img class="hud" id="btnLeft" src="./img/icons/left.png">
+                        <img class="hud" id="btnRight" src="./img/icons/right.png">
+                    </div>
                 </div>
                 <div class="center">
                     <img class="hud" id="btnD" src="./img/icons/letter-d.png">
-                    <img class="hud" id="btnB" src="./img/icons/letter-b.png">
                 </div>
 
             </div>

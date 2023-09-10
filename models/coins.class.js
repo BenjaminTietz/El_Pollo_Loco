@@ -6,7 +6,7 @@ class Coins extends MovableObject{
     x = 200;
     offset = {
         top: 40,
-        bottom: 40,
+        bottom: 0,
         left: 30,
         right: 30,
     };
@@ -22,6 +22,7 @@ class Coins extends MovableObject{
         this.y = 40 + Math.random() * 50;  
         this.animate();   
     }
+    
 /**
 * The function "animate ()" animates our chicken by playing different animations based on its state.
 */

@@ -87,6 +87,7 @@ class Character extends MovableObject {
         this.timeoutInterval = this.startTimeoutInterval();
         
     }
+
 /**
 * The function "startAnimateInterval()" animates our character by playing different animations based on its state.
 */
@@ -94,48 +95,22 @@ class Character extends MovableObject {
         return setInterval(() => {                                  // Diese "setInterval" Funktion beinhaltet 2 if Schleifen welche erfassen ob wir die linke oder rechte Pfeiltaste gedrückt haben.
             walking_sound.pause();                                  // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
             if (this.world.keyboard.right && this.x < this.world.level.level_end_x && !this.isDead()) {// WENN unsere rechte Pfeiltaste den Wert den Wert true hat. Duch dass && this < this.world.level.level_end_x begrenzen wir unsere Welt nach rechts und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
-                this.moveRight();
-                this.lastMove = new Date().getTime();
-                this.otherDirection = false;                        // Variabel "otherDirection" bekommt den Wert = "false"
-                walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
-            }
+                this.walkRight();}
             if (this.world.keyboard.left && this.x > 0 && !this.isDead()) {           // WENN unsere linke Pfeiltaste den Wert den Wert true hat. Duch dass && this > 0 begrenzen wir unsere Welt nach links und erstellen eine unsichtbare Mauer, so dass unser Character nichtmehr aus der Map herauslaufen kann.
-                this.moveLeft();
-                this.lastMove = new Date().getTime();
-                this.otherDirection = true;                         // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
-                walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
-                }
+                this.walkLeft();}
             if (this.world.keyboard.space && !this.isAboveGround() && !this.isDead()) {
-                this.lastMove = new Date().getTime();
-                this.jump();
-                jumping_sound.play();  
-            }
-            if (this.world.keyboard.b) {
-                this.buyExtraHealth();
-                console.log('You bought X-Tra Health');
-            }
+                this.jumping();}
             this.world.camera_x = -this.x + 100;                    // Hier wird unsere Cameramethode an unseren Character gebunden. Jedes mal wenn wir die X-Koordinate unseres Characters verändern egal ob pos. oder neg. wird die X-Koordinate an unsere camera X-koordinate als Gegenteil gebunden. Mit den +100px verschieben wir die Kameraperspektive ein wenig nach rechts.
         }, 1000 / 60);                                              // Hier wird die Intervallgeschwindigkeit, in welcher unsere Funktion ausgeführt hat, definiert. 1000ms / 60 = 60FPS
     }
+
 /**
 * The function "startAnimationDecisionInterval()" animates our character by playing different animations based on its state.
 */
     startAnimationDecisionInterval() {
         return setInterval(() => {
             if (this.isDead()) {       // Wenn der Charakter tot ist und die Animation nicht gestartet wurde
-                this.playAnimation(this.IMAGES_DEAD);       // Starten Sie die Todesanimation
-                dead_sound.play();
-                setTimeout(() => {
-                    this.clearAllIntervals();
-                    this.world.endboss.clearAllIntervals();
-                }, this.animationDuration);
-                setTimeout(() =>{
-                    showEndScreenLoose();                   // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
-                    if (!this.gameOverSoundPlayed) {
-                        this.gameOverSoundPlayed = true;
-                        you_lost.play(); 
-                    }
-                }, this.animationDuration);
+                this.heroIsDead();
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
                 hurt_sound.play();
@@ -151,11 +126,60 @@ class Character extends MovableObject {
         }, 150);
     }
 /**
+* The function "walkLeft()" animates our character by moving him to the left side.
+*/
+
+    walkLeft() {
+        this.moveLeft();
+        this.lastMove = new Date().getTime();
+        this.otherDirection = true;                         // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
+        walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
+        }
+
+/**
+* The function "walkRight()" animates our character by moving him to the right side.
+*/
+    walkRight() {
+        this.moveRight();
+        this.lastMove = new Date().getTime();
+        this.otherDirection = false;                        // Variabel "otherDirection" bekommt den Wert = "false"
+        walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
+    }
+
+/**
+* The function "jumping()" animates our character and let him jump into the air.
+*/
+    jumping() {
+        this.lastMove = new Date().getTime();
+        this.jump();
+        jumping_sound.play();  
+    }
+
+/**
+* The function "heroIsDead()" animates our character by playing different animations based on its state, stopps certain intervall functions and shows the game over endscreen.
+*/
+    heroIsDead() {
+        this.playAnimation(this.IMAGES_DEAD);               // Starten Sie die Todesanimation
+                dead_sound.play();
+                setTimeout(() => {
+                    this.clearAllIntervals();
+                    this.world.endboss.clearAllIntervals();
+                }, this.animationDuration);
+                setTimeout(() =>{
+                    showEndScreenLoose();                   // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
+                    if (!this.gameOverSoundPlayed) {
+                        this.gameOverSoundPlayed = true;
+                        you_lost.play(); 
+                    }
+                }, this.animationDuration);
+    }
+/**
 * The function "jump()" assigns a vertical speed to our character when he jumps.
 */   
     jump() {                                                // Die "jump" Funktion wird benötigt um unseren Character springen zu lassen...
         this.speedY = 30;                                   // Der Variabel "speedY" aka Geschwindigkeit auf der Y-Achse wird der Wert 30 (Pixel) zugewiesen
     }
+
 /**
 * The function "startTimeoutInterval()" checks at an interval whether and when our character last moved in order to be able to play the desired animations.
 */
@@ -165,7 +189,6 @@ class Character extends MovableObject {
             if (this.lastMove == 0) {
                 timePassed = 0;
             }else timePassed = timePassed / 1000;                                 // Differenz in s
-            //console.log('Character moved sec ago',timePassed);
             if (timePassed <= 5) {
                 this.timeOut = false;
             } else if (timePassed => 5) {
@@ -173,6 +196,7 @@ class Character extends MovableObject {
             } 
         },500);                                     
     }
+    
 /**
 * The function "clearAllIntervals()" stops the desired interval functions.
 */

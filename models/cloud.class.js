@@ -8,6 +8,7 @@ class Cloud extends MovableObject {
         this.x = Math.random() * 500;
         this.animate();
     }
+    
 /**
 * The function "animate ()" animates our chicken by playing different animations based on its state.
 */

@@ -63,6 +63,7 @@ class Endboss extends MovableObject {
         this.animateInterval = this.startAnimateInterval();
         this.animationDecisionInterval = this.startAnimationDecisionInterval();                                                           // Hier wird die Funktion "animate" aufgerufen
     }
+    
 /**
  * The function "distanceToEndboss(distance)" checks if defined distances between character & endboss are given-
  * @param {Number} distance 
@@ -72,6 +73,7 @@ class Endboss extends MovableObject {
         return this.x - this.world.character.x < distance;
         
     }
+
 /**
 * The function "firstContactToEndboss()" sets a definied distance between character & endboss to have a first contact with eachother.
 */
@@ -80,13 +82,45 @@ class Endboss extends MovableObject {
             this.firstContact = true;
         }
     }
+
 /**
 * The function "startAnimateInterval()" animates our character by playing different animations based on its state.
 */
     startAnimateInterval() {
         return setInterval(() => {
             if (this.isDead()) {                       // Wenn der Endboss tot ist und die Animation nicht gestartet wurde
-                this.playAnimation(this.IMAGES_DEAD);                       // Starten Sie die Todesanimation
+                this.endBossIsDead();
+            } else if (!this.isDead() && this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (!this.isDead() && !this.isHurt() && this.firstContact == true) {
+                this.playAnimation(this.IMAGES_WALK);
+            } else if (!this.isDead() && !this.isHurt() && this.firstContact == false) {
+                this.playAnimation(this.IMAGES_ALERT);
+                this.firstContactToEndboss();
+            }
+        }, 250);
+    }
+
+/**
+* The function "startAnimationDecisionInterval()" animates our endboss by playing different animations based on its state.
+*/
+    startAnimationDecisionInterval() {
+        return setInterval(() => {  
+            if (this.distanceToEndboss(0) && !this.isDead()) {
+                this.moveRight();
+                this.otherDirection = true; 
+            } else if(this.distanceToEndboss(400) || this.firstContact == true && !this.isDead()){ 
+                this.moveLeft();
+                this.otherDirection = false;
+            } 
+        }, 1000 / 60);
+    }
+
+/**
+* The function "endBossIsDead()" animates our endboss by playing different animations based on its state, stopps certain intervall functions and shows the game over
+*/
+    endBossIsDead() {
+        this.playAnimation(this.IMAGES_DEAD);                               // Starten  der Todesanimation
                 setTimeout(() => {
                     this.clearAllIntervals();
                     this.world.character.clearAllIntervals();
@@ -98,31 +132,6 @@ class Endboss extends MovableObject {
                         you_won.play(); 
                     }
                 }, this.animationDuration);
-            } else if (!this.isDead() && this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (!this.isDead() && !this.isHurt() && this.firstContact == true) {
-                this.playAnimation(this.IMAGES_WALK);
-            } else if (!this.isDead() && !this.isHurt() && this.firstContact == false) {
-                this.playAnimation(this.IMAGES_ALERT);
-                this.firstContactToEndboss();
-            }
-        }, 150);
-    }
-/**
-* The function "startAnimationDecisionInterval()" animates our character by playing different animations based on its state.
-*/
-    startAnimationDecisionInterval() {
-        return setInterval(() => {  
-            if (this.distanceToEndboss(0) && !this.isDead()) {
-                this.moveRight();
-                this.otherDirection = true; 
-            } else if(this.distanceToEndboss(400) || this.firstContact == true && !this.isDead()){ 
-                //console.log('Position of Endboss is:',this.x);
-                //console.log('Position of Character is:',this.world.character.x);
-                this.moveLeft();
-                this.otherDirection = false;
-            } 
-        }, 1000 / 60);
     }
 /**
 * The function "clearAllIntervals()" stops the desired interval functions.

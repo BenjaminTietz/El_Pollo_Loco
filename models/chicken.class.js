@@ -26,6 +26,7 @@ class Chicken extends MovableObject {
         this.animateInterval = this.startAnimateInterval();
         this.animationDecisionInterval = this.startAnimationDecisionInterval();
     }
+
 /**
 * The function "startAnimateInterval()" animates our character by playing different animations based on its state.
 */
@@ -34,6 +35,7 @@ class Chicken extends MovableObject {
             this.moveLeft();
         }, 1000 / 60);
     }
+
 /**
 * The function "startAnimationDecisionInterval()" animates our character by playing different animations based on its state.
 */
@@ -46,6 +48,7 @@ class Chicken extends MovableObject {
             }
         },200);
     }
+    
 /**
 * The function "clearAllIntervals()" stops the desired interval functions.
 */
