@@ -14,6 +14,8 @@ class World {
     collectedBottle = [];
     bottleOnGround = new Bottles();
     coinInAir = new Coins();
+    canThrow = true;
+    throwTime = 0;
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -53,18 +55,31 @@ class World {
 * The function "checkThrowObjects()" checks whether throwable objects are available and lets us insert them into the game by pressing the D key and then deletes them from the "throwableObjects" array and plays a sound.
 */
     checkThrowObjects(){                                                                            // checkThrowobjects prüft ob die Taste d gedrückt wird und die Anzahl der Flaschen größer 0 ist
-        if(this.keyboard.d) {
-            if (this.character.ammountOfBottles > 0){
-                this.character.lastMove = new Date().getTime();
-                let bottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);  // der Funktionsvariabel "bottle" wird ein neues zu werfendes Objekt zugewiesen, dieses wird an definierten Koordinaten eingefügt
-                this.character.ammountOfBottles--;                                                  // hier wird die Anzahl der verfügbaren Flaschen reduziert            
-                this.statusBarBottle.setBottles(this.character.ammountOfBottles);                   // hier wird die Statusbar der Flaschen geupdated
-                this.throwableObjects = this.throwableObjects.splice(0, 1);                         // hier wird aus dem Array "throwableObjects" ein Objekt entfernt
-                this.throwableObjects.push(bottle);                                                 // hier wird dem Array "throwableObjects" ein Objekt hinzugefügt
-                this.collectedBottle.splice(0, 1);                                                  // hier wird aus dem Array "collectedBottle" ein Objekt entfernt   
-                throw_bottle_sound.play();
+        if(this.keyboard.d && this.collectedBottle.length > 0 && this.canThrow) {
+            this.bottleHandling();
+                setInterval(() => {
+                    this.throwTime++;
+                    if (this.throwTime > 25) {
+                        this.canThrow = true;
+                        this.throwTime = 0;
+                    }
+                }, 100);
             }
-        }
+}
+
+/**
+* The function "bottleHandling()" handels creation and deletation of our throwable bottles.
+*/ 
+    bottleHandling(){
+        this.character.lastMove = new Date().getTime();
+        let collectedBottle = new ThrowableObject (this.character.x + 100, this.character.y + 100);  // der Funktionsvariabel "collectedBottle" wird ein neues zu werfendes Objekt zugewiesen, dieses wird an definierten Koordinaten eingefügt
+        this.character.ammountOfBottles --;                                                  // hier wird die Anzahl der verfügbaren Flaschen reduziert            
+        this.statusBarBottle.setBottles(this.character.ammountOfBottles);                   // hier wird die Statusbar der Flaschen geupdated
+        this.throwableObjects = this.throwableObjects.splice(0, 1);                         // hier wird aus dem Array "throwableObjects" ein Objekt entfernt
+        this.throwableObjects.push(collectedBottle);                                        // hier wird dem Array "throwableObjects" ein Objekt hinzugefügt
+        this.collectedBottle.splice(0, 1);                                                  // hier wird aus dem Array "collectedBottle" ein Objekt entfernt   
+        throw_bottle_sound.play();
+        this.canThrow = false;
     }
 
 /**
@@ -127,7 +142,7 @@ class World {
             if(this.character.isColliding(bottles) ) {
                 this.bottleIsCollected();
                 this.character.isCollectingBottles(); 
-                this.collectedBottle = this.collectedBottle.splice(0, 4);
+                this.collectedBottle = this.collectedBottle.splice(0, 9);
                 this.collectedBottle.push(bottles);
                 this.statusBarBottle.setBottles(this.character.ammountOfBottles);
             }
@@ -159,7 +174,7 @@ class World {
                     this.statusBarEndboss.setEndBoss(endboss.energy);
                     setTimeout(() =>{
                         this.deleteThrownBottle(bottle);
-                        },100);
+                        },180);
                 }
             });
         });
@@ -221,12 +236,12 @@ class World {
     }
 
 /**
- * 
+ * The function "deleteThrownBottle(bottle)" assigns an index to the thrown within the array. And then delete it at the appropriate position.
  * @param {Array} throwableObjects - The "throwableObjects" array
  */
     deleteThrownBottle(bottle) {
         let i = this.throwableObjects.indexOf(bottle);
-        this.throwableObjects.splice(i,1);
+        this.throwableObjects.splice(i, 1);
     }
 
 /**

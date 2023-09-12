@@ -32,7 +32,9 @@ class Chicken extends MovableObject {
 */
     startAnimateInterval() {
         return setInterval(() => { 
+            if (!soundSettingsActive){
             this.moveLeft();
+            }
         }, 1000 / 60);
     }
 

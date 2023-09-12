@@ -2,7 +2,7 @@ class Character extends MovableObject {
     width = 175;
     height = 250;
     y = 80;
-    speed = 10;
+    speed = 5;
     timeOut = false;
     lastMove = 0;
     gameOverSoundPlayed = false;
@@ -130,7 +130,9 @@ class Character extends MovableObject {
 */
 
     walkLeft() {
-        this.moveLeft();
+        if (!soundSettingsActive){
+            this.moveLeft();
+            }
         this.lastMove = new Date().getTime();
         this.otherDirection = true;                         // Variabel "otherDirection" bekommt den Wert = "true". Wenn der Wert = "true" ist soll das Bild unseres Characters gespiegelt werden.
         walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
@@ -140,7 +142,9 @@ class Character extends MovableObject {
 * The function "walkRight()" animates our character by moving him to the right side.
 */
     walkRight() {
-        this.moveRight();
+        if (!soundSettingsActive){
+            this.moveRight();
+            }
         this.lastMove = new Date().getTime();
         this.otherDirection = false;                        // Variabel "otherDirection" bekommt den Wert = "false"
         walking_sound.play();                               // Hier wird die Variable walking_sound abgespielt an dessen der Pfad der mp3 gebunden ist.
@@ -169,7 +173,7 @@ class Character extends MovableObject {
                     showEndScreenLoose();                   // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
                     if (!this.gameOverSoundPlayed) {
                         this.gameOverSoundPlayed = true;
-                        you_lost.play(); 
+                        you_lost_sound.play(); 
                     }
                 }, this.animationDuration);
     }

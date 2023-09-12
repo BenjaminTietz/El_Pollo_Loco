@@ -35,21 +35,21 @@
         
         <div class="gameWrapper" id="fullScreen">
             <div id="settingsBtn" class="btnTopGame d-none">
-                <div onclick="showGameSettings ()" class="icon">
+                <div onclick="showGameSettings ()" class="iconSounds">
                     <img src="./img/icons/settings.png">
                     <p>Settings</p>
                 </div>
             </div>
             <div id="gameControl" class="btnTop">
-                <div  onclick="toggleVisibility('gameExplanations')" class="icon">
+                <div  onclick="toggleVisibility('gameExplanations')" class="iconSounds">
                     <img src="./img/icons/information.png">
                     <p>Story</p>
                 </div>
-                <div onclick="toggleVisibility('gameControls')" class="icon">
+                <div onclick="toggleVisibility('gameControls')" class="iconSounds">
                     <img src="./img/icons/gamepad.png">
                     <p>Controls</p>
                 </div>
-                <div onclick="startGame()" class="icon">
+                <div onclick="startGame()" class="iconSounds">
                     <img src="./img/icons/play-button.png">
                     <p>Start</p>
                 </div>
@@ -185,6 +185,9 @@
             </div>
 
             <div id="hud">
+                <div class="center">
+                    <img class="hud" id="btnD" src="./img/icons/letter-d.png">
+                </div>
                 <div>
                     <div class="center">
                         <img class="hud" id="btnJump" src="./img/icons/up.png">
@@ -194,14 +197,7 @@
                         <img class="hud" id="btnRight" src="./img/icons/right.png">
                     </div>
                 </div>
-                <div class="center">
-                    <img class="hud" id="btnD" src="./img/icons/letter-d.png">
-                </div>
-
             </div>
-
-        </div>
-            
-        
+        </div>        
 </body>
 </html>

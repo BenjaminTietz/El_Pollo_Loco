@@ -30,6 +30,7 @@ class BabyChicken extends MovableObject {
 */
     animate () {
         setInterval(() => {
+            if (!soundSettingsActive)
             this.moveLeft();
         }, 1000 / 60);
         this.moveLeft();

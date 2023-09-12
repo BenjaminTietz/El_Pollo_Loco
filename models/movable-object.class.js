@@ -93,7 +93,7 @@ class MovableObject extends DrawableObject {
      * The function "hit()" drains energy from our character after a collision, making sure the energy can be at least 0 and sets a timestamp when the last collision was.
      */
     hit() {                                           
-            this.energy -= 20;                          // Bei der Funktion hit wird Energie abgezogen
+            this.energy -= 0;                          // Bei der Funktion hit wird Energie abgezogen
          if (this.energy <= 0) {                       // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
             this.energy = 0;                            // hier wird this.energie gleich 0 gesetzt
         } else {
@@ -106,7 +106,7 @@ class MovableObject extends DrawableObject {
      */
     hitEndBoss() {   
         if (this.isHurt()) {                                         
-            this.energy -= 10;                          // Bei der Funktion hit wird Energie abgezogen
+            this.energy -= 20;                          // Bei der Funktion hit wird Energie abgezogen
         } if (this.energy <= 0) {                       // mit der if Schleife stellen wir sicher, dass das Energielevel minimal 0 sein kann
             this.energy = 0;                            // hier wird this.energie gleich 0 gesetzt
         } else {
@@ -173,21 +173,4 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
         );
     }
-
-///////////////////////
-    /*isColliding(mo) {
-        return  this.x + this.width > mo.x &&
-                this.y + this.height > mo.y &&
-                this.x < mo.x &&
-                this.y < mo.y + mo.height;
-    }*/
-
-    
-        
-    /*isColliding (mo) {                                                          // Die Funktion "isColliding" prüft ob sich die Grenzrahm,en der Objekte berühren 
-        return  (this.x + this.width) >= mo.x && this.x <= (mo.x + mo.width) && 
-                (this.y + this.offsetY + this.height) >= mo.y &&
-                (this.y + this.offsetY) <= (mo.y + mo.height) && 
-                mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-    }}*/
 }

@@ -107,10 +107,14 @@ class Endboss extends MovableObject {
     startAnimationDecisionInterval() {
         return setInterval(() => {  
             if (this.distanceToEndboss(0) && !this.isDead()) {
-                this.moveRight();
+                if (!soundSettingsActive){
+                    this.moveRight();
+                    }
                 this.otherDirection = true; 
             } else if(this.distanceToEndboss(400) || this.firstContact == true && !this.isDead()){ 
-                this.moveLeft();
+                if (!soundSettingsActive){
+                    this.moveLeft();
+                    }
                 this.otherDirection = false;
             } 
         }, 1000 / 60);
@@ -129,7 +133,7 @@ class Endboss extends MovableObject {
                     showEndScreenWon();                                     // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
                     if (!this.gameOverSoundPlayed) {
                         this.gameOverSoundPlayed = true;
-                        you_won.play(); 
+                        you_won_sound.play(); 
                     }
                 }, this.animationDuration);
     }

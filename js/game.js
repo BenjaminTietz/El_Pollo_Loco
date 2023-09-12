@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let gameStart = false;
 let gameRunTime = 0;
+let soundSettingsActive = false;
 
 // GameMusic
 gameMusic = new Audio('audio/retro_background_music.mp3');
@@ -22,10 +23,10 @@ chicken_kill_sound = new Audio('audio/chicken_kill.mp3');
 
 
 // GameOverSounds
-you_lost = new Audio('audio/game_over.mp3');
-you_lost.loop = false;
-you_won = new Audio('audio/win_game.mp3');
-you_won.loop = false;
+you_lost_sound = new Audio('audio/game_over.mp3');
+you_lost_sound.loop = false;
+you_won_sound = new Audio('audio/win_game.mp3');
+you_won_sound.loop = false;
 
 /**
  * The function "startGame ()" calls all necessary functions to start our game.
@@ -123,6 +124,7 @@ function hideEndScreenWon() {
  * The function "showGameSettings()". It sets elements to be visable when showing the game settings.
  */
 function showGameSettings() {
+    soundSettingsActive = true;
     document.getElementById("gameSettings").classList.remove("d-none");
     document.getElementById("hud").classList.add("d-none");
 }
@@ -131,6 +133,7 @@ function showGameSettings() {
  * The function "hideGameSettings ()". It sets elements to be invisable when closing the game settings.
  */
 function hideGameSettings() {
+    soundSettingsActive = false;
     document.getElementById("gameSettings").classList.add("d-none");
     document.getElementById("hud").classList.remove("d-none");
 }
@@ -194,6 +197,9 @@ function setFxVolume(volumeLevel) {
     collect_coin_sound.volume = volumeLevel;
     collect_bottle_sound.volume = volumeLevel;
     chicken_kill_sound.volume = volumeLevel;
+    you_lost_sound.volume = volumeLevel;
+    you_won_sound.volume = volumeLevel;
+    bottle_breaks_sound.volume = volumeLevel;
 }
 
 /**
