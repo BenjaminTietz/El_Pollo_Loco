@@ -5,7 +5,7 @@ class Endboss extends MovableObject {
     y = 45;
     world;
     firstContact = false;
-    animationDuration = 2000; // 2 Sekunden
+    animationDuration = 2000; 
     gameOverSoundPlayed = false;
     world;
     offset = {
@@ -51,17 +51,17 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    constructor () {                                                                // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
-        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');               // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
-        this.loadImages(this.IMAGES_ALERT);                                         // Hier werden die Bilder des Arrays "images_alert" geladen
-        this.loadImages(this.IMAGES_WALK);                                          // Hier werden die Bilder des Arrays "images_walk" geladen
-        this.loadImages(this.IMAGES_ATTACK);                                        // Hier werden die Bilder des Arrays "images_attack" geladen
-        this.loadImages(this.IMAGES_HURT);                                          // Hier werden die Bilder des Arrays "images_hurt" geladen
-        this.loadImages(this.IMAGES_DEAD);                                          // Hier werden die Bilder des Arrays "images_dead" geladen
-        this.x = 2400;                                                              // this.x definiert den Punkt auf der X-Ache wo unser Endboss eingefügt wird
+    constructor () {                                                                
+        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');               
+        this.loadImages(this.IMAGES_ALERT);                                         
+        this.loadImages(this.IMAGES_WALK);                                          
+        this.loadImages(this.IMAGES_ATTACK);                                        
+        this.loadImages(this.IMAGES_HURT);                                         
+        this.loadImages(this.IMAGES_DEAD);                                          
+        this.x = 2400;                                                              
         this.speed = 0.15 + Math.random() * 0.5;
         this.animateInterval = this.startAnimateInterval();
-        this.animationDecisionInterval = this.startAnimationDecisionInterval();                                                           // Hier wird die Funktion "animate" aufgerufen
+        this.animationDecisionInterval = this.startAnimationDecisionInterval();                                                           
     }
     
 /**
@@ -88,7 +88,7 @@ class Endboss extends MovableObject {
 */
     startAnimateInterval() {
         return setInterval(() => {
-            if (this.isDead()) {                       // Wenn der Endboss tot ist und die Animation nicht gestartet wurde
+            if (this.isDead()) {                       
                 this.endBossIsDead();
             } else if (!this.isDead() && this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -124,13 +124,13 @@ class Endboss extends MovableObject {
 * The function "endBossIsDead()" animates our endboss by playing different animations based on its state, stopps certain intervall functions and shows the game over
 */
     endBossIsDead() {
-        this.playAnimation(this.IMAGES_DEAD);                               // Starten  der Todesanimation
+        this.playAnimation(this.IMAGES_DEAD);                              
                 setTimeout(() => {
                     this.clearAllIntervals();
                     this.world.character.clearAllIntervals();
                 }, this.animationDuration);
                 setTimeout(() =>{
-                    showEndScreenWon();                                     // Nach 2 Sekundenwird der Game Over Screen-Funktion aufrufen
+                    showEndScreenWon();                                     
                     if (!this.gameOverSoundPlayed) {
                         this.gameOverSoundPlayed = true;
                         you_won_sound.play(); 

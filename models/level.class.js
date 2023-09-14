@@ -7,7 +7,7 @@ class Level {
     bottles;
     coins;
 
-    constructor(enemies, endboss, clouds, backgroundObjects, bottles, coins){    //Der constructor bekommt  6 Funktionsparameter übergeben
+    constructor(enemies, endboss, clouds, backgroundObjects, bottles, coins){    
         this.enemies = enemies;
         this.endboss = endboss;
         this.clouds = clouds;

@@ -4,6 +4,11 @@ let keyboard = new Keyboard();
 let gameStart = false;
 let gameRunTime = 0;
 let soundSettingsActive = false;
+let isFullscreen = false;
+let wrapper;
+let originalCanvasWidth; 
+let originalCanvasHeight; 
+let canvasFullScreen;
 
 // GameMusic
 gameMusic = new Audio('audio/retro_background_music.mp3');
@@ -32,6 +37,7 @@ you_won_sound.loop = false;
  * The function "startGame ()" calls all necessary functions to start our game.
  */
 function startGame() {
+    let fullScreenActive = localStorage.getItem("fullScreenActive");
     this.gameRunTime = new Date().getTime();
     hideStartScreen();
     hideEndScreenWon();
@@ -40,9 +46,10 @@ function startGame() {
     bindBtsPressEvents ();
     this.gameMusic.play(); 
     initLevel();
-    canvas = document.getElementById('canvas');                 // An die Variabel "canvas" wird das HTML Elemet 'canvas' gebunden.
-    world = new World(canvas, keyboard);                        // An die Variabel "world" wird das neue Objekt namens 'World' gebunden, dieser geben wir 'canvas' & 'keyboard' als Variabel mit.
+    canvas = document.getElementById('canvas');                 
+    world = new World(canvas, keyboard);                       
     gameStart = true;
+    localStorage.setItem("fullScreenActive", fullScreenActive);
 }
 
 /**
@@ -236,23 +243,21 @@ document.addEventListener("DOMContentLoaded", function() {
  * The function "loadVolumeSettings()" restores volume level and checkbox status out of the local storage.
  */  
     function loadVolumeSettings() {
-        const volumeLevel = parseFloat(localStorage.getItem('volumeLevel')) || 1.0;             // Standardlautstärke ist 1.0
-        const isMuted = localStorage.getItem('isMuted') === 'true';                             // Überprüfe, ob gemuted ist
-        const fxVolumeLevel = parseFloat(localStorage.getItem('fxVolumeLevel')) || 1.0;         // Standardlautstärke für FX ist 1.0
-        const isFxMuted = localStorage.getItem('isFxMuted') === 'true';                         // Überprüfe, ob FX gemuted ist
+        const volumeLevel = parseFloat(localStorage.getItem('volumeLevel')) || 1.0;             
+        const isMuted = localStorage.getItem('isMuted') === 'true';                             
+        const fxVolumeLevel = parseFloat(localStorage.getItem('fxVolumeLevel')) || 1.0;         
+        const isFxMuted = localStorage.getItem('isFxMuted') === 'true';                         
 
-        setVolume(isMuted ? 0 : volumeLevel);                                                   // Setze die Lautstärke für die Musik und mute, wenn isMuted true ist
+        setVolume(isMuted ? 0 : volumeLevel);                                                   
         soundCheckbox.checked = isMuted;
 
-        setFxVolume(isFxMuted ? 0 : fxVolumeLevel);                                             // Setze die Lautstärke für die FX-Sounds und mute, wenn isFxMuted true ist
+        setFxVolume(isFxMuted ? 0 : fxVolumeLevel);                                             
         fxCheckbox.checked = isFxMuted;
 
-                                                                                                // Positionieren der Slider-Position basierend auf den geladenen Werten
         slider.value = isMuted ? 0 : volumeLevel * 100;
         fxSlider.value = isFxMuted ? 0 : fxVolumeLevel * 100;
     }
 
-                                                                                                // Lade die Lautstärke-Einstellungen aus localStorage beim Laden der Seite
     loadVolumeSettings();
 
 /**
@@ -275,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function() {
     soundCheckbox.addEventListener("change", function() {
         let isMuted = soundCheckbox.checked;
         if (isMuted) {
-            slider.value = 0;                                                                   // Setze den Slider-Wert auf 0, wenn gemuted wird
+            slider.value = 0;                                                                   
         } if (!isMuted) {
-            slider.value = 100;                                                                 // Setze den Slider-Wert auf 100, wenn entmuted wird
+            slider.value = 100;                                                                 
         }
         setVolume(isMuted ? 0 : parseFloat(slider.value) / 100);
         saveVolumeSettings(parseFloat(slider.value) / 100, isMuted, parseFloat(fxSlider.value) / 100, fxCheckbox.checked);
@@ -303,9 +308,9 @@ document.addEventListener("DOMContentLoaded", function() {
     fxCheckbox.addEventListener("change", function() {
         let isFxMuted = fxCheckbox.checked;
         if (isFxMuted) {
-            fxSlider.value = 0; // Setze den Slider-Wert auf 0, wenn gemuted wird
+            fxSlider.value = 0; 
         } if (!isFxMuted) {
-            fxSlider.value = 100; // Setze den Slider-Wert auf 100, wenn entmuted wird
+            fxSlider.value = 100; 
         }
         setFxVolume(isFxMuted ? 0 : parseFloat(fxSlider.value) / 100);
         saveVolumeSettings(parseFloat(slider.value) / 100, soundCheckbox.checked, parseFloat(fxSlider.value) / 100, isFxMuted);
@@ -323,6 +328,7 @@ function pauseAllSounds() {
     dead_sound.pause();
     throw_bottle_sound.pause();
 }
+
 // Fullscreen Function
 document.addEventListener("DOMContentLoaded", () => {
     let canvasFullScreen = document.getElementById("canvas");
@@ -332,38 +338,17 @@ document.addEventListener("DOMContentLoaded", () => {
     let originalCanvasHeight = canvasFullScreen.height;
     let isFullscreen = false;
 
-/**
- * The function "toggleFullscreen()" toggles between fullscreen and non fullscreen mode and calls the "resizeCanvas()" function to change size of our canvas.
- */
-    function toggleFullscreen() {
-        if (!isFullscreen) {
-            wrapper.requestFullscreen().catch(err => {
-            console.log(`Error attempting to enable full-screen mode: ${err.message}`);
-        });
-        } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-    }
-    isFullscreen = !isFullscreen;
-    resizeCanvas();
-    }
-
-/**
- * The function "resizeCanvas()" calculate a resize factor based on our browser width & height to keep our aspectratio when resizing our canvas.
- */
-    function resizeCanvas() {
-        let scaleFactorX = wrapper.clientWidth / originalCanvasWidth;
-        let scaleFactorY = wrapper.clientHeight / originalCanvasHeight;
-        let scaleFactor = Math.min(scaleFactorX, scaleFactorY);
-        canvasFullScreen.style.transform = isFullscreen ? `scale(${scaleFactor})` : "scale(1)";
+    // Hier wird der Vollbildstatus aus dem Local Storage gelesen
+    let fullScreenActive = localStorage.getItem("fullScreenActive");
+    if (fullScreenActive === "true") {
+        toggleFullscreen();
     }
 
     document.addEventListener("keydown", event => {
         if (event.key === "F11") {
             event.preventDefault();
             toggleFullscreen();
-        } 
+        }
     });
 
     window.addEventListener("resize", () => {
@@ -373,9 +358,33 @@ document.addEventListener("DOMContentLoaded", () => {
     fullScreenBtn.addEventListener("click", () => {
         toggleFullscreen();
     });
+
     resizeCanvas();
-    });
+
+    function toggleFullscreen() {
+        if (!isFullscreen) {
+            wrapper.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+        isFullscreen = !isFullscreen;
+        resizeCanvas();
     
+        localStorage.setItem("fullScreenActive", isFullscreen ? "true" : "false");
+    }
+    
+    function resizeCanvas() {
+        let scaleFactorX = wrapper.clientWidth / originalCanvasWidth;
+        let scaleFactorY = wrapper.clientHeight / originalCanvasHeight;
+        let scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+        canvasFullScreen.style.transform = isFullscreen ? `scale(${scaleFactor})` : "scale(1)";
+    }
+});
+
 /**
  * The function "bindBtsPressEvents ()" binds our mobile button to our keyboard input.
  */
@@ -422,7 +431,7 @@ function bindBtsPressEvents () {
 }
 
 
-window.addEventListener("keydown", (e) => {                      // Der EventListner "keydown" gibt den Variabeln der Tasten den Wert "true" sobald eine Taste gedrückt wird
+window.addEventListener("keydown", (e) => {                      
     if(e.keyCode == 39) {
         keyboard.right = true;
     }
@@ -443,7 +452,7 @@ window.addEventListener("keydown", (e) => {                      // Der EventLis
     }
 });
 
-window.addEventListener("keyup", (e) => {                       // Der EventListner "keyup" gibt den Variabeln der Tasten den Wert "flase" sobald eine Taste losgelassen wird
+window.addEventListener("keyup", (e) => {                       
     if(e.keyCode == 39) {
         keyboard.right = false;
     }

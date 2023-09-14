@@ -45,19 +45,19 @@ class ThrowableObject extends MovableObject{
      * The function "throw()" defines in which direction our bottle gets thrown with a defined X&Y Speed
      */
     throw() {
-        this.speedY = 30;                                       // Geschwindigkeit der Wurfhöhe
-        this.speedX = 20;                                       // Geschwindigkeit der Wurfweite
-        this.applyGravity();                                    // Anwendung der Gravitation, damit das Objet wieder sinkt
+        this.speedY = 30;                                       
+        this.speedX = 20;                                       
+        this.applyGravity();                                    
         
         if(world.character.otherDirection == false) {
-            this.x = world.character.x + 50;                    // Abstand zur Abwurfstelle
+            this.x = world.character.x + 50;                    
             setInterval(() => {
-                this.x += 7;                                    //Wurfweite Vorwärts
+                this.x += 7;                                    
             }, 20);
         } else {
-            this.x = world.character.x - 30;                     // Abstand zur Abwurfstelle
+            this.x = world.character.x - 30;                    
             setInterval(() => {
-              this.x -= 7;                                       //Wurfweite Rückwärts
+                this.x -= 7;                                       
             },  20);
         }
     }

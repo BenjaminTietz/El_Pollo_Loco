@@ -3,8 +3,8 @@ class Cloud extends MovableObject {
     height = 250;
     width = 500;
 
-    constructor () {    // constructor wird als erstes ausgeführt wenn ein Objekt neu erstellt wird
-        super().loadImage('img/5_background/layers/4_clouds/1.png',);  // durch "super." wird von der übergeorneten Klasse eine Funktion aufgerufen
+    constructor () {    
+        super().loadImage('img/5_background/layers/4_clouds/1.png',);  
         this.x = Math.random() * 500;
         this.animate();
     }
